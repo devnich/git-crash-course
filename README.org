@@ -1,0 +1,534 @@
+#+STARTUP: showall indent
+#+OPTIONS: tex:t toc:nil
+#+ODT_STYLES_FILE: "styles.xml"
+
+#+TITLE: A brief introduction to Git with Unix shell
+#+AUTHOR: edited by Derek Devnich
+
+* How to create this document
+** Export from Emacs Org Mode (preferred)
+#+BEGIN_EXAMPLE
+M-x org-odt-export-to-odt
+#+END_EXAMPLE
+** Pandoc
+#+BEGIN_SRC bash
+pandoc README.org --no-highlight --reference-doc=/path/to/pandoc/custom-reference.docx -o unix_git_crash.docx
+#+END_SRC
+* Installation instructions
+I have some homework for your students to do prior to the Git lesson.
+
+    1. Create a Github account on https://github.com/
+    2. Install Bash (if not already installed)
+    3. Install Git (if not already installed)
+
+** Instructions for Mac users:
+
+Bash will already be installed. To see if Git is installed, open the Terminal application (found in /Applications/Utilities) and type the following:
+
+#+BEGIN_SRC bash
+git --version
+#+END_SRC
+
+If you see a message like "git version 2.20.1" (for example), Git is installed. If you get an error message, you will need to install the XCode command line tools. More recent versions of MacOS will automatically offer to install it for you; if you get a popup window prompting you to install the Xcode command line tools, agree to all of the prompts. Otherwise, type the following:
+
+#+BEGIN_SRC bash
+xcode-select --install
+#+END_SRC
+
+** Instructions for Windows users:
+    1. Download the Git for Windows installer: https://gitforwindows.org/
+    2. Run the installer and follow the steps below:
+       1. Click on "Next" four times (two times if you've previously installed Git). You don't need to change anything in the Information, location, components, and start menu screens.
+       2. Select "Use the nano editor by default" and click on "Next".
+       3. Keep "Git from the command line and also from 3rd-party software" selected and click on "Next". If you forgot to do this programs that you need for the workshop will not work properly. If this happens rerun the installer and select the appropriate option.
+       4. Click on "Next".
+       5. Select "Use the native Windows Secure Channel library", and click "Next".
+       6. Keep "Checkout Windows-style, commit Unix-style line endings" selected and click on "Next".
+       7. Select "Use Windows' default console window" and click on "Next".
+       8. Leave all three items selected, and click on "Next".
+       9. Do not select the experimental option. Click "Install".
+       10. Click on "Finish".
+    3. If your "HOME" environment variable is not set (or you don't know what this is):
+       1. Open command prompt (Open Start Menu then type "cmd" and press Enter)
+       2. Type the following line into the command prompt window exactly as shown:
+          #+BEGIN_SRC bash
+          setx HOME "%USERPROFILE%"
+          #+END_SRC
+          Press Enter, you should see "SUCCESS: Specified value was saved."
+          Quit command prompt by typing "exit" then pressing Enter
+
+This will provide you with both Git and Bash in the Git Bash program.
+
+* Unix Shell
+** Intro comments about "shell"
+- Tension between making things fast and making things easy
+- Common solution is 2-layer architecture: A fast core, surrounded by a scriptable interface ("API", "hooks"). Examples: Video games, Emacs, Stata...
+- Unix shell around the operating system: Make it do work, without caring about particulars.
+
+** Very brief Bash intro
+*** Draw file system layout
+- Minimal example: https://swcarpentry.github.io/shell-novice/02-filedir/index.html
+- "directory" == folder
+- Your files are in "/home/<you>"or "/Users/<you>"
+- Trees are upside-dyown in computer science
+
+*** Is it working?
+#+BEGIN_SRC bash
+whoami
+#+END_SRC
+
+#+RESULTS:
+: gilgamesh
+
+*** Where are we?
+#+BEGIN_SRC bash
+pwd
+#+END_SRC
+
+*** What's in this directory?
+Introduce command flags
+#+BEGIN_SRC bash
+ls
+ls -a                           # flag
+#+END_SRC
+
+*** Getting help
+#+BEGIN_SRC bash
+man ls                          # Modal help page
+ls --help                       # In-line help info, might work in Windows
+#+END_SRC
+Pointers:
+- You can navigate the man page with space/arrows
+- Quit man with "q"
+- Online references are available for Windows users: https://linux.die.net/
+
+*** Changing directories
+Introduce command arguments
+#+BEGIN_SRC bash
+  cd Desktop
+  ls *.pdf                        # argument
+  cd ..                           # go up one directory
+#+END_SRC
+
+*** History and pipes
+The terminal saves your command history (typically 500 or 1000 commands)
+- You can see previous commands using the up/down arrows
+- You can edit a previous command
+
+Once your command history gets big, you might want to search it:
+#+BEGIN_SRC bash
+history
+history | grep ls
+#+END_SRC
+
+* Git
+** Why are we here?
+#+CAPTION: Git create snapshots of your code. If you haven't updated a file since your previous snapshot, Git will re-use the old version of that file to save space (https://git-scm.com/).
+file:snapshots.png
+- Move backwards and forwards in time via snapshots
+- Control what goes into a snapshot
+- Collaborate
+- Explore alternative versions
+- Useful for text files, less useful for binary files (most of the useful features are text-oriented)
+
+** Setup
+*** Identify yourself
+All git commands are 2-part verbs, followed by flags and arguments:
+#+BEGIN_SRC bash
+git config --global user.name "Gilgamesh"
+git config --global user.email "gilgamesh@uruk.gov"
+#+END_SRC
+
+*** Line Endings
+#+BEGIN_SRC bash
+git config --global core.autocrlf input  # Unix
+git config --global core.autocrlf true   # Windows
+#+END_SRC
+
+*** Editor
+You can use any text editor, but you want a sensible default in case Git pops one up:
+#+BEGIN_SRC bash
+git config --global core.editor "nano -w"
+#+END_SRC
+
+*** Updating remotes
+Only push the current branch (more about this later):
+#+BEGIN_SRC bash
+git config --global push.default = "simple"
+#+END_SRC
+
+*** Inspect your configuration
+#+BEGIN_SRC bash
+git config --list                   # or -l
+#+END_SRC
+
+** Creating a repository
+We will continue with the story of Wolfman and Dracula who are investigating if it is possible to send a planetary lander to Mars.
+
+*** Create a directory
+#+BEGIN_SRC bash
+cd ~/Desktop
+mkdir planets
+cd planets
+#+END_SRC
+
+*** Tell Git to make a repository
+#+BEGIN_SRC bash
+git init
+ls
+ls -a
+#+END_SRC
+Git uses this special subdirectory to store all the information about the project, including all files and sub-directories located within the project's directory.  If we ever delete the `.git` subdirectory, we will lose the project's history.
+
+*** Check status (we will do this a lot)
+#+BEGIN_SRC bash
+git status
+#+END_SRC
+
+** Tracking changes
+*** Add a file
+#+BEGIN_SRC bash
+touch mars.txt
+nano mars.txt
+#+END_SRC
+
+#+BEGIN_EXAMPLE
+Cold and dry, but everything is my favorite color
+#+END_EXAMPLE
+
+Save and quit. You can verify that you've saved your changes in Bash:
+#+BEGIN_SRC bash
+ls
+cat mars.txt
+#+END_SRC
+
+*** Commit cycle
+#+BEGIN_SRC bash
+git status
+git add mars.txt
+git status
+git commit -m "Start notes on Mars as a base"
+git status
+#+END_SRC
+- Commit messages should be useful; eventually there will be a lot of them (we'll come back to this)
+*Draw* working tree, staging area, and repository commit (no history yet)
+
+*** Add more history
+Edit with editor of your choice:
+#+BEGIN_EXAMPLE
+Cold and dry, but everything is my favorite color
+The two moons may be a problem for Wolfman
+#+END_EXAMPLE
+
+#+BEGIN_SRC bash
+git status
+git diff
+
+# If you try to commit the file before you add it to the Staging area,
+# nothing happens:
+git commit -m "Add concerns about effects of Mars' moons on Wolfman"
+git status
+
+# Add file to Staging area, then commit:
+git add mars.txt
+git commit -m "Add concerns about effects of Mars' moons on Wolfman"
+#+END_SRC
+*Update drawing* with repository history going back in time (H, H~1, H~2...)
+
+*** Add more history; look at Staging area vs Workspace
+#+BEGIN_EXAMPLE
+Cold and dry, but everything is my favorite color
+The two moons may be a problem for Wolfman
+But the Mummy will appreciate the lack of humidity
+#+END_EXAMPLE
+
+#+BEGIN_SRC bash
+# By default, "diff" shows changes to Workspace
+git status
+git diff
+
+# Once the file is added to Staging, "diff" no longer shows changes
+git add mars.txt
+git status
+git diff
+
+# You can examine Staging instead
+git diff --staged
+git commit -m "Discuss concerns about Mars' climate for Mummy"
+git status
+#+END_SRC
+- Staging area is for creating sensible commits. You can edit multiple files and only add a subset of them to a given commit. This makes it easier to look back at your work.
+
+*** View commit history in the log
+#+BEGIN_SRC bash
+git log
+git log --oneline
+git log --oneline --graph
+#+END_SRC
+- You can identify commit by unique ID or by HEAD offset
+- HEAD is a pointer to the most recent commit
+
+*** Directories aren't content
+Try to commit an empty directory:
+#+BEGIN_SRC bash
+mkdir spaceships
+git status
+git add spaceships
+git status
+#+END_SRC
+
+Now add files and try again:
+#+BEGIN_SRC bash
+touch spaceships/apollo11 spaceships/sputnik
+git status
+ls spaceships
+git add spaceships
+git commit -m "Initial thoughts on spaceships"
+#+END_SRC
+
+** Exploring history
+*** Add more text to Workspace
+#+BEGIN_EXAMPLE
+Cold and dry, but everything is my favorite color
+The two moons may be a problem for Wolfman
+But the Mummy will appreciate the lack of humidity
+An ill-considered change
+#+END_EXAMPLE
+
+*** Inspect our changes
+#+BEGIN_SRC bash
+cat mars.txt
+
+# Identical to "git diff" with no argument
+git diff HEAD mars.txt
+
+# Show all changes back to this point
+git diff HEAD~1 mars.txt
+git diff HEAD~3 mars.txt
+
+# Show changes for just HEAD~3
+git show HEAD~3 mars.txt
+
+# SHow changes in range of commits
+git diff HEAD~3..HEAD~1 mars.txt
+#+END_SRC
+
+*** Range syntax also works for logs
+#+BEGIN_SRC bash
+git log HEAD~3..HEAD~1
+#+END_SRC
+
+*** Using unique ID instead of HEAD offset
+#+BEGIN_SRC bash
+git diff f22b25e3233b4645dabd0d81e651fe074bd8e73b mars.txt
+
+# Use reduced ID from "git log --oneline"
+git diff f22b25e mars.txt
+#+END_SRC
+
+*** Restore the Workspace to a clean state
+#+BEGIN_SRC bash
+git status                      # We have unstaged changes
+
+# Revert the working tree to the most recent commit
+git checkout HEAD mars.txt
+cat mars.txt
+#+END_SRC
+
+** Moving through time
+*** Checkout old version of a file
+#+BEGIN_SRC bash
+git checkout f22b25e mars.txt   # or "git checkout HEAD~3 mars.txt"
+cat mars.txt
+
+# These changes are also in the Staging area; do a commit if you want to keep
+# this older version
+git status
+git checkout HEAD mars.txt      # get back the new version
+#+END_SRC
+*Update drawing* with files moving in and out of working tree/staging area
+
+*** Don't lose your head
+What if you want to see a previous version of the whole project?
+#+BEGIN_SRC bash
+# Detached HEAD moves the whole HEAD pointer back to an earlier version
+git checkout HEAD~2
+git status
+
+# Move HEAD back to latest commit by checking out the branch name
+git checkout master
+#+END_SRC
+- Unfortunately some of these terms, like "checkout", are overloaded. Think about what you want to do to your history, then look up the appropriate command.
+*Update drawing* with moving HEAD pointer
+
+** Branching and merging
+#+CAPTION: Git branching (https://imgur.com/gallery/YG8In8X/new)
+file:YG8In8X.png
+*** Create a new branch and switch to it
+#+BEGIN_SRC bash
+git checkout -b feature
+git status
+#+END_SRC
+
+*** Create a new file
+#+BEGIN_SRC bash
+touch feature.txt
+nano feature.txt
+#+END_SRC
+
+#+BEGIN_EXAMPLE
+This is a new feature we're trying out
+#+END_EXAMPLE
+
+#+BEGIN_SRC bash
+  git add feature.txt
+  git commit -m "Added a trial feature"
+  ls                              # We have a new file
+#+END_SRC
+
+*** Switch back to master and merge
+#+BEGIN_SRC bash
+  git checkout master
+  ls                              # File doesn't exist on the master branch
+  git merge feature
+  ls                              # Merging the feature branch adds your changes
+#+END_SRC
+- This is simplest possible case; all of the new changes were in one branch
+*Draw* the branch history with the merge (Fast-Forward merge moves branch tag)
+*Draw* a branch history with competing changes (Recursive merge resembles octopus graph)
+
+** Ignoring Things
+*** Create some output files
+#+BEGIN_SRC bash
+mkdir results
+touch a.dat b.dat c.dat results/a.out results/b.out
+ls
+git status
+#+END_SRC
+
+*** Create .gitignore
+#+BEGIN_SRC bash
+touch .gitignore
+ls -a
+#+END_SRC
+
+*** Ignore some files
+#+BEGIN_EXAMPLE
+*.dat
+results/
+#+END_EXAMPLE
+
+#+BEGIN_SRC bash
+# We are ignoreing .dat files and tracking .gitignore
+git status
+git add .gitignore
+git commit -m "Ignore output files"
+#+END_SRC
+- Ignoring complicated directory structures can be tricky, come talk to me
+- You should generally ignore archives (zip, tar), images (png, jpg), binaries (dmg, iso, exe), compiler output, log files, and .DS_Store (Mac)
+
+** Github
+*** Git != Github
+- easy collaboration
+- sync between machines
+- off-site backup
+
+*** Set up new repository
+- Create new repository (visual instructions here: https://swcarpentry.github.io/git-novice/07-github/index.html)
+- Call it "planets"
+- Find HTTPS string that identifies repository
+
+*** Configure remotes and push from local
+#+BEGIN_SRC bash
+git remote add origin https://github.com/devnich/planets.git
+git remote -v
+git push origin master          # you should get a password prompt
+#+END_SRC
+If you configure your origin as upstream, you can just do:
+#+BEGIN_SRC bash
+git push
+#+END_SRC
+
+*** Check that you are up to date
+#+BEGIN_SRC bash
+git pull
+#+END_SRC
+
+** Collaborating
+*** Clone your repository
+#+BEGIN_SRC bash
+git clone https://github.com/devnich/planets.git ~/Desktop/planets-clone
+cd planets-clone
+touch pluto.txt
+#+END_SRC
+
+*** Edit pluto.txt
+#+BEGIN_EXAMPLE
+It is so a planet!
+#+END_EXAMPLE
+
+*** Update and push
+#+BEGIN_SRC bash
+pwd                             # we are in ~/Desktop/planets-clone
+git status
+git add pluto.txt
+git commit -m "I have feelings about Pluto"
+git push
+cd ../planets                   # now we are in ~/Desktop/planets
+ls
+git pull
+ls
+#+END_SRC
+
+** Conflicts
+*** Person 1 edits ~/Desktop/planets/mars.txt
+#+BEGIN_EXAMPLE
+Cold and dry, but everything is my favorite color
+The two moons may be a problem for Wolfman
+But the Mummy will appreciate the lack of humidity
+This line added to original "planets" repo
+#+END_EXAMPLE
+
+#+BEGIN_SRC bash
+git add mars.txt
+git commit -m "Add a line in our copy"
+git push origin master
+#+END_SRC
+
+*** Person 2 edits ~/Desktop/planets-clone/mars.txt /without/ pulling
+#+BEGIN_EXAMPLE
+Cold and dry, but everything is my favorite color
+The two moons may be a problem for Wolfman
+But the Mummy will appreciate the lack of humidity
+This line added to separate "planets-clone" repo
+#+END_EXAMPLE
+
+#+BEGIN_SRC bash
+git add mars.txt
+git commit -m "Add a line in rival copy"
+
+# Rejected because Git can't merge changes cleanly
+git push origin master
+
+# Pulling results in a local conflict
+git pull origin master
+#+END_SRC
+
+*** Edit conflict, commit, and push
+- Always pull before you push
+
+** Version control with source vs. notebooks
+- .ipynb files contain a lot of JSON boilerplate that isn't code
+
+* Sources
+- https://swcarpentry.github.io/shell-novice/reference/
+- https://swcarpentry.github.io/git-novice/reference
+- https://git-scm.com/
+- https://gitlab.com/liibre/curso/-/wikis/uploads/b69f3377b9607dc668c948c7a479253e/aula03_git.pdf
+
+
+* COMMENT Footer
+;; Local Variables:
+;; eval: (visual-line-mode)
+;; eval: (flyspell-mode)
+;; End:
