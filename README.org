@@ -123,9 +123,6 @@ history | grep ls
 #+CAPTION: Git create snapshots of your code. If you haven't updated a file since your previous snapshot, Git will re-use the old version of that file to save space (https://git-scm.com/).
 #+NAME: fig:Snapshot History
 [[file:snapshots.png]]
-
-# <p>img src="snapshots.png"</p>
-
 - Move backwards and forwards in time via snapshots
 - Control what goes into a snapshot
 - Collaborate
@@ -363,8 +360,10 @@ git checkout master
 *Update drawing* with moving HEAD pointer
 
 ** Branching and merging
-#+CAPTION: Git branching (https://imgur.com/gallery/YG8In8X/new)
-file:YG8In8X.png
+#+CAPTION: Git branching and Merging (https://imgur.com/gallery/YG8In8X/new)
+#+NAME: fig:Branching and Merging
+[[file:YG8In8X.png]]
+
 *** Create a new branch and switch to it
 #+BEGIN_SRC bash
 git checkout -b feature
