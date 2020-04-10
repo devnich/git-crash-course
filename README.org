@@ -77,9 +77,6 @@ This will provide you with both Git and Bash in the Git Bash program.
 whoami
 #+END_SRC
 
-#+RESULTS:
-: gilgamesh
-
 *** Where are we?
 #+BEGIN_SRC bash
 pwd
@@ -124,7 +121,11 @@ history | grep ls
 * Git
 ** Why are we here?
 #+CAPTION: Git create snapshots of your code. If you haven't updated a file since your previous snapshot, Git will re-use the old version of that file to save space (https://git-scm.com/).
-file:snapshots.png
+#+NAME: fig:Snapshot History
+[[file:snapshots.png]]
+
+# <p>img src="snapshots.png"</p>
+
 - Move backwards and forwards in time via snapshots
 - Control what goes into a snapshot
 - Collaborate
