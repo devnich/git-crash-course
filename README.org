@@ -6,16 +6,18 @@
 #+AUTHOR: edited by Derek Devnich
 
 * How to create this document
-** Export from Emacs Org Mode (preferred)
+** Export to Open Office using Emacs Org Mode (preferred)
 #+BEGIN_EXAMPLE
 M-x org-odt-export-to-odt
 #+END_EXAMPLE
-** Pandoc
+** Export to Microsoft Word using Pandoc
 #+BEGIN_SRC bash
-pandoc README.org --no-highlight --reference-doc=/path/to/pandoc/custom-reference.docx -o unix_git_crash.docx
+# The --reference-doc flag is optional; it provides fine-grained control
+# over the appearance of the output document
+pandoc README.org -t markdown | pandoc --no-highlight --reference-doc=/home/gilgamesh/Dropbox/custom-reference.docx -o README.docx
 #+END_SRC
 * Installation instructions
-I have some homework for your students to do prior to the Git lesson.
+You should try to do this prior to the Git lesson.
 
     1. Create a Github account on https://github.com/
     2. Install Bash (if not already installed)
