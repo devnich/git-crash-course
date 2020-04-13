@@ -530,8 +530,7 @@ git pull origin master
 - https://swcarpentry.github.io/shell-novice/reference/
 - https://swcarpentry.github.io/git-novice/reference
 - https://git-scm.com/
-- https://gitlab.com/liibre/curso/-/wikis/uploads/b69f3377b9607dc668c948c7a479253e/aula03_git.pdf
-
+- https://gitlab.com/liibre/curso/-/wikis/material
 
 * COMMENT Footer
 ;; Local Variables:
