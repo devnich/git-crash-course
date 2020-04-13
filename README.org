@@ -5,11 +5,15 @@
 #+TITLE: A brief introduction to Git with Unix shell
 #+AUTHOR: edited by Derek Devnich
 
-* How to create this document
-** Export to Open Office using Emacs Org Mode (preferred)
+* How to export this document to other formats
+** Export to Open Office using Emacs Org mode (preferred)
 #+BEGIN_EXAMPLE
 M-x org-odt-export-to-odt
 #+END_EXAMPLE
+** Export to Markdown using Pandoc
+#+BEGIN_SRC bash
+pandoc README.org -o README.md
+#+END_SRC
 ** Export to Microsoft Word using Pandoc
 #+BEGIN_SRC bash
 # The --reference-doc flag is optional; it provides fine-grained control
