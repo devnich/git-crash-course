@@ -373,6 +373,7 @@ git checkout master
 *** Create a new branch and switch to it
 #+BEGIN_SRC bash
 git checkout -b feature
+git branch                      # Show all branches
 git status
 #+END_SRC
 
@@ -526,10 +527,14 @@ git pull origin master
 ** Version control with source vs. notebooks
 - .ipynb files contain a lot of JSON boilerplate that isn't code
 
+* Additional reading
+- The Pro Git book: https://git-scm.com/book/en/v2
+- "Git is built on a graph. Almost every Git command manipulates this graph. To understand Git deeply, focus on the properties of this graph, not workflows or commands.": https://codewords.recurse.com/issues/two/git-from-the-inside-out
+- Graphical user interfaces for Git (useful for visualizing diffs and merges): https://git-scm.com/book/en/v2/Appendix-A%3A-Git-in-Other-Environments-Graphical-Interfaces
+
 * Sources
 - https://swcarpentry.github.io/shell-novice/reference/
 - https://swcarpentry.github.io/git-novice/reference
-- https://git-scm.com/
 - https://gitlab.com/liibre/curso/-/wikis/material
 
 * COMMENT Footer
