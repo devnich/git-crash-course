@@ -21,8 +21,7 @@ pandoc README.org -o README.md
 pandoc README.org -t markdown | pandoc --no-highlight --reference-doc=/home/gilgamesh/Dropbox/custom-reference.docx -o README.docx
 #+END_SRC
 * Installation instructions
-You should try to do this prior to the Git lesson.
-
+You should (try to) install Bash and Git prior to the lesson:
     1. Create a Github account on https://github.com/
     2. Install Bash (if not already installed)
     3. Install Git (if not already installed)
@@ -67,16 +66,16 @@ This will provide you with both Git and Bash in the Git Bash program.
 
 * Unix Shell
 ** Intro comments about "shell"
-- Tension between making things fast and making things easy
-- Common solution is 2-layer architecture: A fast core, surrounded by a scriptable interface ("API", "hooks"). Examples: Video games, Emacs, Stata...
-- Unix shell around the operating system: Make it do work, without caring about particulars.
+- Broadly speaking, there is a tension between making computer systems fast and making them easy to use.
+- A common solution is to create a 2-layer architecture: A fast, somewhat opaque, core, surrounded by a more friendly scriptable interface (also referred to as an "API" or "hooks"). Examples of this include video games, Emacs and other highly customizable code editors, and high-level special-purpose languages like Stata and Mathematica.
+- Unix shell is the scriptable *shell* around the operating system. It provides a simple interface for making the operating system do work, without having to know exactly how it accomplishes it.
 
 ** Very brief Bash intro
-*** Draw file system layout
+*** File system layout
 - Minimal example: https://swcarpentry.github.io/shell-novice/02-filedir/index.html
 - "directory" == folder
-- Your files are in "/home/<you>"or "/Users/<you>"
-- Trees are upside-dyown in computer science
+- Your files are in "/home/<your login>"or "/Users/<your login>"
+- Trees are upside-down in computer science
 
 *** Is it working?
 #+BEGIN_SRC bash
@@ -85,43 +84,42 @@ whoami
 
 *** Where are we?
 #+BEGIN_SRC bash
-pwd
+pwd                             # Print Working Directory
 #+END_SRC
 
 *** What's in this directory?
-Introduce command flags
+Command flags modify what a command does.
 #+BEGIN_SRC bash
-ls
-ls -a                           # flag
+ls                              # List directory contents
+ls -a                           # ... and include hidden files
 #+END_SRC
 
 *** Getting help
 #+BEGIN_SRC bash
 man ls                          # Modal help page
-ls --help                       # In-line help info, might work in Windows
+ls --help                       # In-line help info; should work in Windows
 #+END_SRC
-Pointers:
-- You can navigate the man page with space/arrows
+- You can navigate through the man page using the space bar and arrow keys
 - Quit man with "q"
-- Online references are available for Windows users: https://linux.die.net/
+- Online references are available for Windows users who don't have man pages: https://linux.die.net/
 
 *** Changing directories
-Introduce command arguments
+When a command is followed by an argument, it acts on that argument.
 #+BEGIN_SRC bash
-  cd Desktop
-  ls *.pdf                        # argument
-  cd ..                           # go up one directory
+cd Desktop
+ls *.pdf                        # List all files ending in ".pdf"
+cd ..                           # go up one directory
 #+END_SRC
 
 *** History and pipes
 The terminal saves your command history (typically 500 or 1000 commands)
 - You can see previous commands using the up/down arrows
-- You can edit a previous command
+- You can edit the command that's currently visible and run it
 
 Once your command history gets big, you might want to search it:
 #+BEGIN_SRC bash
 history
-history | grep ls
+history | grep ls               # pipe the output of history into search
 #+END_SRC
 
 * Git
