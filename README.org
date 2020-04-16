@@ -68,7 +68,7 @@ This will provide you with both Git and Bash in the Git Bash program.
 ** Intro comments about "shell"
 - Broadly speaking, there is a tension between making computer systems fast and making them easy to use.
 - A common solution is to create a 2-layer architecture: A fast, somewhat opaque, core, surrounded by a more friendly scriptable interface (also referred to as an "API" or "hooks"). Examples of this include video games, Emacs and other highly customizable code editors, and high-level special-purpose languages like Stata and Mathematica.
-- Unix shell is the scriptable *shell* around the operating system. It provides a simple interface for making the operating system do work, without having to know exactly how it accomplishes it.
+- Unix shell is the scriptable *shell* around the operating system. It provides a simple interface for making the operating system do work, without having to know exactly how it accomplishes that work.
 
 ** Very brief Bash intro
 *** File system layout
@@ -96,7 +96,7 @@ ls -a                           # ... and include hidden files
 
 *** Getting help
 #+BEGIN_SRC bash
-man ls                          # Modal help page
+man ls                          # Manual for "ls"
 ls --help                       # In-line help info; should work in Windows
 #+END_SRC
 - You can navigate through the man page using the space bar and arrow keys
@@ -213,7 +213,7 @@ git commit -m "Start notes on Mars as a base"
 git status
 #+END_SRC
 - Commit messages should be useful; eventually there will be a lot of them (we'll come back to this)
-*Draw* working tree, staging area, and repository commit (no history yet)
+*Draw* working tree, staging area (index), and repository commit (no history yet)
 
 *** Add more history
 Edit with editor of your choice:
