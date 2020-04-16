@@ -127,10 +127,10 @@ history | grep ls               # pipe the output of history into search
 #+CAPTION: Git create snapshots of your code. If you haven't updated a file since your previous snapshot, Git will re-use the old version of that file to save space (https://git-scm.com/).
 #+NAME: fig:Snapshot History
 [[file:snapshots.png]]
-- Move backwards and forwards in time via snapshots
+- Move backwards and forwards in time using snapshots of your code
 - Control what goes into a snapshot
 - Collaborate
-- Explore alternative versions
+- Explore alternative versions of your project without destroying prior work
 - Useful for text files, less useful for binary files (most of the useful features are text-oriented)
 
 ** Setup
@@ -437,6 +437,7 @@ git commit -m "Ignore output files"
 - easy collaboration
 - sync between machines
 - off-site backup
+- peer review
 
 *** Set up new repository
 - Create new repository (visual instructions here: https://swcarpentry.github.io/git-novice/07-github/index.html)
@@ -519,7 +520,12 @@ git push origin master
 git pull origin master
 #+END_SRC
 
-*** Edit conflict, commit, and push
+*** Edit conflict, stage, commit, and push
+You may want to enable a default merge tool:
+#+BEGIN_SRC bash
+git config --global merge.tool meld
+#+END_SRC
+- Open source merge tools include Vimdiff, Meld, Kdiff, Gitfiend, Git Cola, etc. There are many other options!
 - Always pull before you push
 
 ** Version control with source vs. notebooks
