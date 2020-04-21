@@ -266,6 +266,8 @@ git status
 git log
 git log --oneline
 git log --oneline --graph
+git log --author=~Darren
+git log --since=5.days          # or weeks, months, years
 #+END_SRC
 - You can identify commit by unique ID or by HEAD offset
 - HEAD is a pointer to the most recent commit
@@ -521,6 +523,15 @@ git pull origin master
 #+END_SRC
 
 *** Edit conflict, stage, commit, and push
+Edit the file to resolve the conflict. You can delete one of the two lines, combine them, or make any other changes. Delete the conflict markers before staging the file (the lines beginning in "<", "=", and ">").
+#+BEGIN_EXAMPLE
+<<<<<<< HEAD
+This line added to separate "planets-clone" repo
+=======
+This line added to original "planets" repo
+>>>>>>> dabb4c8c450e8475aee9b14b4383acc99f42af1d
+#+END_EXAMPLE
+
 You may want to enable a default merge tool:
 #+BEGIN_SRC bash
 git config --global merge.tool meld
@@ -530,6 +541,21 @@ git config --global merge.tool meld
 
 ** Version control with source vs. notebooks
 - .ipynb files contain a lot of JSON boilerplate that isn't code
+
+** Next steps (intermediate Git)
+*** Useful commands that you should add to you repertoire
+- git blame: See who changed each line of a file
+- git bisect: Find out when a change was introduced (good man page)
+- git revert: Undo your recent commits (good man page)
+- git add --patch: Stage a part of a file ("hunk") instead the entire file
+- git -i <command>: Run a command interactively, confirming each step
+*** Potentially dangerous commands that are useful in certain circumstances. Use with caution!
+- git reset: Throw away uncommitted changes (there are many options that affect what gets thrown away; read the documentation)
+- git reset --hard: Throw away some of your commits to get back to an earlier project state. Cannot be undone!
+- git rebase: Rewrite the history of branch A to include branch B. This is different than merging branch B into branch A; merging retains your project history, whereas rebasing rewrites that history.
+- git squash: Convert multiple commits into a single commit. This also rewrites your project history.
+*** Dangerous commands you should avoid
+- git cherry-pick: Copy a single commit from a different branch. This rewrites your project history piecemeal, which can make it difficult to merge branches in the future.
 
 * Additional reading
 - The Pro Git book: https://git-scm.com/book/en/v2
