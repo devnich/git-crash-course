@@ -313,7 +313,7 @@ git diff HEAD~3 mars.txt
 # Show changes for just HEAD~3
 git show HEAD~3 mars.txt
 
-# SHow changes in range of commits
+# Show changes in range of commits
 git diff HEAD~3..HEAD~1 mars.txt
 #+END_SRC
 
@@ -543,7 +543,7 @@ git config --global merge.tool meld
 - .ipynb files contain a lot of JSON boilerplate that isn't code
 
 ** Next steps (intermediate Git)
-*** Useful commands that you should add to you repertoire
+*** Useful commands that you should add to your repertoire
 - git blame: See who changed each line of a file
 - git bisect: Find out when a change was introduced (good man page)
 - git revert: Undo your recent commits (good man page)
