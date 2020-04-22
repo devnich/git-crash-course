@@ -127,7 +127,6 @@ history | grep ls               # pipe the output of history into search
 #+CAPTION: Git create snapshots of your code. If you haven't updated a file since your previous snapshot, Git will re-use the old version of that file to save space (https://git-scm.com/).
 #+NAME: fig:Snapshot History
 [[file:snapshots.png]]
-#+latex: \caption{Git create snapshots of your code. If you haven't updated a file since your previous snapshot, Git will re-use the old version of that file to save space (https://git-scm.com/).}
 - Move backwards and forwards in time using snapshots of your code
 - Control what goes into a snapshot
 - Collaborate
