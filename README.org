@@ -77,12 +77,12 @@ This will provide you with both Git and Bash in the Git Bash program.
 - Your files are in "/home/<your login>"or "/Users/<your login>"
 - Trees are upside-down in computer science
 
-*** Is it working?
+*** Who are you?
 #+BEGIN_SRC bash
 whoami
 #+END_SRC
 
-*** Where are we?
+*** Where are you?
 #+BEGIN_SRC bash
 pwd                             # Print Working Directory
 #+END_SRC
@@ -143,12 +143,12 @@ git config --global user.email "gilgamesh@uruk.gov"
 
 *** Line Endings
 #+BEGIN_SRC bash
-git config --global core.autocrlf input  # Unix
+git config --global core.autocrlf input  # Unix and MacOS
 git config --global core.autocrlf true   # Windows
 #+END_SRC
 
 *** Editor
-You can use any text editor, but you want a sensible default in case Git pops one up:
+You can use any text editor, but you want a sensible default in case Git opens one for you:
 #+BEGIN_SRC bash
 git config --global core.editor "nano -w"
 #+END_SRC
@@ -156,7 +156,7 @@ git config --global core.editor "nano -w"
 *** Updating remotes
 Only push the current branch (more about this later):
 #+BEGIN_SRC bash
-git config --global push.default = "simple"
+git config --global push.default "simple"
 #+END_SRC
 
 *** Inspect your configuration
