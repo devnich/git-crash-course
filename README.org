@@ -12,7 +12,7 @@
 * Unix Shell
 ** Intro comments about "shell"
 - Broadly speaking, there is a tension between making computer systems fast and making them easy to use.
-- A common solution is to create a 2-layer architecture: A fast, somewhat opaque, core, surrounded by a more friendly scriptable interface (also referred to as an "API" or "hooks"). Examples of this include video games, Emacs and other highly customizable code editors, and high-level special-purpose languages like Stata and Mathematica.
+- A common solution is to create a 2-layer architecture: A fast, somewhat opaque core surrounded by a more friendly scriptable interface (also referred to as "hooks" or an "API"). Examples of this include video games, Emacs and other highly customizable code editors, and high-level special-purpose languages like Stata and Mathematica.
 - Unix shell is the scriptable *shell* around the operating system. It provides a simple interface for making the operating system do work, without having to know exactly how it accomplishes that work.
 
 ** Very brief Bash intro
@@ -525,11 +525,15 @@ git config --global merge.tool meld
 - The Pro Git book: https://git-scm.com/book/en/v2
 - "Git is built on a graph. Almost every Git command manipulates this graph. To understand Git deeply, focus on the properties of this graph, not workflows or commands.": https://codewords.recurse.com/issues/two/git-from-the-inside-out
 - Graphical user interfaces for Git (useful for visualizing diffs and merges): https://git-scm.com/book/en/v2/Appendix-A%3A-Git-in-Other-Environments-Graphical-Interfaces
+- A Visual Git Reference: https://marklodato.github.io/visual-git-guide/index-en.html
 
-* Sources
-- https://swcarpentry.github.io/shell-novice/reference/
-- https://swcarpentry.github.io/git-novice/reference
+* Sources and image credits
+- https://dlstrong.github.io/git-novice/
+- https://git-scm.com/book/en/v2
 - https://gitlab.com/liibre/curso/-/wikis/material
+- https://swcarpentry.github.io/git-novice/reference
+- https://swcarpentry.github.io/shell-novice/reference/
+- https://twitter.com/jay_gee
 
 * COMMENT How to export this document to other formats
 ** Export to Open Office using Emacs Org mode (preferred)
