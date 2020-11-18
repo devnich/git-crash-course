@@ -71,7 +71,7 @@ history | grep ls               # pipe the output of history into search
 ** Why are we here?
 #+CAPTION: Git create snapshots of your code. If you haven't updated a file since your previous snapshot, Git will re-use the old version of that file to save space (https://git-scm.com/).
 #+NAME: fig:Snapshot History
-[[file:snapshots.png]]
+[[file:images/snapshots.png]]
 - Move backwards and forwards in time using snapshots of your code
 - Control what goes into a snapshot
 - Collaborate
@@ -107,6 +107,7 @@ git config --global push.default "simple"
 *** Inspect your configuration
 #+BEGIN_SRC bash
 git config --list                   # or -l
+git config --list --show-origin     # where is this setting coming from?
 #+END_SRC
 
 ** Creating a repository
@@ -150,6 +151,7 @@ cat shopping_list.txt
 #+END_SRC
 
 *** Commit cycle
+1. Repository
 #+BEGIN_SRC bash
 git status
 git add shopping_list.txt
@@ -157,8 +159,18 @@ git status
 git commit -m "Start shopping list for garden"
 git status
 #+END_SRC
+
 - Commit messages should be useful; eventually there will be a lot of them (we'll come back to this)
 *Draw* working tree, staging area (index), and repository commit (no history yet)
+
+*** Getting help
+#+BEGIN_SRC bash
+# Concicse help
+git add -h
+
+# Verbose help
+man git-add
+#+END_SRC
 
 *** Add more history
 Edit with editor of your choice:
@@ -314,7 +326,7 @@ git checkout master
 #+CAPTION: Git branching and Merging (https://imgur.com/gallery/YG8In8X/new)
 #+ATTR_ORG: :width 200px
 #+NAME: fig:Branching and Merging
-[[file:YG8In8X.png]]
+[[file:images/branch-merge.png]]
 
 *** Create a new branch and switch to it
 #+BEGIN_SRC bash
