@@ -151,7 +151,6 @@ cat shopping_list.txt
 #+END_SRC
 
 *** Commit cycle
-1. Repository
 #+BEGIN_SRC bash
 git status
 git add shopping_list.txt
@@ -212,7 +211,7 @@ git status
 git diff
 
 # You can examine Staging instead
-git diff --staged
+git diff --cached               # or "--staged"
 git commit -m "Add peppers"
 git status
 #+END_SRC
@@ -455,8 +454,7 @@ ls
 1. Cherry tomatoes
 2. Italian basil
 3. Jalapenos
-4. Cayenne peppers
-5. Scotch bonnet peppers
+4. Scotch bonnet peppers
 #+END_EXAMPLE
 
 #+BEGIN_SRC bash
@@ -470,8 +468,7 @@ git push origin master
 1. Cherry tomatoes
 2. Italian basil
 3. Jalapenos
-4. Cayenne peppers
-5. Garlic
+4. Garlic
 #+END_EXAMPLE
 
 #+BEGIN_SRC bash
@@ -489,9 +486,9 @@ git pull origin master
 Edit the file to resolve the conflict. You can delete one of the two lines, combine them, or make any other changes. Delete the conflict markers before staging the file (the lines beginning in "<", "=", and ">").
 #+BEGIN_EXAMPLE
 <<<<<<< HEAD
-5. Garlic
+4. Garlic
 =======
-5. Scotch bonnet peppers
+4. Cayenne peppers
 >>>>>>> dabb4c8c450e8475aee9b14b4383acc99f42af1d
 #+END_EXAMPLE
 
