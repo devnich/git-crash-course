@@ -329,7 +329,7 @@ git checkout master
 
 *** Create a new branch and switch to it
 #+BEGIN_SRC bash
-git checkout -b feature
+git checkout -b feature         # equivalent to "git branch feature" + "git checkout feature"
 git branch                      # Show all branches
 git status
 #+END_SRC
@@ -520,8 +520,9 @@ git config --global merge.tool meld
 
 * Additional reading
 - The Pro Git book: https://git-scm.com/book/en/v2
-- "Git is built on a graph. Almost every Git command manipulates this graph. To understand Git deeply, focus on the properties of this graph, not workflows or commands.": https://codewords.recurse.com/issues/two/git-from-the-inside-out
 - Graphical user interfaces for Git (useful for visualizing diffs and merges): https://git-scm.com/book/en/v2/Appendix-A%3A-Git-in-Other-Environments-Graphical-Interfaces
+- Git for Advanced Beginners: http://think-like-a-git.net
+- "Git is built on a graph. Almost every Git command manipulates this graph. To understand Git deeply, focus on the properties of this graph, not workflows or commands.": https://codewords.recurse.com/issues/two/git-from-the-inside-out
 - A Visual Git Reference: https://marklodato.github.io/visual-git-guide/index-en.html
 
 * Sources and image credits
