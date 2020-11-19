@@ -1,5 +1,5 @@
 #+STARTUP: showall indent
-#+OPTIONS: tex:t toc:nil
+#+OPTIONS: tex:t toc:2 H:6 ^:{}
 #+ODT_STYLES_FILE: "styles.xml"
 
 #+TITLE: A brief introduction to Git with Unix shell
