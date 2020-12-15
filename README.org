@@ -69,8 +69,8 @@ history | grep ls               # pipe the output of history into search
 
 * Git
 ** Why are we here?
-#+CAPTION: Git creates a history of code snapshots. If you haven't updated a file since your previous snapshot, Git will re-use the old version of that file to save space (https://git-scm.com/).
-#+NAME: Snapshot History
+#+name: Snapshot History
+#+caption: Git creates a history of code snapshots. If you haven't updated a file since your previous snapshot, Git will re-use the old version of that file to save space (https://git-scm.com/).
 [[file:images/snapshots.png]]
 
 #+CAPTION: You will base your new work on the most recent snapshot.
