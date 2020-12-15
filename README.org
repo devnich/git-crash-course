@@ -3,7 +3,7 @@
 #+ODT_STYLES_FILE: "/Users/gilgamesh/Google Drive/Templates/styles.xml"
 
 #+TITLE: A brief introduction to Git with Unix shell
-#+AUTHOR: edited by Derek Devnich
+#+AUTHOR: Derek Devnich
 
 * Installation instructions
 1. Up-to-date installation instructions for Git and Bash are available here: https://libguides.ucmerced.edu/software-carpentry/git/install
@@ -73,9 +73,12 @@ history | grep ls               # pipe the output of history into search
 #+caption: Git creates a history of code snapshots. If you haven't updated a file since your previous snapshot, Git will re-use the old version of that file to save space (https://git-scm.com/).
 [[file:images/snapshots.png]]
 
-#+CAPTION: You will base your new work on the most recent snapshot.
+#+CAPTION: Base your new work on the most recent snapshot.
+#+ATTR_ODT: :width 12
+#+ATTR_HTML: :width 100px
 #+NAME: Workspace or Working Tree
 [[file:images/local-repository.png]]
+
 - Move backwards and forwards in time using snapshots of your code. You can think of these as "save points."
 - Control what goes into a snapshot
 - Collaborate
@@ -205,7 +208,7 @@ git status
 git add shopping_list.txt
 git commit -m "Add basil"
 #+END_SRC
-*Update drawing* with repository history going back in time (H, H~1, H~2...)
+*Instructor's note:*  Update drawing with repository history going back in time (H, H~1, H~2...)
 
 *** Add more history; look at Staging area vs Workspace
 #+BEGIN_EXAMPLE
@@ -236,7 +239,7 @@ git status
 git log
 git log --oneline
 git log --oneline --graph       # Useful if you have many branches
-git log --author=~Derek Devnich
+git log --author=~Gilgamesh
 git log --since=5.days          # or weeks, months, years
 #+END_SRC
 - You can identify commit by unique ID or by HEAD offset
@@ -324,7 +327,7 @@ cat shopping_list.txt
 git status
 git checkout HEAD shopping_list.txt      # get back the new version
 #+END_SRC
-*Update drawing* with files moving in and out of working tree/staging area
+*Instructor's note:*  Update drawing with files moving in and out of working tree/staging area
 
 *** Don't lose your head
 What if you want to see a previous version of the whole project?
@@ -337,7 +340,7 @@ git status
 git checkout master
 #+END_SRC
 - Unfortunately some of these terms, like "checkout", are overloaded. Think about what you want to do to your history, then look up the appropriate command.
-*Update drawing* with moving HEAD pointer
+*Instructor's note:*  Update drawing with moving HEAD pointer
 
 ** Branching and merging
 #+CAPTION: Git branching and Merging (https://imgur.com/gallery/YG8In8X/new)
@@ -384,8 +387,8 @@ This is a new feature we're trying out
   ls                              # Merging the feature branch adds your changes
 #+END_SRC
 - This is simplest possible case; all of the new changes were in one branch
-*Draw* the branch history with the merge (Fast-Forward merge moves branch tag)
-*Draw* a branch history with competing changes (Recursive merge resembles octopus graph)
+*Instructor's note:*  Draw the branch history with the merge (Fast-Forward merge moves branch tag)
+*Instructor's note:*  Drawing a branch history with competing changes (Recursive merge resembles octopus graph)
 
 ** Ignoring Things
 *** Create some output files
@@ -418,6 +421,12 @@ git commit -m "Ignore output files"
 - You should generally ignore archives (zip, tar), images (png, jpg), binaries (dmg, iso, exe), compiler output, log files, and .DS_Store (Mac)
 
 ** Github
+#+CAPTION: Coordinate with co-authors.
+#+ATTR_ODT: :width 12
+#+ATTR_HTML: :width 100px
+#+NAME: Distributed version control
+[[file:images/distributed.png]]
+
 *** Git != Github
 - easy collaboration
 - sync between machines
@@ -475,6 +484,14 @@ ls
 #+END_SRC
 
 ** Conflicts
+#+CAPTION: A more complicated merge (1)
+#+NAME: Pre-merge state
+[[file:images/basic-merging-1.png]]
+
+#+CAPTION: A more complicated merge (2)
+#+NAME: gPost-merge state
+[[file:images/basic-merging-2.png]]
+
 *** Person 1 edits ~/Desktop/garden/shopping_list.txt
 #+BEGIN_EXAMPLE
 1. Cherry tomatoes
@@ -525,6 +542,13 @@ git config --global merge.tool meld
 - Open source merge tools include Vimdiff, Meld, Kdiff, Gitfiend, Git Cola, etc. There are many other options!
 - Always pull before you push
 - To minimize conflicts, do your work on a separate branch
+
+** Graphical User Interfaces
+- Pro
+  - Viewing history is usually a much better experience
+- Cons
+  - Not fully functional (missing commands and command options)
+  - Git is still complicated. Menus and buttons don’t change that.
 
 ** Version control with source vs. notebooks
 - .ipynb files contain a lot of JSON boilerplate that isn't code
