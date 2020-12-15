@@ -1,6 +1,6 @@
 #+STARTUP: showall indent
 #+OPTIONS: tex:t toc:2 H:6 ^:{}
-#+ODT_STYLES_FILE: "styles.xml"
+#+ODT_STYLES_FILE: "/Users/gilgamesh/Google Drive/Templates/styles.xml"
 
 #+TITLE: A brief introduction to Git with Unix shell
 #+AUTHOR: edited by Derek Devnich
@@ -69,10 +69,14 @@ history | grep ls               # pipe the output of history into search
 
 * Git
 ** Why are we here?
-#+CAPTION: Git create snapshots of your code. If you haven't updated a file since your previous snapshot, Git will re-use the old version of that file to save space (https://git-scm.com/).
-#+NAME: fig:Snapshot History
+#+CAPTION: Git creates a history of code snapshots. If you haven't updated a file since your previous snapshot, Git will re-use the old version of that file to save space (https://git-scm.com/).
+#+NAME: Snapshot History
 [[file:images/snapshots.png]]
-- Move backwards and forwards in time using snapshots of your code
+
+#+CAPTION: You will base your new work on the most recent snapshot.
+#+NAME: Workspace or Working Tree
+[[file:images/local-repository.png]]
+- Move backwards and forwards in time using snapshots of your code. You can think of these as "save points."
 - Control what goes into a snapshot
 - Collaborate
 - Explore alternative versions of your project without destroying prior work
@@ -151,6 +155,14 @@ cat shopping_list.txt
 #+END_SRC
 
 *** Commit cycle
+#+CAPTION: Build a new snapshot ("commit") in the Staging Area.
+#+NAME: First Commit
+[[file:images/git-staging-area.svg]]
+
+#+CAPTION: Commits include additions and deletions
+#+NAME: Commit with multiple files
+[[file:images/git-committing.svg]]
+
 #+BEGIN_SRC bash
 git status
 git add shopping_list.txt
@@ -158,9 +170,11 @@ git status
 git commit -m "Start shopping list for garden"
 git status
 #+END_SRC
-
 - Commit messages should be useful; eventually there will be a lot of them (we'll come back to this)
-*Draw* working tree, staging area (index), and repository commit (no history yet)
+- There are multiple synonym for each of these locations:
+  - Workspace or Working Tree
+  - Staging Area, Index, or Cache
+  - Repository or Commit History
 
 *** Getting help
 #+BEGIN_SRC bash
@@ -221,7 +235,7 @@ git status
 #+BEGIN_SRC bash
 git log
 git log --oneline
-git log --oneline --graph
+git log --oneline --graph       # Useful if you have many branches
 git log --author=~Derek Devnich
 git log --since=5.days          # or weeks, months, years
 #+END_SRC
@@ -297,6 +311,10 @@ cat shopping_list.txt
 
 ** Moving through time
 *** Checkout old version of a file
+#+CAPTION: Check out an old commit to view it
+#+NAME: Checkout
+[[file:images/git-checkout.svg]]
+
 #+BEGIN_SRC bash
 git checkout f22b25e shopping_list.txt   # or "git checkout HEAD~3 shopping_list.txt"
 cat shopping_list.txt
@@ -324,7 +342,7 @@ git checkout master
 ** Branching and merging
 #+CAPTION: Git branching and Merging (https://imgur.com/gallery/YG8In8X/new)
 #+ATTR_ORG: :width 200px
-#+NAME: fig:Branching and Merging
+#+NAME: Branching and Merging
 [[file:images/branch-merge.png]]
 
 *** Create a new branch and switch to it
@@ -333,6 +351,14 @@ git checkout -b feature         # equivalent to "git branch feature" + "git chec
 git branch                      # Show all branches
 git status
 #+END_SRC
+
+#+CAPTION: Check out the branch to work on it (1)
+#+NAME: Main branch
+[[file:images/branch-old.png]]
+
+#+CAPTION: Check out the branch to work on it (2)
+#+NAME: Feature branch
+[[file:images/branch-new.png]]
 
 *** Create a new file
 #+BEGIN_SRC bash
@@ -546,5 +572,5 @@ pandoc README.org -o README.md
 #+BEGIN_SRC bash
 # The --reference-doc flag is optional; it provides fine-grained control
 # over the appearance of the output document
-pandoc README.org -t markdown | pandoc --no-highlight --reference-doc=/home/gilgamesh/Dropbox/custom-reference.docx -o README.docx
+pandoc README.org -t markdown | pandoc --no-highlight --reference-doc=/Users/gilgamesh/Google Drive/Templates/custom-reference.docx -o README.docx
 #+END_SRC
