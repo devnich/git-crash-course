@@ -233,6 +233,9 @@ git commit -m "Add peppers"
 git status
 #+END_SRC
 - Staging area is for creating sensible commits. You can edit multiple files and only add a subset of them to a given commit. This makes it easier to look back at your work.
+- What goes in a commit?
+  - A coherent functional chunk (whatever that means)
+  - If you wanted to cleanly roll back, what would that look like?
 
 *** View commit history in the log
 #+BEGIN_SRC bash
@@ -339,6 +342,7 @@ git status
 # Move HEAD back to latest commit by checking out the branch name
 git checkout master
 #+END_SRC
+- You can also check out a tag.
 - Unfortunately some of these terms, like "checkout", are overloaded. Think about what you want to do to your history, then look up the appropriate command.
 *Instructor's note:*  Update drawing with moving HEAD pointer
 
@@ -387,8 +391,7 @@ This is a new feature we're trying out
   ls                              # Merging the feature branch adds your changes
 #+END_SRC
 - This is simplest possible case; all of the new changes were in one branch
-*Instructor's note:*  Draw the branch history with the merge (Fast-Forward merge moves branch tag)
-*Instructor's note:*  Drawing a branch history with competing changes (Recursive merge resembles octopus graph)
+*Instructor's note:*  Draw the branch history with the merge (Fast-Forward merge moves branch tag). A branch history with competing changes is shown in the Conflicts section below (Recursive merge resembles octopus graph)
 
 ** Ignoring Things
 *** Create some output files
@@ -456,6 +459,7 @@ git pull
 - ~pull~ is a shortcut for ~fetch~ + ~merge~
 
 ** Collaborating
+*Instructor's note:* Demo this section with two terminal windows, one for "garden" and one for "garden-clone"
 *** Clone your repository
 #+BEGIN_SRC bash
 git clone https://github.com/devnich/garden.git ~/Desktop/garden-clone
@@ -542,6 +546,18 @@ git config --global merge.tool meld
 - Open source merge tools include Vimdiff, Meld, Kdiff, Gitfiend, Git Cola, etc. There are many other options!
 - Always pull before you push
 - To minimize conflicts, do your work on a separate branch
+** Pull Requests
+cf. https://docs.github.com/en/github/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests
+Topics to discuss:
+- Shared Repository model vs. Fork-and-Pull model
+- Protected branches
+- Create a pull request
+- Request a PR review
+- Merging PR
+*** Shared Repository Workflow
+1. Clone repository
+2. Create branch
+3. Create pull request
 
 ** Graphical User Interfaces
 - Pro
@@ -569,6 +585,11 @@ git config --global merge.tool meld
 - git cherry-pick: Copy a single commit from a different branch. This rewrites your project history piecemeal, which can make it difficult to merge branches in the future.
 
 * Additional reading
+** Shell
+- A directory of command line utilities: https://ss64.com/bash/
+- Bash guide: https://mywiki.wooledge.org/BashGuide
+- Using zsh on MacOS: https://scriptingosx.com/2019/06/moving-to-zsh/
+** Git
 - The Pro Git book: https://git-scm.com/book/en/v2
 - Graphical user interfaces for Git (useful for visualizing diffs and merges): https://git-scm.com/book/en/v2/Appendix-A%3A-Git-in-Other-Environments-Graphical-Interfaces
 - Git for Advanced Beginners: http://think-like-a-git.net
