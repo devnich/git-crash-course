@@ -1,6 +1,10 @@
+# Generated documentation
 *.odt
 *.docx
-*.md
-*.pdf
 *.~lock.*
+*.orig
+*.pdf
+tmp.md
+
+# System files
 .DS_Store

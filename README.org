@@ -44,6 +44,7 @@ ls -a                           # ... and include hidden files
 man ls                          # Manual for "ls"
 ls --help                       # In-line help info; should work in Windows
 #+END_SRC
+
 - You can navigate through the man page using the space bar and arrow keys
 - Quit man with "q"
 - Online references are available for Windows users who don't have man pages: https://linux.die.net/
@@ -67,8 +68,7 @@ history
 history | grep ls               # pipe the output of history into search
 #+END_SRC
 
-* Git
-** Why are we here?
+* Why are we here?
 #+name: Snapshot History
 #+caption: Git creates a history of code snapshots. If you haven't updated a file since your previous snapshot, Git will re-use the old version of that file to save space (https://git-scm.com/).
 [[file:images/snapshots.png]]
@@ -79,55 +79,65 @@ history | grep ls               # pipe the output of history into search
 #+NAME: Workspace or Working Tree
 [[file:images/local-repository.png]]
 
-- Move backwards and forwards in time using snapshots of your code. You can think of these as "save points."
-- Control what goes into a snapshot
+- Move backwards and forwards in time using save points in your code history.
+- Control what goes into a save point
 - Collaborate
 - Explore alternative versions of your project without destroying prior work
 - Useful for text files, less useful for binary files (most of the useful features are text-oriented)
 
-** Setup
-*** Identify yourself
-All git commands are 2-part verbs, followed by flags and arguments:
+* Setup
+** Identify yourself
+All git commands are 2-part verbs, followed by flags and arguments. Use quotes if you have spaces in your arguments (e.g. user name):
 #+BEGIN_SRC bash
 git config --global user.name "Gilgamesh"
-git config --global user.email "gilgamesh@uruk.gov"
+git config --global user.email gilgamesh@uruk.gov
 #+END_SRC
 
-*** Line Endings
+** Line Endings
 #+BEGIN_SRC bash
 git config --global core.autocrlf input  # Unix and MacOS
 git config --global core.autocrlf true   # Windows
 #+END_SRC
 
-*** Editor
+** Editor
 You can use any text editor, but you want a sensible default in case Git opens one for you:
 #+BEGIN_SRC bash
-git config --global core.editor "nano -w"
+git config --global core.editor nano
 #+END_SRC
 
-*** Updating remotes
+** Updating remotes
 Only push the current branch (more about this later):
 #+BEGIN_SRC bash
-git config --global push.default "simple"
+git config --global push.default simple
 #+END_SRC
 
-*** Inspect your configuration
+Merge, don't rebase (more about this later):
+#+BEGIN_SRC bash
+git config --global pull.rebase false
+#+END_SRC
+
+** (Optional) Change name of default branch
+#+BEGIN_SRC bash
+git config --global init.defaultBranch main
+#+END_SRC
+
+** Inspect your configuration
 #+BEGIN_SRC bash
 git config --list                   # or -l
 git config --list --show-origin     # where is this setting coming from?
 #+END_SRC
 
-** Creating a repository
-We are going to create and track plans for our quarantine garden.
+* Creating a repository
+We are going to create and track plans for our garden.
 
-*** Create a directory
+** Create a directory
 #+BEGIN_SRC bash
 cd ~/Desktop
 mkdir garden
 cd garden
 #+END_SRC
 
-*** Tell Git to make a repository
+** Tell Git to make a repository
 #+BEGIN_SRC bash
 git init
 ls
@@ -135,13 +145,13 @@ ls -a
 #+END_SRC
 Git uses this special subdirectory to store all the information about the project, including all files and sub-directories located within the project's directory.  If we ever delete the `.git` subdirectory, we will lose the project's history.
 
-*** Check status (we will do this a lot)
+** Check status (we will do this a lot)
 #+BEGIN_SRC bash
 git status
 #+END_SRC
 
-** Tracking changes
-*** Add a file
+* Tracking changes
+** Add a file
 #+BEGIN_SRC bash
 touch shopping_list.txt
 nano shopping_list.txt
@@ -157,7 +167,7 @@ ls
 cat shopping_list.txt
 #+END_SRC
 
-*** Commit cycle
+** Commit cycle
 #+CAPTION: Build a new snapshot ("commit") in the Staging Area.
 #+NAME: First Commit
 [[file:images/git-staging-area.svg]]
@@ -179,7 +189,7 @@ git status
   - Staging Area, Index, or Cache
   - Repository or Commit History
 
-*** Getting help
+** Getting help
 #+BEGIN_SRC bash
 # Concicse help
 git add -h
@@ -188,7 +198,7 @@ git add -h
 man git-add
 #+END_SRC
 
-*** Add more history
+** Add more history
 Edit with editor of your choice:
 #+BEGIN_EXAMPLE
 1. Cherry tomatoes
@@ -210,7 +220,7 @@ git commit -m "Add basil"
 #+END_SRC
 *Instructor's note:*  Update drawing with repository history going back in time (H, H~1, H~2...)
 
-*** Add more history; look at Staging area vs Workspace
+** Add more history; look at Staging area vs Workspace
 #+BEGIN_EXAMPLE
 1. Cherry tomatoes
 2. Italian basil
@@ -237,7 +247,7 @@ git status
   - A coherent functional chunk (whatever that means)
   - If you wanted to cleanly roll back, what would that look like?
 
-*** View commit history in the log
+** View commit history in the log
 #+BEGIN_SRC bash
 git log
 git log --oneline
@@ -248,7 +258,7 @@ git log --since=5.days          # or weeks, months, years
 - You can identify commit by unique ID or by HEAD offset
 - HEAD is a pointer to the most recent commit
 
-*** Directories aren't content
+** Directories aren't content
 Try to commit an empty directory:
 #+BEGIN_SRC bash
 mkdir flowers
@@ -266,8 +276,8 @@ git add flowers
 git commit -m "Initial thoughts on flowers"
 #+END_SRC
 
-** Exploring history
-*** Add more text to Workspace
+* Exploring history
+** Add more text to Workspace
 #+BEGIN_EXAMPLE
 1. Cherry tomatoes
 2. Italian basil
@@ -275,7 +285,7 @@ git commit -m "Initial thoughts on flowers"
 4. Cayenne peppers
 #+END_EXAMPLE
 
-*** Inspect our changes
+** Inspect our changes
 #+BEGIN_SRC bash
 cat shopping_list.txt
 
@@ -293,12 +303,12 @@ git show HEAD~3 shopping_list.txt
 git diff HEAD~3..HEAD~1 shopping_list.txt
 #+END_SRC
 
-*** Range syntax also works for logs
+** Range syntax also works for logs
 #+BEGIN_SRC bash
 git log HEAD~3..HEAD~1
 #+END_SRC
 
-*** Using unique ID instead of HEAD offset
+** Using unique ID instead of HEAD offset
 #+BEGIN_SRC bash
 git diff f22b25e3233b4645dabd0d81e651fe074bd8e73b shopping_list.txt
 
@@ -306,7 +316,7 @@ git diff f22b25e3233b4645dabd0d81e651fe074bd8e73b shopping_list.txt
 git diff f22b25e shopping_list.txt
 #+END_SRC
 
-*** Restore the Workspace to a clean state
+** Restore the Workspace to a clean state
 #+BEGIN_SRC bash
 git status                      # We have unstaged changes
 
@@ -315,8 +325,8 @@ git checkout HEAD shopping_list.txt
 cat shopping_list.txt
 #+END_SRC
 
-** Moving through time
-*** Checkout old version of a file
+* Moving through time
+** Checkout old version of a file
 #+CAPTION: Check out an old commit to view it
 #+NAME: Checkout
 [[file:images/git-checkout.svg]]
@@ -332,7 +342,7 @@ git checkout HEAD shopping_list.txt      # get back the new version
 #+END_SRC
 *Instructor's note:*  Update drawing with files moving in and out of working tree/staging area
 
-*** Don't lose your head
+** Don't lose your head
 What if you want to see a previous version of the whole project?
 #+BEGIN_SRC bash
 # Detached HEAD moves the whole HEAD pointer back to an earlier version
@@ -346,13 +356,13 @@ git checkout master
 - Unfortunately some of these terms, like "checkout", are overloaded. Think about what you want to do to your history, then look up the appropriate command.
 *Instructor's note:*  Update drawing with moving HEAD pointer
 
-** Branching and merging
+* Branching and merging
 #+CAPTION: Git branching and Merging (https://imgur.com/gallery/YG8In8X/new)
 #+ATTR_ORG: :width 200px
 #+NAME: Branching and Merging
 [[file:images/branch-merge.png]]
 
-*** Create a new branch and switch to it
+** Create a new branch and switch to it
 #+BEGIN_SRC bash
 git checkout -b feature         # equivalent to "git branch feature" + "git checkout feature"
 git branch                      # Show all branches
@@ -367,7 +377,7 @@ git status
 #+NAME: Feature branch
 [[file:images/branch-new.png]]
 
-*** Create a new file
+** Create a new file
 #+BEGIN_SRC bash
 touch feature.txt
 nano feature.txt
@@ -383,7 +393,7 @@ This is a new feature we're trying out
   ls                              # We have a new file
 #+END_SRC
 
-*** Switch back to master and merge
+** Switch back to master and merge
 #+BEGIN_SRC bash
   git checkout master
   ls                              # File doesn't exist on the master branch
@@ -393,8 +403,8 @@ This is a new feature we're trying out
 - This is simplest possible case; all of the new changes were in one branch
 *Instructor's note:*  Draw the branch history with the merge (Fast-Forward merge moves branch tag). A branch history with competing changes is shown in the Conflicts section below (Recursive merge resembles octopus graph)
 
-** Ignoring Things
-*** Create some output files
+* Ignoring Things
+** Create some output files
 #+BEGIN_SRC bash
 mkdir results
 touch a.dat b.dat c.dat results/a.out results/b.out
@@ -402,13 +412,13 @@ ls
 git status
 #+END_SRC
 
-*** Create .gitignore
+** Create .gitignore
 #+BEGIN_SRC bash
 touch .gitignore
 ls -a
 #+END_SRC
 
-*** Ignore some files
+** Ignore some files
 #+BEGIN_EXAMPLE
 *.dat
 results/
@@ -423,25 +433,25 @@ git commit -m "Ignore output files"
 - Ignoring complicated directory structures can be tricky, come talk to me
 - You should generally ignore archives (zip, tar), images (png, jpg), binaries (dmg, iso, exe), compiler output, log files, and .DS_Store (Mac)
 
-** Github
+* Github
 #+CAPTION: Coordinate with co-authors.
 #+ATTR_ODT: :width 12
 #+ATTR_HTML: :width 100px
 #+NAME: Distributed version control
 [[file:images/distributed.png]]
 
-*** Git != Github
+** Git != Github
 - easy collaboration
 - sync between machines
 - off-site backup
 - peer review
 
-*** Set up new repository
+** Set up new repository
 - Create new repository (visual instructions here: https://swcarpentry.github.io/git-novice/07-github/index.html)
 - Call it "garden"
 - Find HTTPS string that identifies repository
 
-*** Configure remotes and push from local
+** Configure remotes and push from local
 #+BEGIN_SRC bash
 git remote add origin https://github.com/devnich/garden.git
 git remote -v
@@ -452,29 +462,29 @@ If you configure your origin as upstream, you can just do:
 git push
 #+END_SRC
 
-*** Check that you are up to date
+** Check that you are up to date
 #+BEGIN_SRC bash
 git pull
 #+END_SRC
 - ~pull~ is a shortcut for ~fetch~ + ~merge~
 
-** Collaborating
+* Collaborating
 *Instructor's note:* Demo this section with two terminal windows, one for "garden" and one for "garden-clone"
-*** Clone your repository
+** Clone your repository
 #+BEGIN_SRC bash
 git clone https://github.com/devnich/garden.git ~/Desktop/garden-clone
 cd garden-clone
 touch trees.txt
 #+END_SRC
 
-*** Edit trees.txt
+** Edit trees.txt
 #+BEGIN_EXAMPLE
 1. Plum
 2. Pluot
 3. Aprium
 #+END_EXAMPLE
 
-*** Update and push
+** Update and push
 #+BEGIN_SRC bash
 pwd                             # we are in ~/Desktop/garden-clone
 git status
@@ -487,7 +497,7 @@ git pull
 ls
 #+END_SRC
 
-** Conflicts
+* Conflicts
 #+CAPTION: A more complicated merge (1)
 #+NAME: Pre-merge state
 [[file:images/basic-merging-1.png]]
@@ -496,7 +506,7 @@ ls
 #+NAME: gPost-merge state
 [[file:images/basic-merging-2.png]]
 
-*** Person 1 edits ~/Desktop/garden/shopping_list.txt
+** Person 1 edits ~/Desktop/garden/shopping_list.txt
 #+BEGIN_EXAMPLE
 1. Cherry tomatoes
 2. Italian basil
@@ -510,7 +520,7 @@ git commit -m "Added more peppers our copy"
 git push origin master
 #+END_SRC
 
-*** Person 2 edits ~/Desktop/garden-clone/shopping_list.txt /without/ pulling
+** Person 2 edits ~/Desktop/garden-clone/shopping_list.txt /without/ pulling
 #+BEGIN_EXAMPLE
 1. Cherry tomatoes
 2. Italian basil
@@ -529,7 +539,7 @@ git push origin master
 git pull origin master
 #+END_SRC
 
-*** Edit conflict, stage, commit, and push
+** Edit conflict, stage, commit, and push
 Edit the file to resolve the conflict. You can delete one of the two lines, combine them, or make any other changes. Delete the conflict markers before staging the file (the lines beginning in "<", "=", and ">").
 #+BEGIN_EXAMPLE
 <<<<<<< HEAD
@@ -546,7 +556,7 @@ git config --global merge.tool meld
 - Open source merge tools include Vimdiff, Meld, Kdiff, Gitfiend, Git Cola, etc. There are many other options!
 - Always pull before you push
 - To minimize conflicts, do your work on a separate branch
-** Pull Requests
+* Pull Requests
 cf. https://docs.github.com/en/github/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests
 Topics to discuss:
 - Shared Repository model vs. Fork-and-Pull model
@@ -554,65 +564,81 @@ Topics to discuss:
 - Create a pull request
 - Request a PR review
 - Merging PR
-*** Shared Repository Workflow
+** Shared Repository Workflow
 1. Clone repository
 2. Create branch
 3. Create pull request
 
-** Graphical User Interfaces
+* Graphical User Interfaces
 - Pro
   - Viewing history is usually a much better experience
 - Cons
   - Not fully functional (missing commands and command options)
   - Git is still complicated. Menus and buttons don’t change that.
 
-** Version control with source vs. notebooks
+* Version control with source vs. notebooks
 - .ipynb files contain a lot of JSON boilerplate that isn't code
 
-** Next steps (intermediate Git)
+* Next steps (intermediate Git)
 *** Useful commands that you should add to your repertoire
-- git blame: See who changed each line of a file
-- git bisect: Find out when a change was introduced (good man page)
-- git revert: Undo your recent commits (good man page)
-- git add --patch: Stage a part of a file ("hunk") instead the entire file
-- git -i <command>: Run a command interactively, confirming each step
+- ~git blame~: See who changed each line of a file
+- ~git bisect~: Find out when a change was introduced (good man page)
+- ~git revert~: Undo your recent commits (good man page)
+- ~git add --patch~: Stage a part of a file ("hunk") instead the entire file
+- ~git -i~ [command]: Run a command interactively, confirming each step
+
 *** Potentially dangerous commands that are useful in certain circumstances. Use with caution!
-- git reset: Throw away uncommitted changes (there are many options that affect what gets thrown away; read the documentation)
-- git reset --hard: Throw away some of your commits to get back to an earlier project state. Cannot be undone!
-- git rebase: Rewrite the history of branch A to include branch B. This is different than merging branch B into branch A; merging retains your project history, whereas rebasing rewrites that history.
-- git squash: Convert multiple commits into a single commit. This also rewrites your project history.
+- ~git reset~: Throw away uncommitted changes (there are many options that affect what gets thrown away; read the documentation)
+- ~git reset --hard~: Throw away some of your commits to get back to an earlier project state. Cannot be undone!
+- ~git rebase~: Rewrite the history of branch A to include branch B. This is different than merging branch B into branch A; merging retains your project history, whereas rebasing rewrites that history.
+- ~git squash~: Convert multiple commits into a single commit. This also rewrites your project history.
+
 *** Dangerous commands you should avoid
-- git cherry-pick: Copy a single commit from a different branch. This rewrites your project history piecemeal, which can make it difficult to merge branches in the future.
+- ~git cherry-pick~: Copy a single commit from a different branch. This rewrites your project history piecemeal, which can make it difficult to merge branches in the future.
 
-* Additional reading
-** Shell
-- A directory of command line utilities: https://ss64.com/bash/
-- Bash guide: https://mywiki.wooledge.org/BashGuide
-- Using zsh on MacOS: https://scriptingosx.com/2019/06/moving-to-zsh/
-** Git
-- The Pro Git book: https://git-scm.com/book/en/v2
-- Graphical user interfaces for Git (useful for visualizing diffs and merges): https://git-scm.com/book/en/v2/Appendix-A%3A-Git-in-Other-Environments-Graphical-Interfaces
-- Git for Advanced Beginners: http://think-like-a-git.net
-- "Git is built on a graph. Almost every Git command manipulates this graph. To understand Git deeply, focus on the properties of this graph, not workflows or commands.": https://codewords.recurse.com/issues/two/git-from-the-inside-out
-- A Visual Git Reference: https://marklodato.github.io/visual-git-guide/index-en.html
+* Credits
+1. https://dlstrong.github.io/git-novice/
+2. https://git-scm.com/book/en/v2
+3. https://gitlab.com/liibre/curso/-/wikis/material
+4. https://swcarpentry.github.io/git-novice/reference
+5. https://swcarpentry.github.io/shell-novice/reference/
+6. https://twitter.com/jay_gee
 
-* Sources and image credits
-- https://dlstrong.github.io/git-novice/
-- https://git-scm.com/book/en/v2
-- https://gitlab.com/liibre/curso/-/wikis/material
-- https://swcarpentry.github.io/git-novice/reference
-- https://swcarpentry.github.io/shell-novice/reference/
-- https://twitter.com/jay_gee
+* References
+1. The Pro Git book: https://git-scm.com/book/en/v2
+2. Graphical user interfaces for Git (useful for visualizing diffs and merges): https://git-scm.com/book/en/v2/Appendix-A%3A-Git-in-Other-Environments-Graphical-Interfaces
+3. Git for Advanced Beginners: http://think-like-a-git.net
+4. "Git is built on a graph. Almost every Git command manipulates this graph. To understand Git deeply, focus on the properties of this graph, not workflows or commands.": https://codewords.recurse.com/issues/two/git-from-the-inside-out
+5. A Visual Git Reference: https://marklodato.github.io/visual-git-guide/index-en.html
 
 * COMMENT How to export this document to other formats
-** Export to Open Office using Emacs Org mode (preferred)
+** Export to Markdown using Emacs Org mode
+Do this if you want a table of contents on Github.
 #+BEGIN_EXAMPLE
-M-x org-odt-export-to-odt
+M-x org-md-export-to-markdown
 #+END_EXAMPLE
+
 ** Export to Markdown using Pandoc
+Do this if you want code syntax highlighting and a table of contents on Github.
+*** Generate generic Markdown file
 #+BEGIN_SRC bash
-pandoc README.org -o README.md
+pandoc README.org -o tmp.md
 #+END_SRC
+
+*** Edit generic Markdown file to remove illegal front matter
+1. Org directives
+2. Anything that isn't part of the document structure (e.g. TODO items)
+
+*** Generate Github Markdown with table of contents
+#+BEGIN_SRC bash
+pandoc -f markdown --toc --toc-depth=2 -s tmp.md -o README.md
+#+END_SRC
+
+*** Find and replace code block markers in final document
+#+BEGIN_EXAMPLE
+M-x qrr ` {.bash}` `bash`
+#+END_EXAMPLE
+
 ** Export to Microsoft Word using Pandoc
 #+BEGIN_SRC bash
 # The --reference-doc flag is optional; it provides fine-grained control
