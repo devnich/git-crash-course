@@ -1,4 +1,4 @@
-#+STARTUP: showall indent
+#+STARTUP: fold indent
 #+OPTIONS: tex:t toc:2 H:6 ^:{}
 #+ODT_STYLES_FILE: "/Users/gilgamesh/Google Drive/Templates/styles.xml"
 
@@ -69,15 +69,21 @@ history | grep ls               # pipe the output of history into search
 #+END_SRC
 
 * Why are we here?
-#+name: Snapshot History
-#+caption: Git creates a history of code snapshots. If you haven't updated a file since your previous snapshot, Git will re-use the old version of that file to save space (https://git-scm.com/).
+#+NAME: Snapshot History
+#+CAPTION: Git creates a history of code snapshots. If you haven't updated a file since your previous snapshot, Git will re-use the old version of that file to save space (https://git-scm.com/).
 [[file:images/snapshots.png]]
 
-#+CAPTION: Base your new work on the most recent snapshot.
-#+ATTR_ODT: :width 12
-#+ATTR_HTML: :width 100px
-#+NAME: Workspace or Working Tree
-[[file:images/local-repository.png]]
+#+NAME: Bisect 1
+[[file:images/git_bisect_1.jpg]]
+
+#+NAME: Bisect 2
+[[file:images/git_bisect_2.jpg]]
+
+#+NAME: Bisect 3
+[[file:images/git_bisect_3.jpg]]
+
+#+NAME: Bisect 4
+[[file:images/git_bisect_4.jpg]]
 
 - Move backwards and forwards in time using save points in your code history.
 - Control what goes into a save point
@@ -86,6 +92,12 @@ history | grep ls               # pipe the output of history into search
 - Useful for text files, less useful for binary files (most of the useful features are text-oriented)
 
 * Setup
+** Inspect your configuration
+#+BEGIN_SRC bash
+git config --list                   # or -l
+git config --list --show-origin     # where is this setting coming from?
+#+END_SRC
+
 ** Identify yourself
 All git commands are 2-part verbs, followed by flags and arguments. Use quotes if you have spaces in your arguments (e.g. user name):
 #+BEGIN_SRC bash
@@ -106,25 +118,19 @@ git config --global core.editor nano
 #+END_SRC
 
 ** Updating remotes
-Only push the current branch (more about this later):
-#+BEGIN_SRC bash
-git config --global push.default simple
-#+END_SRC
+1. Only push the current branch (more about this later):
+   #+BEGIN_SRC bash
+   git config --global push.default simple
+   #+END_SRC
 
-Merge, don't rebase (more about this later):
-#+BEGIN_SRC bash
-git config --global pull.rebase false
-#+END_SRC
+2. Merge, don't rebase (more about this later):
+   #+BEGIN_SRC bash
+   git config --global pull.rebase false
+   #+END_SRC
 
 ** (Optional) Change name of default branch
 #+BEGIN_SRC bash
 git config --global init.defaultBranch main
-#+END_SRC
-
-** Inspect your configuration
-#+BEGIN_SRC bash
-git config --list                   # or -l
-git config --list --show-origin     # where is this setting coming from?
 #+END_SRC
 
 * Creating a repository
@@ -143,7 +149,13 @@ git init
 ls
 ls -a
 #+END_SRC
-Git uses this special subdirectory to store all the information about the project, including all files and sub-directories located within the project's directory.  If we ever delete the `.git` subdirectory, we will lose the project's history.
+
+#+NAME: Workspace or Working Tree
+#+CAPTION: Base your new work on the most recent snapshot.
+[[file:images/local-repository.png]]
+
+- Git uses this special subdirectory to store all the information about the project, including all files and sub-directories located within the project's directory.  If we ever delete the `.git` subdirectory, we will lose the project's history.
+- Only one version of a file is visible; the rest are available in the database
 
 ** Check status (we will do this a lot)
 #+BEGIN_SRC bash
@@ -151,6 +163,8 @@ git status
 #+END_SRC
 
 * Tracking changes
+You can edit with nano or with the text editor of your choice. We'll try to show the editor and the command line side-by-side.
+
 ** Add a file
 #+BEGIN_SRC bash
 touch shopping_list.txt
@@ -168,12 +182,14 @@ cat shopping_list.txt
 #+END_SRC
 
 ** Commit cycle
-#+CAPTION: Build a new snapshot ("commit") in the Staging Area.
+Manually assemble your next save point in the Staging Area. When you're happy with it, commit it to the repository to create a new version of your project.
+
 #+NAME: First Commit
+#+CAPTION: Build a new save point ("commit") in the Staging Area.
 [[file:images/git-staging-area.svg]]
 
-#+CAPTION: Commits include additions and deletions
 #+NAME: Commit with multiple files
+#+CAPTION: Commits include additions and deletions
 [[file:images/git-committing.svg]]
 
 #+BEGIN_SRC bash
@@ -191,90 +207,102 @@ git status
 
 ** Getting help
 #+BEGIN_SRC bash
-# Concicse help
+# Concise help
 git add -h
 
 # Verbose help
 man git-add
 #+END_SRC
 
-** Add more history
-Edit with editor of your choice:
-#+BEGIN_EXAMPLE
-1. Cherry tomatoes
-2. Italian basil
-#+END_EXAMPLE
+** First stage, then commit
+1. Edit the file
+   #+BEGIN_EXAMPLE
+   1. Cherry tomatoes
+   2. Italian basil
+   #+END_EXAMPLE
 
-#+BEGIN_SRC bash
-git status
-git diff
+   #+BEGIN_SRC bash
+   git status
+   git diff
+   #+END_SRC
 
-# If you try to commit the file before you add it to the Staging area,
-# nothing happens:
-git commit -m "Add basil"
-git status
+2. If you try to commit the file before you add it to the Staging area, nothing happens
+   #+BEGIN_SRC bash
+   git commit -m "Add basil"
+   git status
+   #+END_SRC
 
-# Add file to Staging area, then commit:
-git add shopping_list.txt
-git commit -m "Add basil"
-#+END_SRC
-*Instructor's note:*  Update drawing with repository history going back in time (H, H~1, H~2...)
-
-** Add more history; look at Staging area vs Workspace
-#+BEGIN_EXAMPLE
-1. Cherry tomatoes
-2. Italian basil
-3. Jalapenos
-#+END_EXAMPLE
-
-#+BEGIN_SRC bash
-# By default, "diff" shows changes to Workspace
-git status
-git diff
-
-# Once the file is added to Staging, "diff" no longer shows changes
-git add shopping_list.txt
-git status
-git diff
-
-# You can examine Staging instead
-git diff --cached               # or "--staged"
-git commit -m "Add peppers"
-git status
-#+END_SRC
-- Staging area is for creating sensible commits. You can edit multiple files and only add a subset of them to a given commit. This makes it easier to look back at your work.
-- What goes in a commit?
-  - A coherent functional chunk (whatever that means)
-  - If you wanted to cleanly roll back, what would that look like?
+3. You have to add the file to the Staging area, then commit
+   #+BEGIN_SRC bash
+   git add shopping_list.txt
+   git commit -m "Add basil"
+   #+END_SRC
 
 ** View commit history in the log
 #+BEGIN_SRC bash
 git log
 git log --oneline
+#+END_SRC
+
+1. You can identify commit by unique ID or by HEAD offset (H, HEAD~1, HEAD~2,...)
+2. HEAD is a pointer to the most recent commit (of the active branch)
+
+*** Additional log options
+#+BEGIN_SRC bash
 git log --oneline --graph       # Useful if you have many branches
 git log --author=~Gilgamesh
 git log --since=5.days          # or weeks, months, years
 #+END_SRC
-- You can identify commit by unique ID or by HEAD offset
-- HEAD is a pointer to the most recent commit
+
+** Show changes to Workspace and Staging
+1. Edit the file
+   #+BEGIN_EXAMPLE
+   1. Cherry tomatoes
+   2. Italian basil
+   3. Jalapenos
+   #+END_EXAMPLE
+
+2. By default, ~diff~ shows changes to Workspace
+   #+BEGIN_SRC bash
+   git status
+   git diff
+   #+END_SRC
+
+3. Once the file is added to Staging, ~diff~ no longer shows changes
+   #+BEGIN_SRC bash
+   git add shopping_list.txt
+   git status
+   git diff
+   #+END_SRC
+
+4. You can examine Staging instead
+   #+BEGIN_SRC bash
+   git diff --staged               # or "--cached"
+   git commit -m "Add peppers"
+   git status
+   #+END_SRC
+
+** What goes in a commit?
+1. Staging area is for creating sensible commits. You can edit multiple files and only add a subset of them to a given commit. This makes it easier to look back at your work.
+2. A commit should be a coherent functional chunk (whatever that means). One way to think about it: If you wanted to cleanly undo your work, what would that look like?
 
 ** Directories aren't content
-Try to commit an empty directory:
-#+BEGIN_SRC bash
-mkdir flowers
-git status
-git add flowers
-git status
-#+END_SRC
+1. Try to commit an empty directory
+   #+BEGIN_SRC bash
+   mkdir flowers
+   git status
+   git add flowers
+   git status
+   #+END_SRC
 
-Now add files and try again:
-#+BEGIN_SRC bash
-touch flowers/roses flowers/tulips
-git status
-ls flowers
-git add flowers
-git commit -m "Initial thoughts on flowers"
-#+END_SRC
+2. Now add files and try again
+   #+BEGIN_SRC bash
+   touch flowers/roses flowers/tulips
+   git status
+   ls flowers
+   git add flowers
+   git commit -m "Initial thoughts on flowers"
+   #+END_SRC
 
 * Exploring history
 ** Add more text to Workspace
@@ -285,10 +313,8 @@ git commit -m "Initial thoughts on flowers"
 4. Cayenne peppers
 #+END_EXAMPLE
 
-** Inspect our changes
+** View subsets of project history
 #+BEGIN_SRC bash
-cat shopping_list.txt
-
 # Identical to "git diff" with no argument
 git diff HEAD shopping_list.txt
 
@@ -303,12 +329,12 @@ git show HEAD~3 shopping_list.txt
 git diff HEAD~3..HEAD~1 shopping_list.txt
 #+END_SRC
 
-** Range syntax also works for logs
+*** Range syntax also works for logs
 #+BEGIN_SRC bash
 git log HEAD~3..HEAD~1
 #+END_SRC
 
-** Using unique ID instead of HEAD offset
+** ~diff~ using a commit ID instead of the HEAD offset
 #+BEGIN_SRC bash
 git diff f22b25e3233b4645dabd0d81e651fe074bd8e73b shopping_list.txt
 
@@ -318,17 +344,28 @@ git diff f22b25e shopping_list.txt
 
 ** Restore the Workspace to a clean state
 #+BEGIN_SRC bash
-git status                      # We have unstaged changes
+# We have unstaged changes
+git status
 
 # Revert the working tree to the most recent commit
-git checkout HEAD shopping_list.txt
+git restore shopping_list.txt
+
+# Check whether your editor is automatically updating!
 cat shopping_list.txt
+
+# The old way of doing it:
+# git checkout HEAD shopping_list.txt
 #+END_SRC
 
+* Restoring files (NEW)
+https://stackoverflow.com/a/58003889
+https://stackoverflow.com/a/57066072
+https://stackoverflow.com/a/57066202
+
 * Moving through time
-** Checkout old version of a file
-#+CAPTION: Check out an old commit to view it
+** Check out an old version of a file
 #+NAME: Checkout
+#+CAPTION: Check out an old commit to view it
 [[file:images/git-checkout.svg]]
 
 #+BEGIN_SRC bash
@@ -338,6 +375,8 @@ cat shopping_list.txt
 # These changes are also in the Staging area; do a commit if you want to keep
 # this older version
 git status
+git diff
+git diff --staged
 git checkout HEAD shopping_list.txt      # get back the new version
 #+END_SRC
 *Instructor's note:*  Update drawing with files moving in and out of working tree/staging area
@@ -357,9 +396,8 @@ git checkout master
 *Instructor's note:*  Update drawing with moving HEAD pointer
 
 * Branching and merging
-#+CAPTION: Git branching and Merging (https://imgur.com/gallery/YG8In8X/new)
-#+ATTR_ORG: :width 200px
 #+NAME: Branching and Merging
+#+CAPTION: Git branching and Merging (https://imgur.com/gallery/YG8In8X/new)
 [[file:images/branch-merge.png]]
 
 ** Create a new branch and switch to it
@@ -369,12 +407,12 @@ git branch                      # Show all branches
 git status
 #+END_SRC
 
-#+CAPTION: Check out the branch to work on it (1)
 #+NAME: Main branch
+#+CAPTION: Check out the branch to work on it (1)
 [[file:images/branch-old.png]]
 
-#+CAPTION: Check out the branch to work on it (2)
 #+NAME: Feature branch
+#+CAPTION: Check out the branch to work on it (2)
 [[file:images/branch-new.png]]
 
 ** Create a new file
@@ -434,10 +472,8 @@ git commit -m "Ignore output files"
 - You should generally ignore archives (zip, tar), images (png, jpg), binaries (dmg, iso, exe), compiler output, log files, and .DS_Store (Mac)
 
 * Github
+#+NAME: Pre-merge state
 #+CAPTION: Coordinate with co-authors.
-#+ATTR_ODT: :width 12
-#+ATTR_HTML: :width 100px
-#+NAME: Distributed version control
 [[file:images/distributed.png]]
 
 ** Git != Github
@@ -498,12 +534,12 @@ ls
 #+END_SRC
 
 * Conflicts
-#+CAPTION: A more complicated merge (1)
 #+NAME: Pre-merge state
+#+CAPTION: A more complicated merge (1)
 [[file:images/basic-merging-1.png]]
 
+#+NAME: Post-merge state
 #+CAPTION: A more complicated merge (2)
-#+NAME: gPost-merge state
 [[file:images/basic-merging-2.png]]
 
 ** Person 1 edits ~/Desktop/garden/shopping_list.txt
