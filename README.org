@@ -2,7 +2,7 @@
 #+OPTIONS: tex:t toc:2 H:6 ^:{}
 #+ODT_STYLES_FILE: "/Users/gilgamesh/Google Drive/Templates/styles.xml"
 
-#+TITLE: A brief introduction to Git with Unix shell
+#+TITLE: Introduction to Git
 #+AUTHOR: Derek Devnich
 
 * Installation instructions
@@ -612,12 +612,6 @@ Topics to discuss:
 5. A Visual Git Reference: https://marklodato.github.io/visual-git-guide/index-en.html
 
 * COMMENT How to export this document to other formats
-** Export to Markdown using Emacs Org mode
-Do this if you want a table of contents on Github.
-#+BEGIN_EXAMPLE
-M-x org-md-export-to-markdown
-#+END_EXAMPLE
-
 ** Export to Markdown using Pandoc
 Do this if you want code syntax highlighting and a table of contents on Github.
 *** Generate generic Markdown file
@@ -637,6 +631,12 @@ pandoc -f markdown --toc --toc-depth=2 -s tmp.md -o README.md
 *** Find and replace code block markers in final document
 #+BEGIN_EXAMPLE
 M-x qrr ` {.bash}` `bash`
+#+END_EXAMPLE
+
+** Export to Markdown using Emacs Org mode
+Do this if you want a table of contents on Github.
+#+BEGIN_EXAMPLE
+M-x org-md-export-to-markdown
 #+END_EXAMPLE
 
 ** Export to Microsoft Word using Pandoc
