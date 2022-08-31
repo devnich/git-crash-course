@@ -4,13 +4,13 @@
     -   [Very brief Bash intro](#very-brief-bash-intro)
 -   [Why are we here?](#why-are-we-here)
 -   [Setup](#setup)
+    -   [Inspect your configuration](#inspect-your-configuration)
     -   [Identify yourself](#identify-yourself)
     -   [Line Endings](#line-endings)
     -   [Editor](#editor)
     -   [Updating remotes](#updating-remotes)
     -   [(Optional) Change name of default
         branch](#optional-change-name-of-default-branch)
-    -   [Inspect your configuration](#inspect-your-configuration)
 -   [Creating a repository](#creating-a-repository)
     -   [Create a directory](#create-a-directory)
     -   [Tell Git to make a repository](#tell-git-to-make-a-repository)
@@ -20,24 +20,24 @@
     -   [Add a file](#add-a-file)
     -   [Commit cycle](#commit-cycle)
     -   [Getting help](#getting-help-1)
-    -   [Add more history](#add-more-history)
-    -   [Add more history; look at Staging area vs
-        Workspace](#add-more-history-look-at-staging-area-vs-workspace)
+    -   [First stage, then commit](#first-stage-then-commit)
     -   [View commit history in the
         log](#view-commit-history-in-the-log)
+    -   [Show changes to Workspace and
+        Index](#show-changes-to-workspace-and-index)
+    -   [What goes in a commit?](#what-goes-in-a-commit)
     -   [Directories aren\'t content](#directories-arent-content)
 -   [Exploring history](#exploring-history)
     -   [Add more text to Workspace](#add-more-text-to-workspace)
-    -   [Inspect our changes](#inspect-our-changes)
-    -   [Range syntax also works for
-        logs](#range-syntax-also-works-for-logs)
-    -   [Using unique ID instead of HEAD
-        offset](#using-unique-id-instead-of-head-offset)
+    -   [View subsets of project
+        history](#view-subsets-of-project-history)
+    -   [`diff` using a commit ID instead of the HEAD
+        offset](#diff-using-a-commit-id-instead-of-the-head-offset)
     -   [Restore the Workspace to a clean
         state](#restore-the-workspace-to-a-clean-state)
 -   [Moving through time](#moving-through-time)
-    -   [Checkout old version of a
-        file](#checkout-old-version-of-a-file)
+    -   [Check out an old version of a
+        file](#check-out-an-old-version-of-a-file)
     -   [Don\'t lose your head](#dont-lose-your-head)
 -   [Branching and merging](#branching-and-merging)
     -   [Create a new branch and switch to
@@ -45,21 +45,33 @@
     -   [Create a new file](#create-a-new-file)
     -   [Switch back to master and
         merge](#switch-back-to-master-and-merge)
+-   [Local conflicts](#local-conflicts)
+    -   [Create and edit a \"pepper\"
+        branch](#create-and-edit-a-pepper-branch)
+    -   [Switch back to main branch and create a conflicting
+        edit](#switch-back-to-main-branch-and-create-a-conflicting-edit)
+    -   [Attempt to merge \"pepper\"
+        branch](#attempt-to-merge-pepper-branch)
+    -   [Resolve conflicts and create
+        commit](#resolve-conflicts-and-create-commit)
 -   [Ignoring Things](#ignoring-things)
     -   [Create some output files](#create-some-output-files)
     -   [Create .gitignore](#create-.gitignore)
-    -   [Ignore some files](#ignore-some-files)
--   [Github](#github)
+    -   [Add ignore criteria to your .gitignore
+        file](#add-ignore-criteria-to-your-.gitignore-file)
+-   [(Optional) Github](#optional-github)
     -   [Git != Github](#git-github)
     -   [Set up new repository](#set-up-new-repository)
     -   [Configure remotes and push from
         local](#configure-remotes-and-push-from-local)
     -   [Check that you are up to date](#check-that-you-are-up-to-date)
--   [Collaborating](#collaborating)
+-   [(Optional) Collaborating](#optional-collaborating)
     -   [Clone your repository](#clone-your-repository)
     -   [Edit trees.txt](#edit-trees.txt)
     -   [Update and push](#update-and-push)
--   [Conflicts](#conflicts)
+    -   [Collaboration models](#collaboration-models)
+-   [(Optional) Collaboration
+    conflicts](#optional-collaboration-conflicts)
     -   [Person 1 edits
         \~/Desktop/garden/shopping_list.txt](#person-1-edits-desktopgardenshopping_list.txt)
     -   [Person 2 edits \~/Desktop/garden-clone/shopping_list.txt
@@ -67,11 +79,12 @@
         pulling](#person-2-edits-desktopgarden-cloneshopping_list.txt-without-pulling)
     -   [Edit conflict, stage, commit, and
         push](#edit-conflict-stage-commit-and-push)
--   [Pull Requests](#pull-requests)
-    -   [Shared Repository Workflow](#shared-repository-workflow)
+-   [Version control with Python source vs. iPython
+    notebooks](#version-control-with-python-source-vs.-ipython-notebooks)
+-   [Git command summary](#git-command-summary)
 -   [Graphical User Interfaces](#graphical-user-interfaces)
--   [Version control with source
-    vs. notebooks](#version-control-with-source-vs.-notebooks)
+    -   [Pro](#pro)
+    -   [Cons](#cons)
 -   [Next steps (intermediate Git)](#next-steps-intermediate-git)
 -   [Credits](#credits)
 -   [References](#references)
@@ -175,13 +188,13 @@ file since your previous snapshot, Git will re-use the old version of
 that file to save space
 (<https://git-scm.com/>).](images/snapshots.png "Snapshot History")
 
-```{=org}
-#+CAPTION: Base your new work on the most recent snapshot.
-```
-```{=org}
-#+ATTR_ODT: :width 12
-```
-![](images/local-repository.png "Workspace or Working Tree"){width="100px"}
+![](images/git_bisect_1.jpg "Bisect 1")
+
+![](images/git_bisect_2.jpg "Bisect 2")
+
+![](images/git_bisect_3.jpg "Bisect 3")
+
+![](images/git_bisect_4.jpg "Bisect 4")
 
 -   Move backwards and forwards in time using save points in your code
     history.
@@ -193,6 +206,13 @@ that file to save space
     useful features are text-oriented)
 
 # Setup
+
+## Inspect your configuration
+
+``` bash
+git config --list                   # or -l
+git config --list --show-origin     # where is this setting coming from?
+```
 
 ## Identify yourself
 
@@ -222,29 +242,22 @@ git config --global core.editor nano
 
 ## Updating remotes
 
-Only push the current branch (more about this later):
+1.  Only push the current branch (more about this later):
 
-``` bash
-git config --global push.default simple
-```
+    ``` bash
+    git config --global push.default simple
+    ```
 
-Merge, don\'t rebase (more about this later):
+2.  Merge, don\'t rebase (more about this later):
 
-``` bash
-git config --global pull.rebase false
-```
+    ``` bash
+    git config --global pull.rebase false
+    ```
 
 ## (Optional) Change name of default branch
 
 ``` bash
 git config --global init.defaultBranch main
-```
-
-## Inspect your configuration
-
-``` bash
-git config --list                   # or -l
-git config --list --show-origin     # where is this setting coming from?
 ```
 
 # Creating a repository
@@ -267,10 +280,15 @@ ls
 ls -a
 ```
 
-Git uses this special subdirectory to store all the information about
-the project, including all files and sub-directories located within the
-project\'s directory. If we ever delete the \`.git\` subdirectory, we
-will lose the project\'s history.
+![Base your new work on the most recent
+snapshot.](images/local-repository.png "Workspace or Working Tree")
+
+-   Git uses this special subdirectory to store all the information
+    about the project, including all files and sub-directories located
+    within the project\'s directory. If we ever delete the \`.git\`
+    subdirectory, we will lose the project\'s history.
+-   Only one version of a file is visible; the rest are available in the
+    database
 
 ## Check status (we will do this a lot)
 
@@ -279,6 +297,9 @@ git status
 ```
 
 # Tracking changes
+
+You can edit with nano or with the text editor of your choice. We\'ll
+try to show the editor and the command line side-by-side.
 
 ## Add a file
 
@@ -300,7 +321,11 @@ cat shopping_list.txt
 
 ## Commit cycle
 
-![Build a new snapshot (\"commit\") in the Staging
+Manually assemble your next save point in the Staging area (\"Index\").
+When you\'re happy with it, commit it to the repository to create a new
+version of your project.
+
+![Build a new save point (\"commit\") in the Staging
 Area.](images/git-staging-area.svg "First Commit")
 
 ![Commits include additions and
@@ -324,103 +349,122 @@ git status
 ## Getting help
 
 ``` bash
-# Concicse help
+# Concise help
 git add -h
 
 # Verbose help
 man git-add
 ```
 
-## Add more history
+## First stage, then commit
 
-Edit with editor of your choice:
+1.  Edit the file
 
-``` example
-1. Cherry tomatoes
-2. Italian basil
-```
+    ``` example
+    1. Cherry tomatoes
+    2. Italian basil
+    ```
 
-``` bash
-git status
-git diff
+    ``` bash
+    git status
+    git diff
+    ```
 
-# If you try to commit the file before you add it to the Staging area,
-# nothing happens:
-git commit -m "Add basil"
-git status
+2.  If you try to commit the file before you add it to the Staging area,
+    nothing happens
 
-# Add file to Staging area, then commit:
-git add shopping_list.txt
-git commit -m "Add basil"
-```
+    ``` bash
+    git commit -m "Add basil"
+    git status
+    ```
 
-**Instructor\'s note:** Update drawing with repository history going
-back in time (H, H\~1, H\~2...)
+3.  You have to add the file to the Staging area, then commit
 
-## Add more history; look at Staging area vs Workspace
-
-``` example
-1. Cherry tomatoes
-2. Italian basil
-3. Jalapenos
-```
-
-``` bash
-# By default, "diff" shows changes to Workspace
-git status
-git diff
-
-# Once the file is added to Staging, "diff" no longer shows changes
-git add shopping_list.txt
-git status
-git diff
-
-# You can examine Staging instead
-git diff --cached               # or "--staged"
-git commit -m "Add peppers"
-git status
-```
-
--   Staging area is for creating sensible commits. You can edit multiple
-    files and only add a subset of them to a given commit. This makes it
-    easier to look back at your work.
--   What goes in a commit?
-    -   A coherent functional chunk (whatever that means)
-    -   If you wanted to cleanly roll back, what would that look like?
+    ``` bash
+    git add shopping_list.txt
+    git commit -m "Add basil"
+    ```
 
 ## View commit history in the log
 
 ``` bash
 git log
 git log --oneline
+```
+
+1.  You can identify a commit by unique ID or by HEAD offset (H,
+    HEAD\~1, HEAD\~2,...)
+2.  HEAD is a pointer to the most recent commit (of the active branch)
+
+### (Optional) Additional log options
+
+``` bash
 git log --oneline --graph       # Useful if you have many branches
 git log --author=~Gilgamesh
 git log --since=5.days          # or weeks, months, years
 ```
 
--   You can identify commit by unique ID or by HEAD offset
--   HEAD is a pointer to the most recent commit
+## Show changes to Workspace and Index
+
+1.  Edit the file
+
+    ``` example
+    1. Cherry tomatoes
+    2. Italian basil
+    3. Jalapenos
+    ```
+
+2.  By default, `diff` shows changes to Workspace
+
+    ``` bash
+    git status
+    git diff
+    ```
+
+3.  Once the file is added to Staging, `diff` no longer shows changes
+
+    ``` bash
+    git add shopping_list.txt
+    git status
+    git diff
+    ```
+
+4.  You can examine Staging instead
+
+    ``` bash
+    git diff --staged               # or "--cached"
+    git commit -m "Add peppers"
+    git status
+    ```
+
+## What goes in a commit?
+
+1.  Staging area is for creating sensible commits. You can edit multiple
+    files and only add a subset of them to a given commit. This makes it
+    easier to look back at your work.
+2.  A commit should be a coherent functional chunk (whatever that
+    means). One way to think about it: If you wanted to cleanly undo
+    your work, what would that look like?
 
 ## Directories aren\'t content
 
-Try to commit an empty directory:
+1.  Try to commit an empty directory
 
-``` bash
-mkdir flowers
-git status
-git add flowers
-git status
-```
+    ``` bash
+    mkdir flowers
+    git status
+    git add flowers
+    git status
+    ```
 
-Now add files and try again:
+2.  Now add files and try again
 
-``` bash
-touch flowers/roses flowers/tulips
-git status
-ls flowers
-git add flowers
-git commit -m "Initial thoughts on flowers"
-```
+    ``` bash
+    touch flowers/roses flowers/tulips
+    git status
+    git add flowers
+    git commit -m "Initial thoughts on flowers"
+    ```
 
 # Exploring history
 
@@ -433,13 +477,11 @@ git commit -m "Initial thoughts on flowers"
 4. Cayenne peppers
 ```
 
-## Inspect our changes
+## View subsets of project history
 
 ``` bash
-cat shopping_list.txt
-
-# Identical to "git diff" with no argument
-git diff HEAD shopping_list.txt
+# NB: This is identical to "git diff" with no argument
+# git diff HEAD shopping_list.txt
 
 # Show all changes back to this point
 git diff HEAD~1 shopping_list.txt
@@ -452,46 +494,62 @@ git show HEAD~3 shopping_list.txt
 git diff HEAD~3..HEAD~1 shopping_list.txt
 ```
 
-## Range syntax also works for logs
+### Range syntax also works for logs
 
 ``` bash
 git log HEAD~3..HEAD~1
 ```
 
-## Using unique ID instead of HEAD offset
+## `diff` using a commit ID instead of the HEAD offset
 
 ``` bash
-git diff f22b25e3233b4645dabd0d81e651fe074bd8e73b shopping_list.txt
+# Theoretically you can do this
+# git diff f22b25e3233b4645dabd0d81e651fe074bd8e73b shopping_list.txt
 
-# Use reduced ID from "git log --oneline"
+# Use reduced 7-character ID from "git log --oneline"
 git diff f22b25e shopping_list.txt
 ```
 
 ## Restore the Workspace to a clean state
 
 ``` bash
-git status                      # We have unstaged changes
+# We have unstaged changes
+git status
 
 # Revert the working tree to the most recent commit
-git checkout HEAD shopping_list.txt
+git restore shopping_list.txt
+
+# Check whether your editor is automatically updating!
 cat shopping_list.txt
+
+# The old way of doing it:
+# git checkout HEAD shopping_list.txt
 ```
 
 # Moving through time
 
-## Checkout old version of a file
+## Check out an old version of a file
 
 ![Check out an old commit to view
 it](images/git-checkout.svg "Checkout")
 
 ``` bash
-git checkout f22b25e shopping_list.txt   # or "git checkout HEAD~3 shopping_list.txt"
+git checkout f22b25e shopping_list.txt
+
+# Alternatively, you can use the HEAD offset:
+git checkout HEAD~3 shopping_list.txt
+
+# View the changed file in the Working Tree
 cat shopping_list.txt
 
-# These changes are also in the Staging area; do a commit if you want to keep
-# this older version
+# These changes are also in the Staging area; you can create a new commit
+# that includes the older file version.
 git status
-git checkout HEAD shopping_list.txt      # get back the new version
+git diff
+git diff --staged
+
+# Go back to the most recent version
+git checkout HEAD shopping_list.txt
 ```
 
 **Instructor\'s note:** Update drawing with files moving in and out of
@@ -505,41 +563,44 @@ What if you want to see a previous version of the whole project?
 # Detached HEAD moves the whole HEAD pointer back to an earlier version
 git checkout HEAD~2
 git status
+git log --oneline
 
 # Move HEAD back to latest commit by checking out the branch name
 git checkout master
 ```
+
+**Instructor\'s note:** Update drawing with moving HEAD pointer
 
 -   You can also check out a tag.
 -   Unfortunately some of these terms, like \"checkout\", are
     overloaded. Think about what you want to do to your history, then
     look up the appropriate command.
 
-**Instructor\'s note:** Update drawing with moving HEAD pointer
-
 # Branching and merging
 
-```{=org}
-#+CAPTION: Git branching and Merging (https://imgur.com/gallery/YG8In8X/new)
-```
-```{=org}
-#+ATTR_ORG: :width 200px
-```
-![](images/branch-merge.png "Branching and Merging")
+![Git branching and Merging
+(<https://imgur.com/gallery/YG8In8X/new>)](images/branch-merge.png "Branching and Merging")
 
 ## Create a new branch and switch to it
-
-``` bash
-git checkout -b feature         # equivalent to "git branch feature" + "git checkout feature"
-git branch                      # Show all branches
-git status
-```
 
 ![Check out the branch to work on it
 (1)](images/branch-old.png "Main branch")
 
 ![Check out the branch to work on it
 (2)](images/branch-new.png "Feature branch")
+
+``` bash
+# Create a new branch
+git branch feature
+
+# Show all branches
+git branch
+
+# Switch to new branch
+git switch feature
+git branch
+git status
+```
 
 ## Create a new file
 
@@ -553,27 +614,96 @@ This is a new feature we're trying out
 ```
 
 ``` bash
+git status
 git add feature.txt
 git commit -m "Added a trial feature"
-ls                              # We have a new file
 ```
 
 ## Switch back to master and merge
 
+![Pre-merge history](images/basic-merging-1.png "Pre-merge history")
+
+![Post-merge history](images/basic-merging-2.png "Post-merge history")
+
 ``` bash
-git checkout master
-ls                              # File doesn't exist on the master branch
+# File doesn't exist on the master branch
+git switch master
+ls
+
+# Merging the feature branch adds your changes
 git merge feature
-ls                              # Merging the feature branch adds your changes
+ls
 ```
 
--   This is simplest possible case; all of the new changes were in one
-    branch
+-   This is simplest possible case: All of the new changes were in one
+    branch (Fast-Forward merge moves branch tag)
+-   A branch history with competing changes is shown in the Conflicts
+    section below (Recursive merge, which resembles the octopus diagram)
 
-**Instructor\'s note:** Draw the branch history with the merge
-(Fast-Forward merge moves branch tag). A branch history with competing
-changes is shown in the Conflicts section below (Recursive merge
-resembles octopus graph)
+# Local conflicts
+
+## Create and edit a \"pepper\" branch
+
+``` bash
+git branch pepper
+git switch pepper
+```
+
+``` example
+1. Cherry tomatoes
+2. Italian basil
+3. Jalapenos
+4. Cayenne peppers
+```
+
+``` bash
+git add shopping_list.txt
+git commit -m "Added peppers to pepper branch"
+```
+
+## Switch back to main branch and create a conflicting edit
+
+``` bash
+git switch master
+```
+
+``` example
+1. Cherry tomatoes
+2. Italian basil
+3. Jalapenos
+4. Garlic
+```
+
+``` bash
+git add shopping_list.txt
+git commit -m "Added garlic to main branch"
+```
+
+## Attempt to merge \"pepper\" branch
+
+``` bash
+git merge pepper
+```
+
+## Resolve conflicts and create commit
+
+Edit the file to resolve the conflict. You can delete one of the two
+lines, combine them, or make any other changes. Delete the conflict
+markers before staging the file (the lines beginning in \"\<\", \"=\",
+and \"\>\").
+
+``` example
+<<<<<<< HEAD
+4. Garlic
+=======
+4. Cayenne peppers
+>>>>>>> dabb4c8c450e8475aee9b14b4383acc99f42af1d
+```
+
+``` bash
+git add shopping_list.txt
+git commit -m "Added garlic to main branch"
+```
 
 # Ignoring Things
 
@@ -593,7 +723,7 @@ touch .gitignore
 ls -a
 ```
 
-## Ignore some files
+## Add ignore criteria to your .gitignore file
 
 ``` example
 *.dat
@@ -601,7 +731,7 @@ results/
 ```
 
 ``` bash
-# We are ignoreing .dat files and tracking .gitignore
+# We are ignoring .dat files and tracking .gitignore
 git status
 git add .gitignore
 git commit -m "Ignore output files"
@@ -613,15 +743,9 @@ git commit -m "Ignore output files"
     binaries (dmg, iso, exe), compiler output, log files, and .DS_Store
     (Mac)
 
-# Github
+# (Optional) Github
 
-```{=org}
-#+CAPTION: Coordinate with co-authors.
-```
-```{=org}
-#+ATTR_ODT: :width 12
-```
-![](images/distributed.png "Distributed version control"){width="100px"}
+![Coordinate with co-authors.](images/distributed.png "Pre-merge state")
 
 ## Git != Github
 
@@ -653,13 +777,13 @@ git push
 
 ## Check that you are up to date
 
+`pull` is a shortcut for `fetch` + `merge`
+
 ``` bash
 git pull
 ```
 
--   `pull` is a shortcut for `fetch` + `merge`
-
-# Collaborating
+# (Optional) Collaborating
 
 **Instructor\'s note:** Demo this section with two terminal windows, one
 for \"garden\" and one for \"garden-clone\"
@@ -694,13 +818,27 @@ git pull
 ls
 ```
 
-# Conflicts
+## Collaboration models
 
-![A more complicated merge
-(1)](images/basic-merging-1.png "Pre-merge state")
+cf.
+<https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/getting-started/about-collaborative-development-models>
 
-![A more complicated merge
-(2)](images/basic-merging-2.png "gPost-merge state")
+### Shared Repository workflow
+
+1.  Clone repository
+2.  Create new branch
+3.  Push branch to shared repository
+4.  Request merge
+
+### Fork-and-Pull workflow
+
+1.  Fork repository
+2.  Clone forked repository
+3.  Create branch (optional)
+4.  Push changes to forked repository
+5.  Create pull request for original repository
+
+# (Optional) Collaboration conflicts
 
 ## Person 1 edits \~/Desktop/garden/shopping_list.txt
 
@@ -763,54 +901,62 @@ git config --global merge.tool meld
 -   Always pull before you push
 -   To minimize conflicts, do your work on a separate branch
 
-# Pull Requests
+# Version control with Python source vs. iPython notebooks
 
-cf.
-<https://docs.github.com/en/github/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests>
-Topics to discuss:
+.ipynb files contain a lot of JSON boilerplate that isn\'t code
 
--   Shared Repository model vs. Fork-and-Pull model
--   Protected branches
--   Create a pull request
--   Request a PR review
--   Merging PR
+# Git command summary
 
-## Shared Repository Workflow
-
-1.  Clone repository
-2.  Create branch
-3.  Create pull request
+Git commands are about moving stuff between trees:
+<https://ndpsoftware.com/git-cheatsheet.html>
 
 # Graphical User Interfaces
 
--   Pro
-    -   Viewing history is usually a much better experience
--   Cons
-    -   Not fully functional (missing commands and command options)
-    -   Git is still complicated. Menus and buttons don't change that.
+## Pro
 
-# Version control with source vs. notebooks
+1.  Viewing history is a much better experience
 
--   .ipynb files contain a lot of JSON boilerplate that isn\'t code
+## Cons
+
+1.  Not fully functional (missing commands and command options)
+2.  Git is still complicated. Menus and buttons don't change that.
+3.  Accidental button presses are scary
 
 # Next steps (intermediate Git)
 
-### Useful commands that you should add to your repertoire
+### Useful commands
 
 -   `git blame`: See who changed each line of a file
 -   `git bisect`: Find out when a change was introduced (good man page)
--   `git revert`: Undo your recent commits (good man page)
 -   `git add --patch`: Stage a part of a file (\"hunk\") instead the
     entire file
--   `git -i` \[command\]: Run a command interactively, confirming each
+-   `git -i <command>`: Run a command interactively, confirming each
     step
 
-### Potentially dangerous commands that are useful in certain circumstances. Use with caution!
+### Restore, Revert, and Reset
 
--   `git reset`: Throw away uncommitted changes (there are many options
-    that affect what gets thrown away; read the documentation)
--   `git reset --hard`: Throw away some of your commits to get back to
-    an earlier project state. Cannot be undone!
+Each of these is a different answer to the question, \"How do I get back
+to where I was?\" They are listed from least dangerous to most
+dangerous.
+
+-   `git-restore`: Restore files in the working tree from the index or
+    from another commit. This command does not update your branch.
+-   `git-revert`: Make a new commit that reverts the changes made by
+    other commits (good man page)
+-   `git-reset`: Update your branch, moving the tip in order to add or
+    remove commits from the branch (i.e. it moves the HEAD pointer
+    around and then takes additional actions base on the options you
+    provide). This operation changes the commit history.
+
+### Dangerous but useful commands
+
+These commands are potentially dangerous because they rewrite history.
+You should never change or delete history that you have shared with
+other people.
+
+-   `git reset`: Delete uncommitted changes
+-   `git reset --hard`: Delete some of your commits to get back to an
+    earlier project state. Cannot be undone!
 -   `git rebase`: Rewrite the history of branch A to include branch B.
     This is different than merging branch B into branch A; merging
     retains your project history, whereas rebasing rewrites that
@@ -846,3 +992,4 @@ Topics to discuss:
     <https://codewords.recurse.com/issues/two/git-from-the-inside-out>
 5.  A Visual Git Reference:
     <https://marklodato.github.io/visual-git-guide/index-en.html>
+6.  Visual cheat sheet: <https://ndpsoftware.com/git-cheatsheet.html>

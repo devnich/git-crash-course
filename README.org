@@ -182,7 +182,7 @@ cat shopping_list.txt
 #+END_SRC
 
 ** Commit cycle
-Manually assemble your next save point in the Staging Area. When you're happy with it, commit it to the repository to create a new version of your project.
+Manually assemble your next save point in the Staging area ("Index"). When you're happy with it, commit it to the repository to create a new version of your project.
 
 #+NAME: First Commit
 #+CAPTION: Build a new save point ("commit") in the Staging Area.
@@ -244,17 +244,17 @@ git log
 git log --oneline
 #+END_SRC
 
-1. You can identify commit by unique ID or by HEAD offset (H, HEAD~1, HEAD~2,...)
+1. You can identify a commit by unique ID or by HEAD offset (H, HEAD~1, HEAD~2,...)
 2. HEAD is a pointer to the most recent commit (of the active branch)
 
-*** Additional log options
+*** (Optional) Additional log options
 #+BEGIN_SRC bash
 git log --oneline --graph       # Useful if you have many branches
 git log --author=~Gilgamesh
 git log --since=5.days          # or weeks, months, years
 #+END_SRC
 
-** Show changes to Workspace and Staging
+** Show changes to Workspace and Index
 1. Edit the file
    #+BEGIN_EXAMPLE
    1. Cherry tomatoes
@@ -299,7 +299,6 @@ git log --since=5.days          # or weeks, months, years
    #+BEGIN_SRC bash
    touch flowers/roses flowers/tulips
    git status
-   ls flowers
    git add flowers
    git commit -m "Initial thoughts on flowers"
    #+END_SRC
@@ -315,8 +314,8 @@ git log --since=5.days          # or weeks, months, years
 
 ** View subsets of project history
 #+BEGIN_SRC bash
-# Identical to "git diff" with no argument
-git diff HEAD shopping_list.txt
+# NB: This is identical to "git diff" with no argument
+# git diff HEAD shopping_list.txt
 
 # Show all changes back to this point
 git diff HEAD~1 shopping_list.txt
@@ -336,9 +335,10 @@ git log HEAD~3..HEAD~1
 
 ** ~diff~ using a commit ID instead of the HEAD offset
 #+BEGIN_SRC bash
-git diff f22b25e3233b4645dabd0d81e651fe074bd8e73b shopping_list.txt
+# Theoretically you can do this
+# git diff f22b25e3233b4645dabd0d81e651fe074bd8e73b shopping_list.txt
 
-# Use reduced ID from "git log --oneline"
+# Use reduced 7-character ID from "git log --oneline"
 git diff f22b25e shopping_list.txt
 #+END_SRC
 
@@ -357,11 +357,6 @@ cat shopping_list.txt
 # git checkout HEAD shopping_list.txt
 #+END_SRC
 
-* Restoring files (NEW)
-https://stackoverflow.com/a/58003889
-https://stackoverflow.com/a/57066072
-https://stackoverflow.com/a/57066202
-
 * Moving through time
 ** Check out an old version of a file
 #+NAME: Checkout
@@ -369,16 +364,24 @@ https://stackoverflow.com/a/57066202
 [[file:images/git-checkout.svg]]
 
 #+BEGIN_SRC bash
-git checkout f22b25e shopping_list.txt   # or "git checkout HEAD~3 shopping_list.txt"
+git checkout f22b25e shopping_list.txt
+
+# Alternatively, you can use the HEAD offset:
+git checkout HEAD~3 shopping_list.txt
+
+# View the changed file in the Working Tree
 cat shopping_list.txt
 
-# These changes are also in the Staging area; do a commit if you want to keep
-# this older version
+# These changes are also in the Staging area; you can create a new commit
+# that includes the older file version.
 git status
 git diff
 git diff --staged
-git checkout HEAD shopping_list.txt      # get back the new version
+
+# Go back to the most recent version
+git checkout HEAD shopping_list.txt
 #+END_SRC
+
 *Instructor's note:*  Update drawing with files moving in and out of working tree/staging area
 
 ** Don't lose your head
@@ -387,13 +390,16 @@ What if you want to see a previous version of the whole project?
 # Detached HEAD moves the whole HEAD pointer back to an earlier version
 git checkout HEAD~2
 git status
+git log --oneline
 
 # Move HEAD back to latest commit by checking out the branch name
 git checkout master
 #+END_SRC
+
+*Instructor's note:*  Update drawing with moving HEAD pointer
+
 - You can also check out a tag.
 - Unfortunately some of these terms, like "checkout", are overloaded. Think about what you want to do to your history, then look up the appropriate command.
-*Instructor's note:*  Update drawing with moving HEAD pointer
 
 * Branching and merging
 #+NAME: Branching and Merging
@@ -401,12 +407,6 @@ git checkout master
 [[file:images/branch-merge.png]]
 
 ** Create a new branch and switch to it
-#+BEGIN_SRC bash
-git checkout -b feature         # equivalent to "git branch feature" + "git checkout feature"
-git branch                      # Show all branches
-git status
-#+END_SRC
-
 #+NAME: Main branch
 #+CAPTION: Check out the branch to work on it (1)
 [[file:images/branch-old.png]]
@@ -414,6 +414,19 @@ git status
 #+NAME: Feature branch
 #+CAPTION: Check out the branch to work on it (2)
 [[file:images/branch-new.png]]
+
+#+BEGIN_SRC bash
+# Create a new branch
+git branch feature
+
+# Show all branches
+git branch
+
+# Switch to new branch
+git switch feature
+git branch
+git status
+#+END_SRC
 
 ** Create a new file
 #+BEGIN_SRC bash
@@ -426,20 +439,88 @@ This is a new feature we're trying out
 #+END_EXAMPLE
 
 #+BEGIN_SRC bash
-  git add feature.txt
-  git commit -m "Added a trial feature"
-  ls                              # We have a new file
+git status
+git add feature.txt
+git commit -m "Added a trial feature"
 #+END_SRC
 
 ** Switch back to master and merge
+#+NAME: Pre-merge history
+#+CAPTION: Pre-merge history
+[[file:images/basic-merging-1.png]]
+
+#+NAME: Post-merge history
+#+CAPTION: Post-merge history
+[[file:images/basic-merging-2.png]]
+
 #+BEGIN_SRC bash
-  git checkout master
-  ls                              # File doesn't exist on the master branch
-  git merge feature
-  ls                              # Merging the feature branch adds your changes
+# File doesn't exist on the master branch
+git switch master
+ls
+
+# Merging the feature branch adds your changes
+git merge feature
+ls
 #+END_SRC
-- This is simplest possible case; all of the new changes were in one branch
-*Instructor's note:*  Draw the branch history with the merge (Fast-Forward merge moves branch tag). A branch history with competing changes is shown in the Conflicts section below (Recursive merge resembles octopus graph)
+
+- This is simplest possible case: All of the new changes were in one branch (Fast-Forward merge moves branch tag)
+- A branch history with competing changes is shown in the Conflicts section below (Recursive merge, which resembles the octopus diagram)
+
+* Local conflicts
+** Create and edit a "pepper" branch
+#+BEGIN_SRC bash
+git branch pepper
+git switch pepper
+#+END_SRC
+
+#+BEGIN_EXAMPLE
+1. Cherry tomatoes
+2. Italian basil
+3. Jalapenos
+4. Cayenne peppers
+#+END_EXAMPLE
+
+#+BEGIN_SRC bash
+git add shopping_list.txt
+git commit -m "Added peppers to pepper branch"
+#+END_SRC
+
+** Switch back to main branch and create a conflicting edit
+#+BEGIN_SRC bash
+git switch master
+#+END_SRC
+
+#+BEGIN_EXAMPLE
+1. Cherry tomatoes
+2. Italian basil
+3. Jalapenos
+4. Garlic
+#+END_EXAMPLE
+
+#+BEGIN_SRC bash
+git add shopping_list.txt
+git commit -m "Added garlic to main branch"
+#+END_SRC
+
+** Attempt to merge "pepper" branch
+#+BEGIN_SRC bash
+git merge pepper
+#+END_SRC
+
+** Resolve conflicts and create commit
+Edit the file to resolve the conflict. You can delete one of the two lines, combine them, or make any other changes. Delete the conflict markers before staging the file (the lines beginning in "<", "=", and ">").
+#+BEGIN_EXAMPLE
+<<<<<<< HEAD
+4. Garlic
+=======
+4. Cayenne peppers
+>>>>>>> dabb4c8c450e8475aee9b14b4383acc99f42af1d
+#+END_EXAMPLE
+
+#+BEGIN_SRC bash
+git add shopping_list.txt
+git commit -m "Added garlic to main branch"
+#+END_SRC
 
 * Ignoring Things
 ** Create some output files
@@ -456,22 +537,23 @@ touch .gitignore
 ls -a
 #+END_SRC
 
-** Ignore some files
+** Add ignore criteria to your .gitignore file
 #+BEGIN_EXAMPLE
 *.dat
 results/
 #+END_EXAMPLE
 
 #+BEGIN_SRC bash
-# We are ignoreing .dat files and tracking .gitignore
+# We are ignoring .dat files and tracking .gitignore
 git status
 git add .gitignore
 git commit -m "Ignore output files"
 #+END_SRC
+
 - Ignoring complicated directory structures can be tricky, come talk to me
 - You should generally ignore archives (zip, tar), images (png, jpg), binaries (dmg, iso, exe), compiler output, log files, and .DS_Store (Mac)
 
-* Github
+* (Optional) Github
 #+NAME: Pre-merge state
 #+CAPTION: Coordinate with co-authors.
 [[file:images/distributed.png]]
@@ -493,18 +575,19 @@ git remote add origin https://github.com/devnich/garden.git
 git remote -v
 git push origin master          # you should get a password prompt
 #+END_SRC
+
 If you configure your origin as upstream, you can just do:
 #+BEGIN_SRC bash
 git push
 #+END_SRC
 
 ** Check that you are up to date
+~pull~ is a shortcut for ~fetch~ + ~merge~
 #+BEGIN_SRC bash
 git pull
 #+END_SRC
-- ~pull~ is a shortcut for ~fetch~ + ~merge~
 
-* Collaborating
+* (Optional) Collaborating
 *Instructor's note:* Demo this section with two terminal windows, one for "garden" and one for "garden-clone"
 ** Clone your repository
 #+BEGIN_SRC bash
@@ -533,15 +616,22 @@ git pull
 ls
 #+END_SRC
 
-* Conflicts
-#+NAME: Pre-merge state
-#+CAPTION: A more complicated merge (1)
-[[file:images/basic-merging-1.png]]
+** Collaboration models
+cf. https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/getting-started/about-collaborative-development-models
+*** Shared Repository workflow
+1. Clone repository
+2. Create new branch
+3. Push branch to shared repository
+4. Request merge
 
-#+NAME: Post-merge state
-#+CAPTION: A more complicated merge (2)
-[[file:images/basic-merging-2.png]]
+*** Fork-and-Pull workflow
+1. Fork repository
+2. Clone forked repository
+3. Create branch (optional)
+4. Push changes to forked repository
+5. Create pull request for original repository
 
+* (Optional) Collaboration conflicts
 ** Person 1 edits ~/Desktop/garden/shopping_list.txt
 #+BEGIN_EXAMPLE
 1. Cherry tomatoes
@@ -592,40 +682,39 @@ git config --global merge.tool meld
 - Open source merge tools include Vimdiff, Meld, Kdiff, Gitfiend, Git Cola, etc. There are many other options!
 - Always pull before you push
 - To minimize conflicts, do your work on a separate branch
-* Pull Requests
-cf. https://docs.github.com/en/github/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests
-Topics to discuss:
-- Shared Repository model vs. Fork-and-Pull model
-- Protected branches
-- Create a pull request
-- Request a PR review
-- Merging PR
-** Shared Repository Workflow
-1. Clone repository
-2. Create branch
-3. Create pull request
+
+* Version control with Python source vs. iPython notebooks
+.ipynb files contain a lot of JSON boilerplate that isn't code
+
+* Git command summary
+Git commands are about moving stuff between trees: https://ndpsoftware.com/git-cheatsheet.html
 
 * Graphical User Interfaces
-- Pro
-  - Viewing history is usually a much better experience
-- Cons
-  - Not fully functional (missing commands and command options)
-  - Git is still complicated. Menus and buttons don’t change that.
+** Pro
+1. Viewing history is a much better experience
 
-* Version control with source vs. notebooks
-- .ipynb files contain a lot of JSON boilerplate that isn't code
+** Cons
+1. Not fully functional (missing commands and command options)
+2. Git is still complicated. Menus and buttons don’t change that.
+3. Accidental button presses are scary
 
 * Next steps (intermediate Git)
-*** Useful commands that you should add to your repertoire
+*** Useful commands
 - ~git blame~: See who changed each line of a file
 - ~git bisect~: Find out when a change was introduced (good man page)
-- ~git revert~: Undo your recent commits (good man page)
-- ~git add --patch~: Stage a part of a file ("hunk") instead the entire file
-- ~git -i~ [command]: Run a command interactively, confirming each step
+- ~git add --patch~:  Stage a part of a file ("hunk") instead the entire file
+- ~git -i <command>~: Run a command interactively, confirming each step
 
-*** Potentially dangerous commands that are useful in certain circumstances. Use with caution!
-- ~git reset~: Throw away uncommitted changes (there are many options that affect what gets thrown away; read the documentation)
-- ~git reset --hard~: Throw away some of your commits to get back to an earlier project state. Cannot be undone!
+*** Restore, Revert, and Reset
+Each of these is a different answer to the question, "How do I get back to where I was?" They are listed from least dangerous to most dangerous.
+- ~git-restore~: Restore files in the working tree from the index or from another commit. This command does not update your branch.
+- ~git-revert~: Make a new commit that reverts the changes made by other commits (good man page)
+- ~git-reset~: Update your branch, moving the tip in order to add or remove commits from the branch (i.e. it moves the HEAD pointer around and then takes additional actions base on the options you provide). This operation changes the commit history.
+
+*** Dangerous but useful commands
+These commands are potentially dangerous because they rewrite history. You should never change or delete history that you have shared with other people.
+- ~git reset~: Delete uncommitted changes
+- ~git reset --hard~: Delete some of your commits to get back to an earlier project state. Cannot be undone!
 - ~git rebase~: Rewrite the history of branch A to include branch B. This is different than merging branch B into branch A; merging retains your project history, whereas rebasing rewrites that history.
 - ~git squash~: Convert multiple commits into a single commit. This also rewrites your project history.
 
@@ -646,6 +735,12 @@ Topics to discuss:
 3. Git for Advanced Beginners: http://think-like-a-git.net
 4. "Git is built on a graph. Almost every Git command manipulates this graph. To understand Git deeply, focus on the properties of this graph, not workflows or commands.": https://codewords.recurse.com/issues/two/git-from-the-inside-out
 5. A Visual Git Reference: https://marklodato.github.io/visual-git-guide/index-en.html
+6. Visual cheat sheet: https://ndpsoftware.com/git-cheatsheet.html
+
+* COMMENT Restoring files
+- https://stackoverflow.com/a/58003889
+- https://stackoverflow.com/a/57066072
+- https://stackoverflow.com/a/57066202
 
 * COMMENT How to export this document to other formats
 ** Export to Markdown using Pandoc
