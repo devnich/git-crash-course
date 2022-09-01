@@ -699,26 +699,26 @@ Git commands are about moving stuff between trees: https://ndpsoftware.com/git-c
 3. Accidental button presses are scary
 
 * Next steps (intermediate Git)
-*** Useful commands
+** Useful commands
 - ~git blame~: See who changed each line of a file
 - ~git bisect~: Find out when a change was introduced (good man page)
 - ~git add --patch~:  Stage a part of a file ("hunk") instead the entire file
 - ~git -i <command>~: Run a command interactively, confirming each step
 
-*** Restore, Revert, and Reset
+** Restore, Revert, and Reset
 Each of these is a different answer to the question, "How do I get back to where I was?" They are listed from least dangerous to most dangerous.
 - ~git-restore~: Restore files in the working tree from the index or from another commit. This command does not update your branch.
 - ~git-revert~: Make a new commit that reverts the changes made by other commits (good man page)
 - ~git-reset~: Update your branch, moving the tip in order to add or remove commits from the branch (i.e. it moves the HEAD pointer around and then takes additional actions base on the options you provide). This operation changes the commit history.
 
-*** Dangerous but useful commands
+** Dangerous but useful commands
 These commands are potentially dangerous because they rewrite history. You should never change or delete history that you have shared with other people.
 - ~git reset~: Delete uncommitted changes
 - ~git reset --hard~: Delete some of your commits to get back to an earlier project state. Cannot be undone!
 - ~git rebase~: Rewrite the history of branch A to include branch B. This is different than merging branch B into branch A; merging retains your project history, whereas rebasing rewrites that history.
 - ~git squash~: Convert multiple commits into a single commit. This also rewrites your project history.
 
-*** Dangerous commands you should avoid
+** Dangerous commands you should avoid
 - ~git cherry-pick~: Copy a single commit from a different branch. This rewrites your project history piecemeal, which can make it difficult to merge branches in the future.
 
 * Credits
@@ -761,7 +761,7 @@ pandoc -f markdown --toc --toc-depth=2 -s tmp.md -o README.md
 
 *** Find and replace code block markers in final document
 #+BEGIN_EXAMPLE
-M-x qrr ` {.bash}` `bash`
+M-x qrr ``` example ``` fundamental
 #+END_EXAMPLE
 
 ** Export to Markdown using Emacs Org mode

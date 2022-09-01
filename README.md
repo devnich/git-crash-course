@@ -86,6 +86,11 @@
     -   [Pro](#pro)
     -   [Cons](#cons)
 -   [Next steps (intermediate Git)](#next-steps-intermediate-git)
+    -   [Useful commands](#useful-commands)
+    -   [Restore, Revert, and Reset](#restore-revert-and-reset)
+    -   [Dangerous but useful commands](#dangerous-but-useful-commands)
+    -   [Dangerous commands you should
+        avoid](#dangerous-commands-you-should-avoid)
 -   [Credits](#credits)
 -   [References](#references)
 
@@ -308,7 +313,7 @@ touch shopping_list.txt
 nano shopping_list.txt
 ```
 
-``` example
+``` fundamental
 1. Cherry tomatoes
 ```
 
@@ -360,7 +365,7 @@ man git-add
 
 1.  Edit the file
 
-    ``` example
+    ``` fundamental
     1. Cherry tomatoes
     2. Italian basil
     ```
@@ -408,7 +413,7 @@ git log --since=5.days          # or weeks, months, years
 
 1.  Edit the file
 
-    ``` example
+    ``` fundamental
     1. Cherry tomatoes
     2. Italian basil
     3. Jalapenos
@@ -470,7 +475,7 @@ git log --since=5.days          # or weeks, months, years
 
 ## Add more text to Workspace
 
-``` example
+``` fundamental
 1. Cherry tomatoes
 2. Italian basil
 3. Jalapenos
@@ -609,7 +614,7 @@ touch feature.txt
 nano feature.txt
 ```
 
-``` example
+``` fundamental
 This is a new feature we're trying out
 ```
 
@@ -649,7 +654,7 @@ git branch pepper
 git switch pepper
 ```
 
-``` example
+``` fundamental
 1. Cherry tomatoes
 2. Italian basil
 3. Jalapenos
@@ -667,7 +672,7 @@ git commit -m "Added peppers to pepper branch"
 git switch master
 ```
 
-``` example
+``` fundamental
 1. Cherry tomatoes
 2. Italian basil
 3. Jalapenos
@@ -692,7 +697,7 @@ lines, combine them, or make any other changes. Delete the conflict
 markers before staging the file (the lines beginning in \"\<\", \"=\",
 and \"\>\").
 
-``` example
+``` fundamental
 <<<<<<< HEAD
 4. Garlic
 =======
@@ -725,7 +730,7 @@ ls -a
 
 ## Add ignore criteria to your .gitignore file
 
-``` example
+``` fundamental
 *.dat
 results/
 ```
@@ -798,7 +803,7 @@ touch trees.txt
 
 ## Edit trees.txt
 
-``` example
+``` fundamental
 1. Plum
 2. Pluot
 3. Aprium
@@ -842,7 +847,7 @@ cf.
 
 ## Person 1 edits \~/Desktop/garden/shopping_list.txt
 
-``` example
+``` fundamental
 1. Cherry tomatoes
 2. Italian basil
 3. Jalapenos
@@ -857,7 +862,7 @@ git push origin master
 
 ## Person 2 edits \~/Desktop/garden-clone/shopping_list.txt *without* pulling
 
-``` example
+``` fundamental
 1. Cherry tomatoes
 2. Italian basil
 3. Jalapenos
@@ -882,7 +887,7 @@ lines, combine them, or make any other changes. Delete the conflict
 markers before staging the file (the lines beginning in \"\<\", \"=\",
 and \"\>\").
 
-``` example
+``` fundamental
 <<<<<<< HEAD
 4. Garlic
 =======
@@ -924,7 +929,7 @@ Git commands are about moving stuff between trees:
 
 # Next steps (intermediate Git)
 
-### Useful commands
+## Useful commands
 
 -   `git blame`: See who changed each line of a file
 -   `git bisect`: Find out when a change was introduced (good man page)
@@ -933,7 +938,7 @@ Git commands are about moving stuff between trees:
 -   `git -i <command>`: Run a command interactively, confirming each
     step
 
-### Restore, Revert, and Reset
+## Restore, Revert, and Reset
 
 Each of these is a different answer to the question, \"How do I get back
 to where I was?\" They are listed from least dangerous to most
@@ -948,7 +953,7 @@ dangerous.
     around and then takes additional actions base on the options you
     provide). This operation changes the commit history.
 
-### Dangerous but useful commands
+## Dangerous but useful commands
 
 These commands are potentially dangerous because they rewrite history.
 You should never change or delete history that you have shared with
@@ -964,7 +969,7 @@ other people.
 -   `git squash`: Convert multiple commits into a single commit. This
     also rewrites your project history.
 
-### Dangerous commands you should avoid
+## Dangerous commands you should avoid
 
 -   `git cherry-pick`: Copy a single commit from a different branch.
     This rewrites your project history piecemeal, which can make it
