@@ -69,10 +69,12 @@ history | grep ls               # pipe the output of history into search
 #+END_SRC
 
 * Why are we here?
+** Create and revisit a history of project snapshots
 #+NAME: Snapshot History
 #+CAPTION: Git creates a history of code snapshots. If you haven't updated a file since your previous snapshot, Git will re-use the old version of that file to save space (https://git-scm.com/).
 [[file:images/snapshots.png]]
 
+** Determine when a bug was introduced
 #+NAME: Bisect 1
 [[file:images/git_bisect_1.jpg]]
 
@@ -85,6 +87,7 @@ history | grep ls               # pipe the output of history into search
 #+NAME: Bisect 4
 [[file:images/git_bisect_4.jpg]]
 
+** Git helps you...
 - Move backwards and forwards in time using save points in your code history.
 - Control what goes into a save point
 - Collaborate

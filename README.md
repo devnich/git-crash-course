@@ -1,13 +1,11 @@
----
-author: Derek Devnich
-title: Introduction to Git
----
-
 - <a href="#installation-instructions" id="toc-installation-instructions"><span class="toc-section-number">1</span> Installation instructions</a>
 - <a href="#unix-shell" id="toc-unix-shell"><span class="toc-section-number">2</span> Unix Shell</a>
   - <a href="#intro-comments-about-shell" id="toc-intro-comments-about-shell"><span class="toc-section-number">2.1</span> Intro comments about "shell"</a>
   - <a href="#very-brief-bash-intro" id="toc-very-brief-bash-intro"><span class="toc-section-number">2.2</span> Very brief Bash intro</a>
 - <a href="#why-are-we-here" id="toc-why-are-we-here"><span class="toc-section-number">3</span> Why are we here?</a>
+  - <a href="#create-and-revisit-a-history-of-project-snapshots" id="toc-create-and-revisit-a-history-of-project-snapshots"><span class="toc-section-number">3.1</span> Create and revisit a history of project snapshots</a>
+  - <a href="#determine-when-a-bug-was-introduced" id="toc-determine-when-a-bug-was-introduced"><span class="toc-section-number">3.2</span> Determine when a bug was introduced</a>
+  - <a href="#git-helps-you" id="toc-git-helps-you"><span class="toc-section-number">3.3</span> Git helps you…</a>
 - <a href="#setup" id="toc-setup"><span class="toc-section-number">4</span> Setup</a>
   - <a href="#inspect-your-configuration" id="toc-inspect-your-configuration"><span class="toc-section-number">4.1</span> Inspect your configuration</a>
   - <a href="#identify-yourself" id="toc-identify-yourself"><span class="toc-section-number">4.2</span> Identify yourself</a>
@@ -156,7 +154,11 @@ history | grep ls               # pipe the output of history into search
 
 # Why are we here?
 
+## Create and revisit a history of project snapshots
+
 ![Git creates a history of code snapshots. If you haven't updated a file since your previous snapshot, Git will re-use the old version of that file to save space (<https://git-scm.com/>).](images/snapshots.png "Snapshot History")
+
+## Determine when a bug was introduced
 
 ![](images/git_bisect_1.jpg "Bisect 1")
 
@@ -165,6 +167,8 @@ history | grep ls               # pipe the output of history into search
 ![](images/git_bisect_3.jpg "Bisect 3")
 
 ![](images/git_bisect_4.jpg "Bisect 4")
+
+## Git helps you…
 
 - Move backwards and forwards in time using save points in your code history.
 - Control what goes into a save point
