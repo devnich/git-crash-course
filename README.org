@@ -172,6 +172,8 @@ nano shopping_list.txt
 #+END_SRC
 
 #+BEGIN_EXAMPLE
+##--- text file ---##
+
 1. Cherry tomatoes
 #+END_EXAMPLE
 
@@ -217,6 +219,8 @@ man git-add
 ** First stage, then commit
 1. Edit the file
    #+BEGIN_EXAMPLE
+   ##--- text file ---##
+
    1. Cherry tomatoes
    2. Italian basil
    #+END_EXAMPLE
@@ -257,6 +261,8 @@ git log --since=5.days          # or weeks, months, years
 ** Show changes to Workspace and Index
 1. Edit the file
    #+BEGIN_EXAMPLE
+   ##--- text file ---##
+
    1. Cherry tomatoes
    2. Italian basil
    3. Jalapenos
@@ -306,6 +312,8 @@ git log --since=5.days          # or weeks, months, years
 * Exploring history
 ** Add more text to Workspace
 #+BEGIN_EXAMPLE
+##--- text file ---##
+
 1. Cherry tomatoes
 2. Italian basil
 3. Jalapenos
@@ -318,6 +326,7 @@ git log --since=5.days          # or weeks, months, years
 # git diff HEAD shopping_list.txt
 
 # Show all changes back to this point
+# HEAD~1 doesn't have text changes - added directory
 git diff HEAD~1 shopping_list.txt
 git diff HEAD~3 shopping_list.txt
 
@@ -435,6 +444,8 @@ nano feature.txt
 #+END_SRC
 
 #+BEGIN_EXAMPLE
+##--- text file ---##
+
 This is a new feature we're trying out
 #+END_EXAMPLE
 
@@ -474,6 +485,8 @@ git switch pepper
 #+END_SRC
 
 #+BEGIN_EXAMPLE
+##--- text file ---##
+
 1. Cherry tomatoes
 2. Italian basil
 3. Jalapenos
@@ -491,6 +504,8 @@ git switch master
 #+END_SRC
 
 #+BEGIN_EXAMPLE
+##--- text file ---##
+
 1. Cherry tomatoes
 2. Italian basil
 3. Jalapenos
@@ -510,6 +525,8 @@ git merge pepper
 ** Resolve conflicts and create commit
 Edit the file to resolve the conflict. You can delete one of the two lines, combine them, or make any other changes. Delete the conflict markers before staging the file (the lines beginning in "<", "=", and ">").
 #+BEGIN_EXAMPLE
+##--- text file ---##
+
 <<<<<<< HEAD
 4. Garlic
 =======
@@ -539,6 +556,8 @@ ls -a
 
 ** Add ignore criteria to your .gitignore file
 #+BEGIN_EXAMPLE
+##--- text file ---##
+
 *.dat
 results/
 #+END_EXAMPLE
@@ -557,6 +576,15 @@ git commit -m "Ignore output files"
 #+NAME: Pre-merge state
 #+CAPTION: Coordinate with co-authors.
 [[file:images/distributed.png]]
+
+** COMMENT Working with remotes is a generalization of branch merging
+1. git pull merges origin/master branch into local master branch
+2. git push merges local master branch into origin/master branch
+3. Under the hood, pull is fetch + merge
+   1. fetch gets updates from remote
+   2. Local repository has a 2 branches: remote/master and master
+   3. merge merges remote/master into master
+4. Push appears to not be compound?
 
 ** Git != Github
 - easy collaboration
@@ -598,6 +626,8 @@ touch trees.txt
 
 ** Edit trees.txt
 #+BEGIN_EXAMPLE
+##--- text file ---##
+
 1. Plum
 2. Pluot
 3. Aprium
@@ -634,6 +664,8 @@ cf. https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/ge
 * (Optional) Collaboration conflicts
 ** Person 1 edits ~/Desktop/garden/shopping_list.txt
 #+BEGIN_EXAMPLE
+##--- text file ---##
+
 1. Cherry tomatoes
 2. Italian basil
 3. Jalapenos
@@ -648,6 +680,8 @@ git push origin master
 
 ** Person 2 edits ~/Desktop/garden-clone/shopping_list.txt /without/ pulling
 #+BEGIN_EXAMPLE
+##--- text file ---##
+
 1. Cherry tomatoes
 2. Italian basil
 3. Jalapenos
@@ -668,6 +702,8 @@ git pull origin master
 ** Edit conflict, stage, commit, and push
 Edit the file to resolve the conflict. You can delete one of the two lines, combine them, or make any other changes. Delete the conflict markers before staging the file (the lines beginning in "<", "=", and ">").
 #+BEGIN_EXAMPLE
+##--- text file ---##
+
 <<<<<<< HEAD
 4. Garlic
 =======
