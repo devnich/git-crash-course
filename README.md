@@ -48,10 +48,12 @@
   - <a href="#create-.gitignore" id="toc-create-.gitignore"><span class="toc-section-number">11.2</span> Create .gitignore</a>
   - <a href="#add-ignore-criteria-to-your-.gitignore-file" id="toc-add-ignore-criteria-to-your-.gitignore-file"><span class="toc-section-number">11.3</span> Add ignore criteria to your .gitignore file</a>
 - <a href="#optional-github" id="toc-optional-github"><span class="toc-section-number">12</span> (Optional) Github</a>
-  - <a href="#git-github" id="toc-git-github"><span class="toc-section-number">12.1</span> Git != Github</a>
-  - <a href="#set-up-new-repository" id="toc-set-up-new-repository"><span class="toc-section-number">12.2</span> Set up new repository</a>
-  - <a href="#configure-remotes-and-push-from-local" id="toc-configure-remotes-and-push-from-local"><span class="toc-section-number">12.3</span> Configure remotes and push from local</a>
-  - <a href="#check-that-you-are-up-to-date" id="toc-check-that-you-are-up-to-date"><span class="toc-section-number">12.4</span> Check that you are up to date</a>
+  - <a href="#optional-working-with-remotes-is-a-generalization-of-branch-merging" id="toc-optional-working-with-remotes-is-a-generalization-of-branch-merging"><span class="toc-section-number">12.1</span> (Optional) Working with remotes is a generalization of branch merging</a>
+  - <a href="#git-github" id="toc-git-github"><span class="toc-section-number">12.2</span> Git != Github</a>
+  - <a href="#github-authentication" id="toc-github-authentication"><span class="toc-section-number">12.3</span> Github authentication</a>
+  - <a href="#set-up-new-repository" id="toc-set-up-new-repository"><span class="toc-section-number">12.4</span> Set up new repository</a>
+  - <a href="#configure-remotes-and-push-from-local" id="toc-configure-remotes-and-push-from-local"><span class="toc-section-number">12.5</span> Configure remotes and push from local</a>
+  - <a href="#check-that-you-are-up-to-date" id="toc-check-that-you-are-up-to-date"><span class="toc-section-number">12.6</span> Check that you are up to date</a>
 - <a href="#optional-collaborating" id="toc-optional-collaborating"><span class="toc-section-number">13</span> (Optional) Collaborating</a>
   - <a href="#clone-your-repository" id="toc-clone-your-repository"><span class="toc-section-number">13.1</span> Clone your repository</a>
   - <a href="#edit-trees.txt" id="toc-edit-trees.txt"><span class="toc-section-number">13.2</span> Edit trees.txt</a>
@@ -78,6 +80,7 @@
 
 1.  Up-to-date installation instructions for Git and Bash are available here: <https://libguides.ucmerced.edu/software-carpentry/git/install>
 2.  Create a Github account here: <https://github.com/>
+3.  Download Github Desktop: <https://desktop.github.com>
 
 # Unix Shell
 
@@ -703,12 +706,31 @@ git commit -m "Ignore output files"
 
 ![Coordinate with co-authors.](images/distributed.png "Pre-merge state")
 
+## (Optional) Working with remotes is a generalization of branch merging
+
+1.  git pull merges origin/master branch into local master branch
+2.  git push merges local master branch into origin/master branch
+3.  Under the hood, pull is fetch + merge
+    1.  fetch gets updates from remote
+    2.  Local repository has a 2 branches: remote/master and master
+    3.  merge merges remote/master into master
+4.  Push appears to not be compound?
+
 ## Git != Github
 
 - easy collaboration
 - sync between machines
 - off-site backup
 - peer review
+
+## Github authentication
+
+1.  Github Desktop uses browser token across platforms. Unix people can use SSH keys instead.
+2.  Two-factor authentication options
+    1.  Email
+    2.  Github Mobile
+    3.  Personal authenticator (e.g. Microsoft, 1Password, etc)
+    4.  SMS (not preferred)
 
 ## Set up new repository
 

@@ -8,6 +8,7 @@
 * Installation instructions
 1. Up-to-date installation instructions for Git and Bash are available here: https://libguides.ucmerced.edu/software-carpentry/git/install
 2. Create a Github account here: https://github.com/
+3. Download Github Desktop: https://desktop.github.com
 
 * Unix Shell
 ** Intro comments about "shell"
@@ -580,7 +581,7 @@ git commit -m "Ignore output files"
 #+CAPTION: Coordinate with co-authors.
 [[file:images/distributed.png]]
 
-** COMMENT Working with remotes is a generalization of branch merging
+** (Optional) Working with remotes is a generalization of branch merging
 1. git pull merges origin/master branch into local master branch
 2. git push merges local master branch into origin/master branch
 3. Under the hood, pull is fetch + merge
@@ -594,6 +595,14 @@ git commit -m "Ignore output files"
 - sync between machines
 - off-site backup
 - peer review
+
+** Github authentication
+1. Github Desktop uses browser token across platforms. Unix people can use SSH keys instead.
+2. Two-factor authentication options
+   1. Email
+   2. Github Mobile
+   3. Personal authenticator (e.g. Microsoft, 1Password, etc)
+   4. SMS (not preferred)
 
 ** Set up new repository
 - Create new repository (visual instructions here: https://swcarpentry.github.io/git-novice/07-github/index.html)
@@ -784,24 +793,19 @@ These commands are potentially dangerous because they rewrite history. You shoul
 * COMMENT How to export this document to other formats
 ** Export to Markdown using Pandoc
 Do this if you want code syntax highlighting and a table of contents on Github.
-*** Generate generic Markdown file
-#+BEGIN_SRC bash
-pandoc README.org -o tmp.md
-#+END_SRC
 
-*** Edit generic Markdown file to remove illegal front matter
-1. Org directives
-2. Anything that isn't part of the document structure (e.g. TODO items)
+1. Generate Markdown file
+   #+BEGIN_SRC bash
+   pandoc -f org -t gfm --toc --toc-depth=2 --wrap=none -N -s README.org -o README.md
+   #+END_SRC
 
-*** Generate Github Markdown with table of contents
-#+BEGIN_SRC bash
-pandoc -f markdown --toc --toc-depth=2 -s tmp.md -o README.md
-#+END_SRC
-
-*** Find and replace code block markers in final document
-#+BEGIN_EXAMPLE
-M-x qrr ``` example ``` fundamental
-#+END_EXAMPLE
+2. Delete anything above the Table of Contents, e.g.:
+   #+BEGIN_EXAMPLE
+   -------------------------
+     Intro to Git
+     Derek Devnich
+   -------------------------
+   #+END_EXAMPLE
 
 ** Export to Markdown using Emacs Org mode
 Do this if you want a table of contents on Github.
