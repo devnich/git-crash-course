@@ -341,7 +341,7 @@ git show HEAD~3 shopping_list.txt
 git diff HEAD~3..HEAD~1 shopping_list.txt
 #+END_SRC
 
-*** Range syntax also works for logs
+*** (Optional) Range syntax also works for logs
 #+BEGIN_SRC bash
 git log HEAD~3..HEAD~1
 #+END_SRC
@@ -377,10 +377,11 @@ cat shopping_list.txt
 [[file:images/git-checkout.svg]]
 
 #+BEGIN_SRC bash
-git checkout f22b25e shopping_list.txt
-
-# Alternatively, you can use the HEAD offset:
+# Using the HEAD offset:
 git checkout HEAD~3 shopping_list.txt
+
+# Alternatively, you can use the commit ID:
+#git checkout f22b25e shopping_list.txt
 
 # View the changed file in the Working Tree
 cat shopping_list.txt
@@ -392,7 +393,10 @@ git diff
 git diff --staged
 
 # Go back to the most recent version
-git checkout HEAD shopping_list.txt
+git restore shopping_list.txt
+
+# The old way:
+#git checkout HEAD shopping_list.txt
 #+END_SRC
 
 *Instructor's note:*  Update drawing with files moving in and out of working tree/staging area
@@ -414,10 +418,47 @@ git checkout master
 - You can also check out a tag.
 - Unfortunately some of these terms, like "checkout", are overloaded. Think about what you want to do to your history, then look up the appropriate command.
 
+* Ignoring Things
+** Create some output files
+#+BEGIN_SRC bash
+mkdir results
+touch a.dat b.dat c.dat results/a.out results/b.out
+ls
+git status
+#+END_SRC
+
+** Create .gitignore
+#+BEGIN_SRC bash
+touch .gitignore
+ls -a
+#+END_SRC
+
+** Add ignore criteria to your .gitignore file
+#+BEGIN_EXAMPLE
+##--- text file ---##
+
+*.dat
+results/
+#+END_EXAMPLE
+
+#+BEGIN_SRC bash
+# We are ignoring .dat files and tracking .gitignore
+git status
+git add .gitignore
+git commit -m "Ignore output files"
+#+END_SRC
+
+- Ignoring complicated directory structures can be tricky, come talk to me
+- You should generally ignore archives (zip, tar), images (png, jpg), binaries (dmg, iso, exe), compiler output, log files, and .DS_Store (Mac)
+
 * Branching and merging
 #+NAME: Branching and Merging
 #+CAPTION: Git branching and Merging (https://imgur.com/gallery/YG8In8X/new)
 [[file:images/branch-merge.png]]
+
+** Add local repository to Github
+1. The local version of your repository and the Github version are separate. They're only in sync when you explicitly sync them.
+2. We will periodically check the our local version against the Github version and sync them as necessary.
 
 ** Create a new branch and switch to it
 #+NAME: Main branch
@@ -481,6 +522,8 @@ ls
 - This is simplest possible case: All of the new changes were in one branch (Fast-Forward merge moves branch tag)
 - A branch history with competing changes is shown in the Conflicts section below (Recursive merge, which resembles the octopus diagram)
 
+** Push changes on master to Github
+
 * Local conflicts
 ** Create and edit a "pepper" branch
 #+BEGIN_SRC bash
@@ -542,39 +585,6 @@ Edit the file to resolve the conflict. You can delete one of the two lines, comb
 git add shopping_list.txt
 git commit -m "Added garlic to main branch"
 #+END_SRC
-
-* Ignoring Things
-** Create some output files
-#+BEGIN_SRC bash
-mkdir results
-touch a.dat b.dat c.dat results/a.out results/b.out
-ls
-git status
-#+END_SRC
-
-** Create .gitignore
-#+BEGIN_SRC bash
-touch .gitignore
-ls -a
-#+END_SRC
-
-** Add ignore criteria to your .gitignore file
-#+BEGIN_EXAMPLE
-##--- text file ---##
-
-*.dat
-results/
-#+END_EXAMPLE
-
-#+BEGIN_SRC bash
-# We are ignoring .dat files and tracking .gitignore
-git status
-git add .gitignore
-git commit -m "Ignore output files"
-#+END_SRC
-
-- Ignoring complicated directory structures can be tricky, come talk to me
-- You should generally ignore archives (zip, tar), images (png, jpg), binaries (dmg, iso, exe), compiler output, log files, and .DS_Store (Mac)
 
 * (Optional) Github
 #+NAME: Pre-merge state

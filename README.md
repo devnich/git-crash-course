@@ -34,19 +34,21 @@
 - <a href="#moving-through-time" id="toc-moving-through-time"><span class="toc-section-number">8</span> Moving through time</a>
   - <a href="#check-out-an-old-version-of-a-file" id="toc-check-out-an-old-version-of-a-file"><span class="toc-section-number">8.1</span> Check out an old version of a file</a>
   - <a href="#dont-lose-your-head" id="toc-dont-lose-your-head"><span class="toc-section-number">8.2</span> Don't lose your head</a>
-- <a href="#branching-and-merging" id="toc-branching-and-merging"><span class="toc-section-number">9</span> Branching and merging</a>
-  - <a href="#create-a-new-branch-and-switch-to-it" id="toc-create-a-new-branch-and-switch-to-it"><span class="toc-section-number">9.1</span> Create a new branch and switch to it</a>
-  - <a href="#create-a-new-file" id="toc-create-a-new-file"><span class="toc-section-number">9.2</span> Create a new file</a>
-  - <a href="#switch-back-to-master-and-merge" id="toc-switch-back-to-master-and-merge"><span class="toc-section-number">9.3</span> Switch back to master and merge</a>
-- <a href="#local-conflicts" id="toc-local-conflicts"><span class="toc-section-number">10</span> Local conflicts</a>
-  - <a href="#create-and-edit-a-pepper-branch" id="toc-create-and-edit-a-pepper-branch"><span class="toc-section-number">10.1</span> Create and edit a "pepper" branch</a>
-  - <a href="#switch-back-to-main-branch-and-create-a-conflicting-edit" id="toc-switch-back-to-main-branch-and-create-a-conflicting-edit"><span class="toc-section-number">10.2</span> Switch back to main branch and create a conflicting edit</a>
-  - <a href="#attempt-to-merge-pepper-branch" id="toc-attempt-to-merge-pepper-branch"><span class="toc-section-number">10.3</span> Attempt to merge "pepper" branch</a>
-  - <a href="#resolve-conflicts-and-create-commit" id="toc-resolve-conflicts-and-create-commit"><span class="toc-section-number">10.4</span> Resolve conflicts and create commit</a>
-- <a href="#ignoring-things" id="toc-ignoring-things"><span class="toc-section-number">11</span> Ignoring Things</a>
-  - <a href="#create-some-output-files" id="toc-create-some-output-files"><span class="toc-section-number">11.1</span> Create some output files</a>
-  - <a href="#create-.gitignore" id="toc-create-.gitignore"><span class="toc-section-number">11.2</span> Create .gitignore</a>
-  - <a href="#add-ignore-criteria-to-your-.gitignore-file" id="toc-add-ignore-criteria-to-your-.gitignore-file"><span class="toc-section-number">11.3</span> Add ignore criteria to your .gitignore file</a>
+- <a href="#ignoring-things" id="toc-ignoring-things"><span class="toc-section-number">9</span> Ignoring Things</a>
+  - <a href="#create-some-output-files" id="toc-create-some-output-files"><span class="toc-section-number">9.1</span> Create some output files</a>
+  - <a href="#create-.gitignore" id="toc-create-.gitignore"><span class="toc-section-number">9.2</span> Create .gitignore</a>
+  - <a href="#add-ignore-criteria-to-your-.gitignore-file" id="toc-add-ignore-criteria-to-your-.gitignore-file"><span class="toc-section-number">9.3</span> Add ignore criteria to your .gitignore file</a>
+- <a href="#branching-and-merging" id="toc-branching-and-merging"><span class="toc-section-number">10</span> Branching and merging</a>
+  - <a href="#add-local-repository-to-github" id="toc-add-local-repository-to-github"><span class="toc-section-number">10.1</span> Add local repository to Github</a>
+  - <a href="#create-a-new-branch-and-switch-to-it" id="toc-create-a-new-branch-and-switch-to-it"><span class="toc-section-number">10.2</span> Create a new branch and switch to it</a>
+  - <a href="#create-a-new-file" id="toc-create-a-new-file"><span class="toc-section-number">10.3</span> Create a new file</a>
+  - <a href="#switch-back-to-master-and-merge" id="toc-switch-back-to-master-and-merge"><span class="toc-section-number">10.4</span> Switch back to master and merge</a>
+  - <a href="#push-changes-on-master-to-github" id="toc-push-changes-on-master-to-github"><span class="toc-section-number">10.5</span> Push changes on master to Github</a>
+- <a href="#local-conflicts" id="toc-local-conflicts"><span class="toc-section-number">11</span> Local conflicts</a>
+  - <a href="#create-and-edit-a-pepper-branch" id="toc-create-and-edit-a-pepper-branch"><span class="toc-section-number">11.1</span> Create and edit a "pepper" branch</a>
+  - <a href="#switch-back-to-main-branch-and-create-a-conflicting-edit" id="toc-switch-back-to-main-branch-and-create-a-conflicting-edit"><span class="toc-section-number">11.2</span> Switch back to main branch and create a conflicting edit</a>
+  - <a href="#attempt-to-merge-pepper-branch" id="toc-attempt-to-merge-pepper-branch"><span class="toc-section-number">11.3</span> Attempt to merge "pepper" branch</a>
+  - <a href="#resolve-conflicts-and-create-commit" id="toc-resolve-conflicts-and-create-commit"><span class="toc-section-number">11.4</span> Resolve conflicts and create commit</a>
 - <a href="#optional-github" id="toc-optional-github"><span class="toc-section-number">12</span> (Optional) Github</a>
   - <a href="#optional-working-with-remotes-is-a-generalization-of-branch-merging" id="toc-optional-working-with-remotes-is-a-generalization-of-branch-merging"><span class="toc-section-number">12.1</span> (Optional) Working with remotes is a generalization of branch merging</a>
   - <a href="#git-github" id="toc-git-github"><span class="toc-section-number">12.2</span> Git != Github</a>
@@ -458,7 +460,7 @@ git show HEAD~3 shopping_list.txt
 git diff HEAD~3..HEAD~1 shopping_list.txt
 ```
 
-### Range syntax also works for logs
+### (Optional) Range syntax also works for logs
 
 ``` bash
 git log HEAD~3..HEAD~1
@@ -497,10 +499,11 @@ cat shopping_list.txt
 ![Check out an old commit to view it](images/git-checkout.svg "Checkout")
 
 ``` bash
-git checkout f22b25e shopping_list.txt
-
-# Alternatively, you can use the HEAD offset:
+# Using the HEAD offset:
 git checkout HEAD~3 shopping_list.txt
+
+# Alternatively, you can use the commit ID:
+#git checkout f22b25e shopping_list.txt
 
 # View the changed file in the Working Tree
 cat shopping_list.txt
@@ -512,7 +515,10 @@ git diff
 git diff --staged
 
 # Go back to the most recent version
-git checkout HEAD shopping_list.txt
+git restore shopping_list.txt
+
+# The old way:
+#git checkout HEAD shopping_list.txt
 ```
 
 **Instructor's note:** Update drawing with files moving in and out of working tree/staging area
@@ -536,9 +542,51 @@ git checkout master
 - You can also check out a tag.
 - Unfortunately some of these terms, like "checkout", are overloaded. Think about what you want to do to your history, then look up the appropriate command.
 
+# Ignoring Things
+
+## Create some output files
+
+``` bash
+mkdir results
+touch a.dat b.dat c.dat results/a.out results/b.out
+ls
+git status
+```
+
+## Create .gitignore
+
+``` bash
+touch .gitignore
+ls -a
+```
+
+## Add ignore criteria to your .gitignore file
+
+``` example
+##--- text file ---##
+
+*.dat
+results/
+```
+
+``` bash
+# We are ignoring .dat files and tracking .gitignore
+git status
+git add .gitignore
+git commit -m "Ignore output files"
+```
+
+- Ignoring complicated directory structures can be tricky, come talk to me
+- You should generally ignore archives (zip, tar), images (png, jpg), binaries (dmg, iso, exe), compiler output, log files, and .DS_Store (Mac)
+
 # Branching and merging
 
 ![Git branching and Merging (<https://imgur.com/gallery/YG8In8X/new>)](images/branch-merge.png "Branching and Merging")
+
+## Add local repository to Github
+
+1.  The local version of your repository and the Github version are separate. They're only in sync when you explicitly sync them.
+2.  We will periodically check the our local version against the Github version and sync them as necessary.
 
 ## Create a new branch and switch to it
 
@@ -596,6 +644,8 @@ ls
 
 - This is simplest possible case: All of the new changes were in one branch (Fast-Forward merge moves branch tag)
 - A branch history with competing changes is shown in the Conflicts section below (Recursive merge, which resembles the octopus diagram)
+
+## Push changes on master to Github
 
 # Local conflicts
 
@@ -664,43 +714,6 @@ Edit the file to resolve the conflict. You can delete one of the two lines, comb
 git add shopping_list.txt
 git commit -m "Added garlic to main branch"
 ```
-
-# Ignoring Things
-
-## Create some output files
-
-``` bash
-mkdir results
-touch a.dat b.dat c.dat results/a.out results/b.out
-ls
-git status
-```
-
-## Create .gitignore
-
-``` bash
-touch .gitignore
-ls -a
-```
-
-## Add ignore criteria to your .gitignore file
-
-``` example
-##--- text file ---##
-
-*.dat
-results/
-```
-
-``` bash
-# We are ignoring .dat files and tracking .gitignore
-git status
-git add .gitignore
-git commit -m "Ignore output files"
-```
-
-- Ignoring complicated directory structures can be tricky, come talk to me
-- You should generally ignore archives (zip, tar), images (png, jpg), binaries (dmg, iso, exe), compiler output, log files, and .DS_Store (Mac)
 
 # (Optional) Github
 
