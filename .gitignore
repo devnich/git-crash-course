@@ -8,3 +8,12 @@ tmp.md
 
 # System files
 .DS_Store
+
+# Jupyter environmental variables
+.ipynb_checkpoints/
+
+# Archives
+*.zip
+
+# Generated files
+/data/processed
