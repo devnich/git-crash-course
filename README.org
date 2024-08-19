@@ -779,6 +779,156 @@ These commands are potentially dangerous because they rewrite history. You shoul
 ** Dangerous commands you should avoid
 - ~git cherry-pick~: Copy a single commit from a different branch. This rewrites your project history piecemeal, which can make it difficult to merge branches in the future.
 
+* Intermediate Git
+** Investigate configuration and workflow
+1. Git local configuration
+   #+BEGIN_SRC bash
+    git config --list --show-origin     # where is this setting coming from?
+   #+END_SRC
+
+2. Project vs global configuration
+   - .gitignore
+   - .gitattributes
+
+3. Github authentication
+
+** Fork demo project
+1. Fork
+2. Clone
+3. Review settings
+
+** Review
+1. An amazing tool with a terrible user interface. We teach with the command line because it's complete; you may want to adopt a porcelain.
+2. Start review at slide 13 (skip bisect slides; we'll come back to them later)
+3. Git terms are overloaded
+
+** Git clients
+1. Stand-alone clients
+2. Editor integration
+
+** File issues
+All else being equal, you want to produce minimal diffs
+
+1. Mac vs PC endings
+2. Python vs IPython Notebook
+
+** Working with previous versions
+"Moving through time" section.
+
+1. Check out previous file version
+   - Restore with "checkout"
+   - Review status of staging
+2. Check out previous commit
+
+** Useful commands
+1. Blame
+   #+BEGIN_SRC bash
+   git blame scripts/functions.py
+   git blame HEAD~2 scripts/functions.py
+   #+END_SRC
+
+2. Patch
+   #+BEGIN_SRC bash
+   git add --patch <filename>
+   #+END_SRC
+
+   #+BEGIN_SRC bash
+   git add -i
+   s # review status
+   p # add patches
+   1 # Select file patches
+   #+END_SRC
+
+3. Bisect: https://tracehelms.com/blog/using-git-bisect-to-find-when-a-bug-was-introduced
+
+** Levels of undo
+1. Restore (or checkout HEAD)
+   #+BEGIN_SRC bash
+   git restore <filename>
+   #+END_SRC
+
+   #+BEGIN_SRC bash
+   git restore --staged <filename>
+   git restore <filename>
+   #+END_SRC
+
+2. Revert
+   #+BEGIN_SRC bash
+   git revert -n HEAD
+   git revert --continue
+   #+END_SRC
+
+3. Reset moves the HEAD
+   #+BEGIN_SRC bash
+   git reset --soft HEAD~
+   git status
+   # git add
+   # git commit
+   git restore .
+   #+END_SRC
+
+   #+BEGIN_SRC bash
+   git reset --mixed HEAD~
+   git status
+   # git commit
+   git restore .
+   #+END_SRC
+
+   #+BEGIN_SRC bash
+   git reset --hard HEAD~
+   git status
+   git log --oneline
+
+   # Are you behind the remote?
+   #+END_SRC
+
+** Merge conflicts
+1. Edit and resolve by hand
+2. Escaping a bad merge
+   #+BEGIN_SRC bash
+   # Option 1 (preferred)
+   git merge --abort
+
+   # Option 2 (destructive)
+   git reset --hard HEAD
+   #+END_SRC
+
+** Team-wide strategies
+*** Branching strategies
+1. Topic branch vs long-lived release version
+2. Tags for canonical versions
+
+*** Merge strategies (merge vs rebase)
+1. Rebase
+   #+BEGIN_SRC bash
+   git checkout feature
+   git rebase main
+   git checkout main
+   git merge feature
+   #+END_SRC
+
+2. Squash
+   #+BEGIN_SRC bash
+   git rebase -i HEAD~2
+
+   # Then edit action for previous commits to be "squash"
+   #+END_SRC
+
+   #+BEGIN_SRC bash
+   # Can also implicity squash using reset
+   git reset --soft HEAD~2
+   git commit
+   #+END_SRC
+
+*** Github workflows (push vs pull request)
+1. Demo with forked repository
+2. Push is easier with small team
+3. Pull Request implies that repository owner is actually checking work and not just blindly merging
+
+* COMMENT Fix man page installation for Git
+1. Linux Utils man pages vs Apple default help
+2. Generate info pages?
+
 * Credits
 1. https://dlstrong.github.io/git-novice/
 2. https://git-scm.com/book/en/v2

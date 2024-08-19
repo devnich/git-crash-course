@@ -75,8 +75,19 @@
   - <a href="#restore-revert-and-reset" id="toc-restore-revert-and-reset"><span class="toc-section-number">18.2</span> Restore, Revert, and Reset</a>
   - <a href="#dangerous-but-useful-commands" id="toc-dangerous-but-useful-commands"><span class="toc-section-number">18.3</span> Dangerous but useful commands</a>
   - <a href="#dangerous-commands-you-should-avoid" id="toc-dangerous-commands-you-should-avoid"><span class="toc-section-number">18.4</span> Dangerous commands you should avoid</a>
-- <a href="#credits" id="toc-credits"><span class="toc-section-number">19</span> Credits</a>
-- <a href="#references" id="toc-references"><span class="toc-section-number">20</span> References</a>
+- <a href="#intermediate-git" id="toc-intermediate-git"><span class="toc-section-number">19</span> Intermediate Git</a>
+  - <a href="#investigate-configuration-and-workflow" id="toc-investigate-configuration-and-workflow"><span class="toc-section-number">19.1</span> Investigate configuration and workflow</a>
+  - <a href="#fork-demo-project" id="toc-fork-demo-project"><span class="toc-section-number">19.2</span> Fork demo project</a>
+  - <a href="#review" id="toc-review"><span class="toc-section-number">19.3</span> Review</a>
+  - <a href="#git-clients" id="toc-git-clients"><span class="toc-section-number">19.4</span> Git clients</a>
+  - <a href="#file-issues" id="toc-file-issues"><span class="toc-section-number">19.5</span> File issues</a>
+  - <a href="#working-with-previous-versions" id="toc-working-with-previous-versions"><span class="toc-section-number">19.6</span> Working with previous versions</a>
+  - <a href="#useful-commands-1" id="toc-useful-commands-1"><span class="toc-section-number">19.7</span> Useful commands</a>
+  - <a href="#levels-of-undo" id="toc-levels-of-undo"><span class="toc-section-number">19.8</span> Levels of undo</a>
+  - <a href="#merge-conflicts" id="toc-merge-conflicts"><span class="toc-section-number">19.9</span> Merge conflicts</a>
+  - <a href="#team-wide-strategies" id="toc-team-wide-strategies"><span class="toc-section-number">19.10</span> Team-wide strategies</a>
+- <a href="#credits" id="toc-credits"><span class="toc-section-number">20</span> Credits</a>
+- <a href="#references" id="toc-references"><span class="toc-section-number">21</span> References</a>
 
 # Installation instructions
 
@@ -942,6 +953,177 @@ These commands are potentially dangerous because they rewrite history. You shoul
 ## Dangerous commands you should avoid
 
 - `git cherry-pick`: Copy a single commit from a different branch. This rewrites your project history piecemeal, which can make it difficult to merge branches in the future.
+
+# Intermediate Git
+
+## Investigate configuration and workflow
+
+1.  Git local configuration
+
+    ``` bash
+    git config --list --show-origin     # where is this setting coming from?
+    ```
+
+2.  Project vs global configuration
+
+    - .gitignore
+    - .gitattributes
+
+3.  Github authentication
+
+## Fork demo project
+
+1.  Fork
+2.  Clone
+3.  Review settings
+
+## Review
+
+1.  An amazing tool with a terrible user interface. We teach with the command line because it's complete; you may want to adopt a porcelain.
+2.  Start review at slide 13 (skip bisect slides; we'll come back to them later)
+3.  Git terms are overloaded
+
+## Git clients
+
+1.  Stand-alone clients
+2.  Editor integration
+
+## File issues
+
+All else being equal, you want to produce minimal diffs
+
+1.  Mac vs PC endings
+2.  Python vs IPython Notebook
+
+## Working with previous versions
+
+"Moving through time" section.
+
+1.  Check out previous file version
+    - Restore with "checkout"
+    - Review status of staging
+2.  Check out previous commit
+
+## Useful commands
+
+1.  Blame
+
+    ``` bash
+    git blame scripts/functions.py
+    git blame HEAD~2 scripts/functions.py
+    ```
+
+2.  Patch
+
+    ``` bash
+    git add --patch <filename>
+    ```
+
+    ``` bash
+    git add -i
+    s # review status
+    p # add patches
+    1 # Select file patches
+    ```
+
+3.  Bisect: <https://tracehelms.com/blog/using-git-bisect-to-find-when-a-bug-was-introduced>
+
+## Levels of undo
+
+1.  Restore (or checkout HEAD)
+
+    ``` bash
+    git restore <filename>
+    ```
+
+    ``` bash
+    git restore --staged <filename>
+    git restore <filename>
+    ```
+
+2.  Revert
+
+    ``` bash
+    git revert -n HEAD
+    git revert --continue
+    ```
+
+3.  Reset moves the HEAD
+
+    ``` bash
+    git reset --soft HEAD~
+    git status
+    # git add
+    # git commit
+    git restore .
+    ```
+
+    ``` bash
+    git reset --mixed HEAD~
+    git status
+    # git commit
+    git restore .
+    ```
+
+    ``` bash
+    git reset --hard HEAD~
+    git status
+    git log --oneline
+
+    # Are you behind the remote?
+    ```
+
+## Merge conflicts
+
+1.  Edit and resolve by hand
+
+2.  Escaping a bad merge
+
+    ``` bash
+    # Option 1 (preferred)
+    git merge --abort
+
+    # Option 2 (destructive)
+    git reset --hard HEAD
+    ```
+
+## Team-wide strategies
+
+### Branching strategies
+
+1.  Topic branch vs long-lived release version
+2.  Tags for canonical versions
+
+### Merge strategies (merge vs rebase)
+
+1.  Rebase
+
+    ``` bash
+    git checkout feature
+    git rebase main
+    git checkout main
+    git merge feature
+    ```
+
+2.  Squash
+
+    ``` bash
+    git rebase -i HEAD~2
+
+    # Then edit action for previous commits to be "squash"
+    ```
+
+    ``` bash
+    # Can also implicity squash using reset
+    git reset --soft HEAD~2
+    git commit
+    ```
+
+### Github workflows (push vs pull request)
+
+1.  Demo with forked repository
+2.  Push is easier with small team
+3.  Pull Request implies that repository owner is actually checking work and not just blindly merging
 
 # Credits
 
