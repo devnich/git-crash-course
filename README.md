@@ -1,93 +1,84 @@
-- <a href="#installation-instructions" id="toc-installation-instructions"><span class="toc-section-number">1</span> Installation instructions</a>
-- <a href="#unix-shell" id="toc-unix-shell"><span class="toc-section-number">2</span> Unix Shell</a>
-  - <a href="#intro-comments-about-shell" id="toc-intro-comments-about-shell"><span class="toc-section-number">2.1</span> Intro comments about "shell"</a>
-  - <a href="#very-brief-bash-intro" id="toc-very-brief-bash-intro"><span class="toc-section-number">2.2</span> Very brief Bash intro</a>
-- <a href="#why-are-we-here" id="toc-why-are-we-here"><span class="toc-section-number">3</span> Why are we here?</a>
-  - <a href="#create-and-revisit-a-history-of-project-snapshots" id="toc-create-and-revisit-a-history-of-project-snapshots"><span class="toc-section-number">3.1</span> Create and revisit a history of project snapshots</a>
-  - <a href="#determine-when-a-bug-was-introduced" id="toc-determine-when-a-bug-was-introduced"><span class="toc-section-number">3.2</span> Determine when a bug was introduced</a>
-  - <a href="#git-helps-you" id="toc-git-helps-you"><span class="toc-section-number">3.3</span> Git helps you…</a>
-- <a href="#setup" id="toc-setup"><span class="toc-section-number">4</span> Setup</a>
-  - <a href="#inspect-your-configuration" id="toc-inspect-your-configuration"><span class="toc-section-number">4.1</span> Inspect your configuration</a>
-  - <a href="#identify-yourself" id="toc-identify-yourself"><span class="toc-section-number">4.2</span> Identify yourself</a>
-  - <a href="#line-endings" id="toc-line-endings"><span class="toc-section-number">4.3</span> Line Endings</a>
-  - <a href="#editor" id="toc-editor"><span class="toc-section-number">4.4</span> Editor</a>
-  - <a href="#updating-remotes" id="toc-updating-remotes"><span class="toc-section-number">4.5</span> Updating remotes</a>
-  - <a href="#optional-change-name-of-default-branch" id="toc-optional-change-name-of-default-branch"><span class="toc-section-number">4.6</span> (Optional) Change name of default branch</a>
-- <a href="#creating-a-repository" id="toc-creating-a-repository"><span class="toc-section-number">5</span> Creating a repository</a>
-  - <a href="#create-a-directory" id="toc-create-a-directory"><span class="toc-section-number">5.1</span> Create a directory</a>
-  - <a href="#tell-git-to-make-a-repository" id="toc-tell-git-to-make-a-repository"><span class="toc-section-number">5.2</span> Tell Git to make a repository</a>
-  - <a href="#check-status-we-will-do-this-a-lot" id="toc-check-status-we-will-do-this-a-lot"><span class="toc-section-number">5.3</span> Check status (we will do this a lot)</a>
-- <a href="#tracking-changes" id="toc-tracking-changes"><span class="toc-section-number">6</span> Tracking changes</a>
-  - <a href="#add-a-file" id="toc-add-a-file"><span class="toc-section-number">6.1</span> Add a file</a>
-  - <a href="#commit-cycle" id="toc-commit-cycle"><span class="toc-section-number">6.2</span> Commit cycle</a>
-  - <a href="#getting-help-1" id="toc-getting-help-1"><span class="toc-section-number">6.3</span> Getting help</a>
-  - <a href="#first-stage-then-commit" id="toc-first-stage-then-commit"><span class="toc-section-number">6.4</span> First stage, then commit</a>
-  - <a href="#view-commit-history-in-the-log" id="toc-view-commit-history-in-the-log"><span class="toc-section-number">6.5</span> View commit history in the log</a>
-  - <a href="#show-changes-to-workspace-and-index" id="toc-show-changes-to-workspace-and-index"><span class="toc-section-number">6.6</span> Show changes to Workspace and Index</a>
-  - <a href="#what-goes-in-a-commit" id="toc-what-goes-in-a-commit"><span class="toc-section-number">6.7</span> What goes in a commit?</a>
-  - <a href="#directories-arent-content" id="toc-directories-arent-content"><span class="toc-section-number">6.8</span> Directories aren't content</a>
-- <a href="#exploring-history" id="toc-exploring-history"><span class="toc-section-number">7</span> Exploring history</a>
-  - <a href="#add-more-text-to-workspace" id="toc-add-more-text-to-workspace"><span class="toc-section-number">7.1</span> Add more text to Workspace</a>
-  - <a href="#view-subsets-of-project-history" id="toc-view-subsets-of-project-history"><span class="toc-section-number">7.2</span> View subsets of project history</a>
-  - <a href="#diff-using-a-commit-id-instead-of-the-head-offset" id="toc-diff-using-a-commit-id-instead-of-the-head-offset"><span class="toc-section-number">7.3</span> <code>diff</code> using a commit ID instead of the HEAD offset</a>
-  - <a href="#restore-the-workspace-to-a-clean-state" id="toc-restore-the-workspace-to-a-clean-state"><span class="toc-section-number">7.4</span> Restore the Workspace to a clean state</a>
-- <a href="#moving-through-time" id="toc-moving-through-time"><span class="toc-section-number">8</span> Moving through time</a>
-  - <a href="#check-out-an-old-version-of-a-file" id="toc-check-out-an-old-version-of-a-file"><span class="toc-section-number">8.1</span> Check out an old version of a file</a>
-  - <a href="#dont-lose-your-head" id="toc-dont-lose-your-head"><span class="toc-section-number">8.2</span> Don't lose your head</a>
-- <a href="#ignoring-things" id="toc-ignoring-things"><span class="toc-section-number">9</span> Ignoring Things</a>
-  - <a href="#create-some-output-files" id="toc-create-some-output-files"><span class="toc-section-number">9.1</span> Create some output files</a>
-  - <a href="#create-.gitignore" id="toc-create-.gitignore"><span class="toc-section-number">9.2</span> Create .gitignore</a>
-  - <a href="#add-ignore-criteria-to-your-.gitignore-file" id="toc-add-ignore-criteria-to-your-.gitignore-file"><span class="toc-section-number">9.3</span> Add ignore criteria to your .gitignore file</a>
-- <a href="#branching-and-merging" id="toc-branching-and-merging"><span class="toc-section-number">10</span> Branching and merging</a>
-  - <a href="#add-local-repository-to-github" id="toc-add-local-repository-to-github"><span class="toc-section-number">10.1</span> Add local repository to Github</a>
-  - <a href="#create-a-new-branch-and-switch-to-it" id="toc-create-a-new-branch-and-switch-to-it"><span class="toc-section-number">10.2</span> Create a new branch and switch to it</a>
-  - <a href="#create-a-new-file" id="toc-create-a-new-file"><span class="toc-section-number">10.3</span> Create a new file</a>
-  - <a href="#switch-back-to-master-and-merge" id="toc-switch-back-to-master-and-merge"><span class="toc-section-number">10.4</span> Switch back to master and merge</a>
-  - <a href="#push-changes-on-master-to-github" id="toc-push-changes-on-master-to-github"><span class="toc-section-number">10.5</span> Push changes on master to Github</a>
-- <a href="#local-conflicts" id="toc-local-conflicts"><span class="toc-section-number">11</span> Local conflicts</a>
-  - <a href="#create-and-edit-a-pepper-branch" id="toc-create-and-edit-a-pepper-branch"><span class="toc-section-number">11.1</span> Create and edit a "pepper" branch</a>
-  - <a href="#switch-back-to-main-branch-and-create-a-conflicting-edit" id="toc-switch-back-to-main-branch-and-create-a-conflicting-edit"><span class="toc-section-number">11.2</span> Switch back to main branch and create a conflicting edit</a>
-  - <a href="#attempt-to-merge-pepper-branch" id="toc-attempt-to-merge-pepper-branch"><span class="toc-section-number">11.3</span> Attempt to merge "pepper" branch</a>
-  - <a href="#resolve-conflicts-and-create-commit" id="toc-resolve-conflicts-and-create-commit"><span class="toc-section-number">11.4</span> Resolve conflicts and create commit</a>
-- <a href="#optional-github" id="toc-optional-github"><span class="toc-section-number">12</span> (Optional) Github</a>
-  - <a href="#optional-working-with-remotes-is-a-generalization-of-branch-merging" id="toc-optional-working-with-remotes-is-a-generalization-of-branch-merging"><span class="toc-section-number">12.1</span> (Optional) Working with remotes is a generalization of branch merging</a>
-  - <a href="#git-github" id="toc-git-github"><span class="toc-section-number">12.2</span> Git != Github</a>
-  - <a href="#github-authentication" id="toc-github-authentication"><span class="toc-section-number">12.3</span> Github authentication</a>
-  - <a href="#set-up-new-repository" id="toc-set-up-new-repository"><span class="toc-section-number">12.4</span> Set up new repository</a>
-  - <a href="#configure-remotes-and-push-from-local" id="toc-configure-remotes-and-push-from-local"><span class="toc-section-number">12.5</span> Configure remotes and push from local</a>
-  - <a href="#check-that-you-are-up-to-date" id="toc-check-that-you-are-up-to-date"><span class="toc-section-number">12.6</span> Check that you are up to date</a>
-- <a href="#optional-collaborating" id="toc-optional-collaborating"><span class="toc-section-number">13</span> (Optional) Collaborating</a>
-  - <a href="#clone-your-repository" id="toc-clone-your-repository"><span class="toc-section-number">13.1</span> Clone your repository</a>
-  - <a href="#edit-trees.txt" id="toc-edit-trees.txt"><span class="toc-section-number">13.2</span> Edit trees.txt</a>
-  - <a href="#update-and-push" id="toc-update-and-push"><span class="toc-section-number">13.3</span> Update and push</a>
-  - <a href="#collaboration-models" id="toc-collaboration-models"><span class="toc-section-number">13.4</span> Collaboration models</a>
-- <a href="#optional-collaboration-conflicts" id="toc-optional-collaboration-conflicts"><span class="toc-section-number">14</span> (Optional) Collaboration conflicts</a>
-  - <a href="#person-1-edits-desktopgardenshopping_list.txt" id="toc-person-1-edits-desktopgardenshopping_list.txt"><span class="toc-section-number">14.1</span> Person 1 edits ~/Desktop/garden/shopping_list.txt</a>
-  - <a href="#person-2-edits-desktopgarden-cloneshopping_list.txt-without-pulling" id="toc-person-2-edits-desktopgarden-cloneshopping_list.txt-without-pulling"><span class="toc-section-number">14.2</span> Person 2 edits ~/Desktop/garden-clone/shopping_list.txt <em>without</em> pulling</a>
-  - <a href="#edit-conflict-stage-commit-and-push" id="toc-edit-conflict-stage-commit-and-push"><span class="toc-section-number">14.3</span> Edit conflict, stage, commit, and push</a>
-- <a href="#version-control-with-python-source-vs.-ipython-notebooks" id="toc-version-control-with-python-source-vs.-ipython-notebooks"><span class="toc-section-number">15</span> Version control with Python source vs. iPython notebooks</a>
-- <a href="#git-command-summary" id="toc-git-command-summary"><span class="toc-section-number">16</span> Git command summary</a>
-- <a href="#graphical-user-interfaces" id="toc-graphical-user-interfaces"><span class="toc-section-number">17</span> Graphical User Interfaces</a>
-  - <a href="#pro" id="toc-pro"><span class="toc-section-number">17.1</span> Pro</a>
-  - <a href="#cons" id="toc-cons"><span class="toc-section-number">17.2</span> Cons</a>
-- <a href="#next-steps-intermediate-git" id="toc-next-steps-intermediate-git"><span class="toc-section-number">18</span> Next steps (intermediate Git)</a>
-  - <a href="#useful-commands" id="toc-useful-commands"><span class="toc-section-number">18.1</span> Useful commands</a>
-  - <a href="#restore-revert-and-reset" id="toc-restore-revert-and-reset"><span class="toc-section-number">18.2</span> Restore, Revert, and Reset</a>
-  - <a href="#dangerous-but-useful-commands" id="toc-dangerous-but-useful-commands"><span class="toc-section-number">18.3</span> Dangerous but useful commands</a>
-  - <a href="#dangerous-commands-you-should-avoid" id="toc-dangerous-commands-you-should-avoid"><span class="toc-section-number">18.4</span> Dangerous commands you should avoid</a>
-- <a href="#intermediate-git" id="toc-intermediate-git"><span class="toc-section-number">19</span> Intermediate Git</a>
-  - <a href="#investigate-configuration-and-workflow" id="toc-investigate-configuration-and-workflow"><span class="toc-section-number">19.1</span> Investigate configuration and workflow</a>
-  - <a href="#fork-demo-project" id="toc-fork-demo-project"><span class="toc-section-number">19.2</span> Fork demo project</a>
-  - <a href="#review" id="toc-review"><span class="toc-section-number">19.3</span> Review</a>
-  - <a href="#git-clients" id="toc-git-clients"><span class="toc-section-number">19.4</span> Git clients</a>
-  - <a href="#file-issues" id="toc-file-issues"><span class="toc-section-number">19.5</span> File issues</a>
-  - <a href="#working-with-previous-versions" id="toc-working-with-previous-versions"><span class="toc-section-number">19.6</span> Working with previous versions</a>
-  - <a href="#useful-commands-1" id="toc-useful-commands-1"><span class="toc-section-number">19.7</span> Useful commands</a>
-  - <a href="#levels-of-undo" id="toc-levels-of-undo"><span class="toc-section-number">19.8</span> Levels of undo</a>
-  - <a href="#merge-conflicts" id="toc-merge-conflicts"><span class="toc-section-number">19.9</span> Merge conflicts</a>
-  - <a href="#team-wide-strategies" id="toc-team-wide-strategies"><span class="toc-section-number">19.10</span> Team-wide strategies</a>
-- <a href="#credits" id="toc-credits"><span class="toc-section-number">20</span> Credits</a>
-- <a href="#references" id="toc-references"><span class="toc-section-number">21</span> References</a>
+- [<span class="toc-section-number">1</span> Installation instructions](#installation-instructions)
+- [<span class="toc-section-number">2</span> Unix Shell](#unix-shell)
+  - [<span class="toc-section-number">2.1</span> Intro comments about "shell"](#intro-comments-about-shell)
+  - [<span class="toc-section-number">2.2</span> Very brief Bash intro](#very-brief-bash-intro)
+- [<span class="toc-section-number">3</span> Why are we here?](#why-are-we-here)
+  - [<span class="toc-section-number">3.1</span> Create and revisit a history of project snapshots](#create-and-revisit-a-history-of-project-snapshots)
+  - [<span class="toc-section-number">3.2</span> Determine when a bug was introduced](#determine-when-a-bug-was-introduced)
+  - [<span class="toc-section-number">3.3</span> Git helps you…](#git-helps-you)
+- [<span class="toc-section-number">4</span> Setup](#setup)
+  - [<span class="toc-section-number">4.1</span> Inspect your configuration](#inspect-your-configuration)
+  - [<span class="toc-section-number">4.2</span> Identify yourself](#identify-yourself)
+  - [<span class="toc-section-number">4.3</span> Editor](#editor)
+  - [<span class="toc-section-number">4.4</span> Updating remotes](#updating-remotes)
+  - [<span class="toc-section-number">4.5</span> (Optional) Change name of default branch](#optional-change-name-of-default-branch)
+  - [<span class="toc-section-number">4.6</span> (Optional) Line Endings](#optional-line-endings)
+- [<span class="toc-section-number">5</span> Creating a repository](#creating-a-repository)
+  - [<span class="toc-section-number">5.1</span> Create a directory](#create-a-directory)
+  - [<span class="toc-section-number">5.2</span> Tell Git to make a repository](#tell-git-to-make-a-repository)
+  - [<span class="toc-section-number">5.3</span> Check status (we will do this a lot)](#check-status-we-will-do-this-a-lot)
+- [<span class="toc-section-number">6</span> Tracking changes](#tracking-changes)
+  - [<span class="toc-section-number">6.1</span> Add a file](#add-a-file)
+  - [<span class="toc-section-number">6.2</span> Commit cycle](#commit-cycle)
+  - [<span class="toc-section-number">6.3</span> Getting help](#getting-help-1)
+  - [<span class="toc-section-number">6.4</span> First stage, then commit](#first-stage-then-commit)
+  - [<span class="toc-section-number">6.5</span> View commit history in the log](#view-commit-history-in-the-log)
+  - [<span class="toc-section-number">6.6</span> Show changes to Workspace and Index](#show-changes-to-workspace-and-index)
+  - [<span class="toc-section-number">6.7</span> What goes in a commit?](#what-goes-in-a-commit)
+  - [<span class="toc-section-number">6.8</span> Directories aren't content](#directories-arent-content)
+- [<span class="toc-section-number">7</span> Exploring history](#exploring-history)
+  - [<span class="toc-section-number">7.1</span> Add more text to Workspace](#add-more-text-to-workspace)
+  - [<span class="toc-section-number">7.2</span> View subsets of project history](#view-subsets-of-project-history)
+  - [<span class="toc-section-number">7.3</span> `diff` using a commit ID instead of the HEAD offset](#diff-using-a-commit-id-instead-of-the-head-offset)
+  - [<span class="toc-section-number">7.4</span> Restore the Workspace to a clean state](#restore-the-workspace-to-a-clean-state)
+- [<span class="toc-section-number">8</span> Moving through time](#moving-through-time)
+  - [<span class="toc-section-number">8.1</span> Check out an old version of a file](#check-out-an-old-version-of-a-file)
+  - [<span class="toc-section-number">8.2</span> Don't lose your head](#dont-lose-your-head)
+  - [<span class="toc-section-number">8.3</span> (Optional) Levels of undo](#optional-levels-of-undo)
+- [<span class="toc-section-number">9</span> Ignoring Things](#ignoring-things)
+  - [<span class="toc-section-number">9.1</span> Create some output files](#create-some-output-files)
+  - [<span class="toc-section-number">9.2</span> Create .gitignore](#create-.gitignore)
+  - [<span class="toc-section-number">9.3</span> Add ignore criteria to your .gitignore file](#add-ignore-criteria-to-your-.gitignore-file)
+- [<span class="toc-section-number">10</span> Branching and merging](#branching-and-merging)
+  - [<span class="toc-section-number">10.1</span> Create a new branch and switch to it](#create-a-new-branch-and-switch-to-it)
+  - [<span class="toc-section-number">10.2</span> Create a new file](#create-a-new-file)
+  - [<span class="toc-section-number">10.3</span> Switch back to master and merge](#switch-back-to-master-and-merge)
+- [<span class="toc-section-number">11</span> Github](#github)
+  - [<span class="toc-section-number">11.1</span> Git != Github](#git-github)
+  - [<span class="toc-section-number">11.2</span> Github authentication with SSH](#github-authentication-with-ssh)
+  - [<span class="toc-section-number">11.3</span> Set up new repository](#set-up-new-repository)
+  - [<span class="toc-section-number">11.4</span> Configure remotes and push from local](#configure-remotes-and-push-from-local)
+  - [<span class="toc-section-number">11.5</span> Check that you are up to date](#check-that-you-are-up-to-date)
+  - [<span class="toc-section-number">11.6</span> Notes](#notes)
+  - [<span class="toc-section-number">11.7</span> (Optional) Working with remotes is a generalization of branch merging](#optional-working-with-remotes-is-a-generalization-of-branch-merging)
+- [<span class="toc-section-number">12</span> Local conflicts](#local-conflicts)
+  - [<span class="toc-section-number">12.1</span> Create and edit a "pepper" branch](#create-and-edit-a-pepper-branch)
+  - [<span class="toc-section-number">12.2</span> Switch back to main branch and create a conflicting edit](#switch-back-to-main-branch-and-create-a-conflicting-edit)
+  - [<span class="toc-section-number">12.3</span> Attempt to merge "pepper" branch](#attempt-to-merge-pepper-branch)
+  - [<span class="toc-section-number">12.4</span> Resolve conflicts and create commit](#resolve-conflicts-and-create-commit)
+  - [<span class="toc-section-number">12.5</span> (Optional) Escaping a bad merge](#optional-escaping-a-bad-merge)
+- [<span class="toc-section-number">13</span> (Optional) Collaborating](#optional-collaborating)
+  - [<span class="toc-section-number">13.1</span> Clone your repository](#clone-your-repository)
+  - [<span class="toc-section-number">13.2</span> Edit trees.txt](#edit-trees.txt)
+  - [<span class="toc-section-number">13.3</span> Update and push](#update-and-push)
+  - [<span class="toc-section-number">13.4</span> Collaboration models](#collaboration-models)
+- [<span class="toc-section-number">14</span> (Optional) Collaboration conflicts](#optional-collaboration-conflicts)
+  - [<span class="toc-section-number">14.1</span> Person 1 edits ~/Desktop/garden/shopping_list.txt](#person-1-edits-desktopgardenshopping_list.txt)
+  - [<span class="toc-section-number">14.2</span> Person 2 edits ~/Desktop/garden-clone/shopping_list.txt *without* pulling](#person-2-edits-desktopgarden-cloneshopping_list.txt-without-pulling)
+  - [<span class="toc-section-number">14.3</span> Edit conflict, stage, commit, and push](#edit-conflict-stage-commit-and-push)
+- [<span class="toc-section-number">15</span> Version control with Python source vs. iPython notebooks](#version-control-with-python-source-vs.-ipython-notebooks)
+- [<span class="toc-section-number">16</span> Git command summary](#git-command-summary)
+- [<span class="toc-section-number">17</span> Graphical User Interfaces](#graphical-user-interfaces)
+  - [<span class="toc-section-number">17.1</span> Pro](#pro)
+  - [<span class="toc-section-number">17.2</span> Cons](#cons)
+- [<span class="toc-section-number">18</span> Next steps (intermediate Git)](#next-steps-intermediate-git)
+  - [<span class="toc-section-number">18.1</span> Useful commands](#useful-commands)
+  - [<span class="toc-section-number">18.2</span> Restore, Revert, and Reset](#restore-revert-and-reset)
+  - [<span class="toc-section-number">18.3</span> Dangerous but useful commands](#dangerous-but-useful-commands)
+  - [<span class="toc-section-number">18.4</span> Dangerous commands you should avoid](#dangerous-commands-you-should-avoid)
+  - [<span class="toc-section-number">18.5</span> Team-wide strategies](#team-wide-strategies)
+- [<span class="toc-section-number">19</span> Credits](#credits)
+- [<span class="toc-section-number">20</span> References](#references)
 
 # Installation instructions
 
@@ -172,17 +163,20 @@ history | grep ls               # pipe the output of history into search
 
 ## Create and revisit a history of project snapshots
 
-![Git creates a history of code snapshots. If you haven't updated a file since your previous snapshot, Git will re-use the old version of that file to save space (<https://git-scm.com/>).](images/snapshots.png "Snapshot History")
+<figure id="Snapshot History">
+<img src="images/snapshots.png" />
+<figcaption>Git creates a history of code snapshots. If you haven't updated a file since your previous snapshot, Git will re-use the old version of that file to save space (<a href="https://git-scm.com/">https://git-scm.com/</a>).</figcaption>
+</figure>
 
 ## Determine when a bug was introduced
 
-![](images/git_bisect_1.jpg "Bisect 1")
+<img src="images/git_bisect_1.jpg" title="Bisect 1" id="Bisect 1" />
 
-![](images/git_bisect_2.jpg "Bisect 2")
+<img src="images/git_bisect_2.jpg" title="Bisect 2" id="Bisect 2" />
 
-![](images/git_bisect_3.jpg "Bisect 3")
+<img src="images/git_bisect_3.jpg" title="Bisect 3" id="Bisect 3" />
 
-![](images/git_bisect_4.jpg "Bisect 4")
+<img src="images/git_bisect_4.jpg" title="Bisect 4" id="Bisect 4" />
 
 ## Git helps you…
 
@@ -208,13 +202,6 @@ All git commands are 2-part verbs, followed by flags and arguments. Use quotes i
 ``` bash
 git config --global user.name "Gilgamesh"
 git config --global user.email gilgamesh@uruk.gov
-```
-
-## Line Endings
-
-``` bash
-git config --global core.autocrlf input  # Unix and MacOS
-git config --global core.autocrlf true   # Windows
 ```
 
 ## Editor
@@ -245,6 +232,15 @@ git config --global core.editor nano
 git config --global init.defaultBranch main
 ```
 
+## (Optional) Line Endings
+
+This advice is probably superseded; see comments at the end of this document. GitBash will automatically set this on Windows machines, but we shouldn't waste class time on it.
+
+``` bash
+git config --global core.autocrlf input  # Unix and MacOS
+git config --global core.autocrlf true   # Windows
+```
+
 # Creating a repository
 
 We are going to create and track plans for our garden.
@@ -265,7 +261,10 @@ ls
 ls -a
 ```
 
-![Base your new work on the most recent snapshot.](images/local-repository.png "Workspace or Working Tree")
+<figure id="Workspace or Working Tree">
+<img src="images/local-repository.png" />
+<figcaption>Base your new work on the most recent snapshot.</figcaption>
+</figure>
 
 - Git uses this special subdirectory to store all the information about the project, including all files and sub-directories located within the project's directory. If we ever delete the \`.git\` subdirectory, we will lose the project's history.
 - Only one version of a file is visible; the rest are available in the database
@@ -304,9 +303,15 @@ cat shopping_list.txt
 
 Manually assemble your next save point in the Staging area ("Index"). When you're happy with it, commit it to the repository to create a new version of your project.
 
-![Build a new save point ("commit") in the Staging Area.](images/git-staging-area.svg "First Commit")
+<figure id="First Commit">
+<img src="images/git-staging-area.svg" />
+<figcaption>Build a new save point ("commit") in the Staging Area.</figcaption>
+</figure>
 
-![Commits include additions and deletions](images/git-committing.svg "Commit with multiple files")
+<figure id="Commit with multiple files">
+<img src="images/git-committing.svg" />
+<figcaption>Commits include additions and deletions</figcaption>
+</figure>
 
 ``` bash
 git status
@@ -369,7 +374,7 @@ git log
 git log --oneline
 ```
 
-1.  You can identify a commit by unique ID or by HEAD offset (H, HEAD\~1, HEAD\~2,…)
+1.  You can identify a commit by unique ID or by HEAD offset (H, HEAD~1, HEAD~2,…)
 2.  HEAD is a pointer to the most recent commit (of the active branch)
 
 ### (Optional) Additional log options
@@ -507,7 +512,10 @@ cat shopping_list.txt
 
 ## Check out an old version of a file
 
-![Check out an old commit to view it](images/git-checkout.svg "Checkout")
+<figure id="Checkout">
+<img src="images/git-checkout.svg" />
+<figcaption>Check out an old commit to view it</figcaption>
+</figure>
 
 ``` bash
 # Using the HEAD offset:
@@ -553,7 +561,54 @@ git checkout master
 - You can also check out a tag.
 - Unfortunately some of these terms, like "checkout", are overloaded. Think about what you want to do to your history, then look up the appropriate command.
 
+## (Optional) Levels of undo
+
+1.  Restore (or checkout HEAD)
+
+    ``` bash
+    git restore <filename>
+    ```
+
+    ``` bash
+    git restore --staged <filename>
+    git restore <filename>
+    ```
+
+2.  Revert
+
+    ``` bash
+    git revert -n HEAD
+    git revert --continue
+    ```
+
+3.  Reset moves the HEAD
+
+    ``` bash
+    git reset --soft HEAD
+    git status
+    # git add
+    # git commit
+    git restore .
+    ```
+
+    ``` bash
+    git reset --mixed HEAD
+    git status
+    # git commit
+    git restore .
+    ```
+
+    ``` bash
+    git reset --hard HEAD
+    git status
+    git log --oneline
+
+    # Are you behind the remote?
+    ```
+
 # Ignoring Things
+
+Git allows project-specific configuration via .gitignore and .gitattributes.
 
 ## Create some output files
 
@@ -592,18 +647,22 @@ git commit -m "Ignore output files"
 
 # Branching and merging
 
-![Git branching and Merging (<https://imgur.com/gallery/YG8In8X/new>)](images/branch-merge.png "Branching and Merging")
-
-## Add local repository to Github
-
-1.  The local version of your repository and the Github version are separate. They're only in sync when you explicitly sync them.
-2.  We will periodically check the our local version against the Github version and sync them as necessary.
+<figure id="Branching and Merging">
+<img src="images/branch-merge.png" />
+<figcaption>Git branching and Merging (<a href="https://imgur.com/gallery/YG8In8X/new">https://imgur.com/gallery/YG8In8X/new</a>)</figcaption>
+</figure>
 
 ## Create a new branch and switch to it
 
-![Check out the branch to work on it (1)](images/branch-old.png "Main branch")
+<figure id="Main branch">
+<img src="images/branch-old.png" />
+<figcaption>Check out the branch to work on it (1)</figcaption>
+</figure>
 
-![Check out the branch to work on it (2)](images/branch-new.png "Feature branch")
+<figure id="Feature branch">
+<img src="images/branch-new.png" />
+<figcaption>Check out the branch to work on it (2)</figcaption>
+</figure>
 
 ``` bash
 # Create a new branch
@@ -639,9 +698,15 @@ git commit -m "Added a trial feature"
 
 ## Switch back to master and merge
 
-![Pre-merge history](images/basic-merging-1.png "Pre-merge history")
+<figure id="Pre-merge history">
+<img src="images/basic-merging-1.png" />
+<figcaption>Pre-merge history</figcaption>
+</figure>
 
-![Post-merge history](images/basic-merging-2.png "Post-merge history")
+<figure id="Post-merge history">
+<img src="images/basic-merging-2.png" />
+<figcaption>Post-merge history</figcaption>
+</figure>
 
 ``` bash
 # File doesn't exist on the master branch
@@ -656,7 +721,94 @@ ls
 - This is simplest possible case: All of the new changes were in one branch (Fast-Forward merge moves branch tag)
 - A branch history with competing changes is shown in the Conflicts section below (Recursive merge, which resembles the octopus diagram)
 
-## Push changes on master to Github
+# Github
+
+<figure id="Pre-merge state">
+<img src="images/distributed.png" />
+<figcaption>Coordinate with co-authors.</figcaption>
+</figure>
+
+## Git != Github
+
+- easy collaboration
+- sync between machines
+- off-site backup
+- peer review
+
+## Github authentication with SSH
+
+### Create a new public key pair
+
+1.  Open Terminal (Mac/Linux) or Powershell (Windows) and run the following command:
+
+    ``` bash
+    # Creates an ed25519 key pair by default
+    ssh-keygen -C "your email"
+    ```
+
+2.  Press **Enter** to accept the default key name
+
+3.  Enter a password and press **Enter**
+
+4.  The new key pair will appear in **\$HOME/.ssh**
+
+### Add the public key to Github
+
+1.  Log into Github (<https://github.com>) and navigate to <https://github.com/settings/keys>
+
+2.  Click **New SSH Key**
+
+3.  Copy the text of the public key **\$HOME/.ssh/id_ed25519.pub** ("id_ed25519.pub" is the default name for the public key; if you chose a different name when you created it, the file will be called that instead). You can do this by opening the file in a text editor such as Notepad, or by echoing the text to the terminal:
+
+    ``` bash
+    cat ~/.ssh/id_ed25519.pub
+    ```
+
+4.  Paste the key text into the "Key" field on Github.
+
+5.  Click **Add SSH key**
+
+## Set up new repository
+
+1.  Create new repository (visual instructions here: <https://swcarpentry.github.io/git-novice/07-github.html>)
+2.  Call it "garden"
+3.  Copy the SSH string that identifies repository
+
+## Configure remotes and push from local
+
+``` bash
+git remote add origin git@github.com:devnich/garden.git
+git remote -v
+git push origin main
+```
+
+If you configure your origin as upstream, you can just do:
+
+``` bash
+git push
+```
+
+## Check that you are up to date
+
+`pull` is a shortcut for `fetch` + `merge`
+
+``` bash
+git pull
+```
+
+## Notes
+
+1.  The local version of your repository and the Github version are separate. They're only in sync when you explicitly sync them.
+2.  We will periodically check the our local version against the Github version and sync them as necessary.
+
+## (Optional) Working with remotes is a generalization of branch merging
+
+1.  git pull merges origin/master branch into local master branch
+2.  git push merges local master branch into origin/master branch
+3.  Under the hood, pull is fetch + merge
+    1.  fetch gets updates from remote
+    2.  Local repository has a 2 branches: remote/master and master
+    3.  merge merges remote/master into master
 
 # Local conflicts
 
@@ -726,62 +878,14 @@ git add shopping_list.txt
 git commit -m "Added garlic to main branch"
 ```
 
-# (Optional) Github
-
-![Coordinate with co-authors.](images/distributed.png "Pre-merge state")
-
-## (Optional) Working with remotes is a generalization of branch merging
-
-1.  git pull merges origin/master branch into local master branch
-2.  git push merges local master branch into origin/master branch
-3.  Under the hood, pull is fetch + merge
-    1.  fetch gets updates from remote
-    2.  Local repository has a 2 branches: remote/master and master
-    3.  merge merges remote/master into master
-4.  Push appears to not be compound?
-
-## Git != Github
-
-- easy collaboration
-- sync between machines
-- off-site backup
-- peer review
-
-## Github authentication
-
-1.  Github Desktop uses browser token across platforms. Unix people can use SSH keys instead.
-2.  Two-factor authentication options
-    1.  Email
-    2.  Github Mobile
-    3.  Personal authenticator (e.g. Microsoft, 1Password, etc)
-    4.  SMS (not preferred)
-
-## Set up new repository
-
-- Create new repository (visual instructions here: <https://swcarpentry.github.io/git-novice/07-github/index.html>)
-- Call it "garden"
-- Find HTTPS string that identifies repository
-
-## Configure remotes and push from local
+## (Optional) Escaping a bad merge
 
 ``` bash
-git remote add origin https://github.com/devnich/garden.git
-git remote -v
-git push origin master          # you should get a password prompt
-```
+# Option 1 (preferred)
+git merge --abort
 
-If you configure your origin as upstream, you can just do:
-
-``` bash
-git push
-```
-
-## Check that you are up to date
-
-`pull` is a shortcut for `fetch` + `merge`
-
-``` bash
-git pull
+# Option 2 (destructive)
+git reset --hard HEAD
 ```
 
 # (Optional) Collaborating
@@ -841,7 +945,7 @@ cf. <https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/g
 
 # (Optional) Collaboration conflicts
 
-## Person 1 edits \~/Desktop/garden/shopping_list.txt
+## Person 1 edits ~/Desktop/garden/shopping_list.txt
 
 ``` example
 ##--- text file ---##
@@ -858,7 +962,7 @@ git commit -m "Added more peppers our copy"
 git push origin master
 ```
 
-## Person 2 edits \~/Desktop/garden-clone/shopping_list.txt *without* pulling
+## Person 2 edits ~/Desktop/garden-clone/shopping_list.txt *without* pulling
 
 ``` example
 ##--- text file ---##
@@ -954,140 +1058,9 @@ These commands are potentially dangerous because they rewrite history. You shoul
 
 - `git cherry-pick`: Copy a single commit from a different branch. This rewrites your project history piecemeal, which can make it difficult to merge branches in the future.
 
-# Intermediate Git
-
-## Investigate configuration and workflow
-
-1.  Git local configuration
-
-    ``` bash
-    git config --list --show-origin     # where is this setting coming from?
-    ```
-
-2.  Project vs global configuration
-
-    - .gitignore
-    - .gitattributes
-
-3.  Github authentication
-
-## Fork demo project
-
-1.  Fork
-2.  Clone
-3.  Review settings
-
-## Review
-
-1.  An amazing tool with a terrible user interface. We teach with the command line because it's complete; you may want to adopt a porcelain.
-2.  Start review at slide 13 (skip bisect slides; we'll come back to them later)
-3.  Git terms are overloaded
-
-## Git clients
-
-1.  Stand-alone clients
-2.  Editor integration
-
-## File issues
-
-All else being equal, you want to produce minimal diffs
-
-1.  Mac vs PC endings
-2.  Python vs IPython Notebook
-
-## Working with previous versions
-
-"Moving through time" section.
-
-1.  Check out previous file version
-    - Restore with "checkout"
-    - Review status of staging
-2.  Check out previous commit
-
-## Useful commands
-
-1.  Blame
-
-    ``` bash
-    git blame scripts/functions.py
-    git blame HEAD~2 scripts/functions.py
-    ```
-
-2.  Patch
-
-    ``` bash
-    git add --patch <filename>
-    ```
-
-    ``` bash
-    git add -i
-    s # review status
-    p # add patches
-    1 # Select file patches
-    ```
-
-3.  Bisect: <https://tracehelms.com/blog/using-git-bisect-to-find-when-a-bug-was-introduced>
-
-## Levels of undo
-
-1.  Restore (or checkout HEAD)
-
-    ``` bash
-    git restore <filename>
-    ```
-
-    ``` bash
-    git restore --staged <filename>
-    git restore <filename>
-    ```
-
-2.  Revert
-
-    ``` bash
-    git revert -n HEAD
-    git revert --continue
-    ```
-
-3.  Reset moves the HEAD
-
-    ``` bash
-    git reset --soft HEAD~
-    git status
-    # git add
-    # git commit
-    git restore .
-    ```
-
-    ``` bash
-    git reset --mixed HEAD~
-    git status
-    # git commit
-    git restore .
-    ```
-
-    ``` bash
-    git reset --hard HEAD~
-    git status
-    git log --oneline
-
-    # Are you behind the remote?
-    ```
-
-## Merge conflicts
-
-1.  Edit and resolve by hand
-
-2.  Escaping a bad merge
-
-    ``` bash
-    # Option 1 (preferred)
-    git merge --abort
-
-    # Option 2 (destructive)
-    git reset --hard HEAD
-    ```
-
 ## Team-wide strategies
+
+Cases where the entire team must adopt the same workflow. Failing to do so will break the project.
 
 ### Branching strategies
 
@@ -1095,6 +1068,8 @@ All else being equal, you want to produce minimal diffs
 2.  Tags for canonical versions
 
 ### Merge strategies (merge vs rebase)
+
+Merge has already been demonstrated. It's the default workflow and preserves all project history. The alternative workflow is Rebase (shared branches) and Squash (private branches).
 
 1.  Rebase
 
@@ -1124,6 +1099,7 @@ All else being equal, you want to produce minimal diffs
 1.  Demo with forked repository
 2.  Push is easier with small team
 3.  Pull Request implies that repository owner is actually checking work and not just blindly merging
+4.  Implies fork vs clone for repository replication
 
 # Credits
 
